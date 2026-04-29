@@ -140,6 +140,21 @@ footer p {
     margin: 0.4rem 0;
 }
 
+.contact-email {
+    font-size: 0.95rem;
+}
+
+.contact-email a {
+    color: var(--color-accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--color-divider);
+    transition: border-color 0.3s ease;
+}
+
+.contact-email a:hover {
+    border-bottom-color: var(--color-accent);
+}
+
 .copyright {
     font-size: 0.85rem;
     color: var(--color-muted);

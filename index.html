@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>昊道文化文教發展協會 | 生命成長・心靈提升・聖賢智慧</title>
-    <meta name="description" content="昊道文化文教發展協會是一個致力於生命成長與心靈提升的純公益團體，透過啟覺、探索、發現與行證，推動聖賢智慧與心智教育，提供公益講座、一階課程、轉念系列、生命教育課程。">
+    <meta name="description" content="昊道文化文教發展協會是一個致力於生命成長與心靈提升的純公益團體，透過啟覺、探索、發現與行證，推動聖賢智慧與心智教育，提供公益講座、一階課程、轉念系列、生命教育課程，歡迎來信交流。">
     <meta name="keywords" content="昊道文化,昊道,文教發展協會,生命成長,心靈提升,聖賢智慧,心智教育,公益講座,轉念課程,生命教育">
     <meta name="author" content="昊道文化文教發展協會">
     <meta name="robots" content="index,follow">
@@ -12,7 +12,7 @@
 
     <meta property="og:site_name" content="昊道文化文教發展協會">
     <meta property="og:title" content="昊道文化文教發展協會">
-    <meta property="og:description" content="致力於生命成長與心靈提升的純公益團體，推動聖賢智慧與心智教育。">
+    <meta property="og:description" content="致力於生命成長與心靈提升的純公益團體，推動聖賢智慧與心智教育。歡迎來信交流。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.haodao.org/">
     <meta property="og:locale" content="zh_TW">
@@ -23,7 +23,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="昊道文化文教發展協會">
-    <meta name="twitter:description" content="致力於生命成長與心靈提升的純公益團體，推動聖賢智慧與心智教育。">
+    <meta name="twitter:description" content="致力於生命成長與心靈提升的純公益團體，推動聖賢智慧與心智教育。歡迎來信交流。">
     <meta name="twitter:image" content="https://www.haodao.org/og-image.png">
 
     <meta name="theme-color" content="#8b6f47">
@@ -54,7 +54,13 @@
         "https://www.instagram.com/haodao_culture",
         "https://www.threads.net/@haodao_culture",
         "https://www.youtube.com/@昊道文化"
-      ]
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "general inquiry",
+        "email": "team@haodao.org",
+        "availableLanguage": ["zh-Hant"]
+      }
     }
     </script>
     <script type="application/ld+json">
@@ -102,9 +108,21 @@
         </section>
 
         <footer>
+            <p class="contact-email">
+                聯絡我們：<a href="#" id="email-link" data-user="team" data-domain="haodao.org" rel="nofollow">team [at] haodao [dot] org</a>
+            </p>
             <p>網站建置中，更多內容即將推出</p>
             <p class="copyright">&copy; 2026 昊道文化文教發展協會</p>
         </footer>
     </main>
+    <script>
+        (function () {
+            var a = document.getElementById('email-link');
+            if (!a) return;
+            var addr = a.dataset.user + '@' + a.dataset.domain;
+            a.href = 'mailto:' + addr;
+            a.textContent = addr;
+        })();
+    </script>
 </body>
 </html>
