@@ -40,12 +40,12 @@ python3 -m http.server 8000
      - `185.199.111.153`
 5. 勾選 **Enforce HTTPS**
 
-## 後續規劃
+## 待辦事項
 
-目前為基本入口頁，待擴充內容：
+所有待辦項目都在 **[Issues](https://github.com/shianyow/haodao/issues)** 追蹤。
 
-- [ ] 完整協會介紹與沿革
-- [ ] 課程詳細介紹與報名
-- [ ] 活動行事曆
-- [ ] 文章 / 心得分享
-- [ ] 聯絡表單
+- 想新增一件事 → [開新 issue](https://github.com/shianyow/haodao/issues/new)
+- 想看現在最重要的 → [priority:high](https://github.com/shianyow/haodao/labels/priority%3Ahigh)
+- 依分類瀏覽：[content](https://github.com/shianyow/haodao/labels/content) · [seo](https://github.com/shianyow/haodao/labels/seo) · [design](https://github.com/shianyow/haodao/labels/design) · [infra](https://github.com/shianyow/haodao/labels/infra)
+
+完成的工作會用 commit message 自動關閉對應的 issue（例如 `closes #5`）。
