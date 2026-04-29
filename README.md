@@ -42,10 +42,10 @@ python3 -m http.server 8000
 
 ## 待辦事項
 
-所有待辦項目都在 **[Issues](https://github.com/shianyow/haodao/issues)** 追蹤。
+所有待辦項目都在 **[Issues](https://github.com/haodao-culture/haodao/issues)** 追蹤。
 
-- 想新增一件事 → [開新 issue](https://github.com/shianyow/haodao/issues/new)
-- 想看現在最重要的 → [priority:high](https://github.com/shianyow/haodao/labels/priority%3Ahigh)
-- 依分類瀏覽：[content](https://github.com/shianyow/haodao/labels/content) · [seo](https://github.com/shianyow/haodao/labels/seo) · [design](https://github.com/shianyow/haodao/labels/design) · [infra](https://github.com/shianyow/haodao/labels/infra)
+- 想新增一件事 → [開新 issue](https://github.com/haodao-culture/haodao/issues/new)
+- 想看現在最重要的 → [priority:high](https://github.com/haodao-culture/haodao/labels/priority%3Ahigh)
+- 依分類瀏覽：[content](https://github.com/haodao-culture/haodao/labels/content) · [seo](https://github.com/haodao-culture/haodao/labels/seo) · [design](https://github.com/haodao-culture/haodao/labels/design) · [infra](https://github.com/haodao-culture/haodao/labels/infra)
 
 完成的工作會用 commit message 自動關閉對應的 issue（例如 `closes #5`）。
