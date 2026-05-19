@@ -103,6 +103,29 @@ h2 {
     letter-spacing: 0.1em;
 }
 
+.programs-cta {
+    text-align: center;
+    margin-top: 1.8rem;
+}
+
+.programs-cta a {
+    display: inline-block;
+    color: var(--color-accent);
+    text-decoration: none;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid var(--color-divider);
+    border-radius: 2rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    transition: all 0.3s ease;
+}
+
+.programs-cta a:hover {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border-color: var(--color-accent);
+}
+
 .social-links {
     display: flex;
     justify-content: center;

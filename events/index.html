@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活動與課程 | 昊道文化文教發展協會</title>
+    <meta name="description" content="昊道文化的公益講座、一階課程、轉念系列、生命教育課程等活動資訊與報名。">
+    <meta name="keywords" content="昊道文化,活動,課程,公益講座,轉念課程,生命教育">
+    <meta name="author" content="昊道文化文教發展協會">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://www.haodao.org/events/">
+
+    <meta property="og:site_name" content="昊道文化文教發展協會">
+    <meta property="og:title" content="活動與課程 | 昊道文化">
+    <meta property="og:description" content="昊道文化的活動資訊與報名。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.haodao.org/events/">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:image" content="https://www.haodao.org/og-image.png">
+
+    <meta name="theme-color" content="#8b6f47">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="events.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="container events-container">
+        <header class="hero events-hero">
+            <p class="breadcrumb"><a href="../">昊道文化</a></p>
+            <h1 class="events-title">活動與課程</h1>
+            <div class="divider"></div>
+            <p class="events-subtitle">啟覺・探索・發現・行證</p>
+        </header>
+
+        <nav class="events-tabs" aria-label="活動分頁">
+            <button type="button" class="tab-btn is-active" data-tab="current">進行中</button>
+            <button type="button" class="tab-btn" data-tab="calendar">行事曆</button>
+            <button type="button" class="tab-btn" data-tab="past">歷史活動</button>
+        </nav>
+
+        <div class="events-filter" id="events-filter" aria-label="活動篩選">
+            <button type="button" class="filter-chip is-active" data-filter="all">全部</button>
+            <button type="button" class="filter-chip" data-filter="線上">線上</button>
+            <button type="button" class="filter-chip" data-filter="線下實體">線下實體</button>
+        </div>
+
+        <section class="events-list" id="events-list" aria-live="polite">
+            <p class="events-loading">活動資訊載入中⋯</p>
+        </section>
+
+        <section class="events-calendar" id="events-calendar" hidden aria-label="活動行事曆">
+            <header class="calendar-header">
+                <button type="button" class="calendar-nav" id="cal-prev" aria-label="上個月">‹</button>
+                <h2 class="calendar-title" id="cal-title"></h2>
+                <button type="button" class="calendar-nav" id="cal-next" aria-label="下個月">›</button>
+            </header>
+            <div class="calendar-weekdays" aria-hidden="true">
+                <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+            </div>
+            <div class="calendar-grid" id="cal-grid"></div>
+        </section>
+
+        <dialog class="event-modal" id="event-modal">
+            <div class="event-modal-body" id="event-modal-body"></div>
+            <button type="button" class="event-modal-close" id="event-modal-close" aria-label="關閉">×</button>
+        </dialog>
+
+        <footer>
+            <p class="contact-email">
+                聯絡我們：<a href="#" id="email-link" data-user="team" data-domain="haodao.org" rel="nofollow">team [at] haodao [dot] org</a>
+            </p>
+            <p><a href="../" class="back-link">← 回到首頁</a></p>
+            <p class="copyright">&copy; 2026 昊道文化文教發展協會</p>
+        </footer>
+    </main>
+
+    <script>
+        (function () {
+            var a = document.getElementById('email-link');
+            if (!a) return;
+            var addr = a.dataset.user + '@' + a.dataset.domain;
+            a.href = 'mailto:' + addr;
+            a.textContent = addr;
+        })();
+    </script>
+    <script src="events.js"></script>
+</body>
+</html>
