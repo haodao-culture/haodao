@@ -348,7 +348,7 @@
 
 .calendar-grid {
     border-left: 1px solid var(--color-divider);
-    grid-auto-rows: minmax(5.5rem, auto);
+    grid-auto-rows: 6.5rem;
 }
 
 .cal-cell {
@@ -359,6 +359,7 @@
     flex-direction: column;
     gap: 0.25rem;
     background: #fffdf7;
+    overflow: hidden;
 }
 
 .cal-cell.is-empty {
@@ -467,7 +468,7 @@
 
 @media (max-width: 600px) {
     .calendar-grid {
-        grid-auto-rows: minmax(3.8rem, auto);
+        grid-auto-rows: 4.5rem;
     }
     .cal-cell {
         padding: 0.2rem 0.25rem;
