@@ -104,8 +104,19 @@
             tags: Array.isArray(raw.tags)
                 ? raw.tags
                 : (raw.tags || '').split(/[,，、]/).map(function (t) { return t.trim(); }).filter(Boolean),
-            image: raw.image || ''
+            image: normaliseImageUrl(raw.image || '')
         };
+    }
+
+    // Google Drive 的分享網址（file/d/ID/view、open?id=ID、uc?id=ID）轉成
+    // 可直接嵌入的圖片網址。其他網址原樣回傳。
+    function normaliseImageUrl(url) {
+        if (!url) return '';
+        var m = url.match(/drive\.google\.com\/file\/d\/([^/]+)/)
+            || url.match(/drive\.google\.com\/open\?id=([^&]+)/)
+            || url.match(/drive\.google\.com\/uc\?[^#]*id=([^&]+)/);
+        if (m) return 'https://lh3.googleusercontent.com/d/' + m[1];
+        return url;
     }
 
     // ---------------------------------------------------------------
