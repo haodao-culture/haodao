@@ -7,19 +7,30 @@
     // 資料來源優先順序：SHEET_CSV_URL > 本地 events.json
     //
     // 之後要切換到 Google Sheets：
-    //   1. 開一張試算表，第一列為欄位名稱（見下方 CSV_COLUMNS）
+    //   1. 開一張試算表，第一列為欄位名稱（見下方 FIELD_ALIASES，
+    //      中文或英文皆可，多個別名都會自動辨識）
     //   2. 「檔案 → 共用 → 發佈到網路」→ 選擇「逗號分隔值 (.csv)」→ 取得連結
     //   3. 把連結貼到 SHEET_CSV_URL
     // ---------------------------------------------------------------
     var SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRN3Y4zJ-ReF0qFUbd8BPwdlwbWNZBA2RYL2XX3rWi51OeQtK2R4DOO8bwic1PH-WKJQyoVLudn0w2V/pub?gid=0&single=true&output=csv';
     var LOCAL_JSON_URL = 'events.json';
 
-    // 欄位對照（Google Sheets 第一列要用這些名稱）
-    var CSV_COLUMNS = [
-        'id', 'title', 'date', 'startTime', 'endTime',
-        'location', 'audience', 'description',
-        'registrationUrl', 'format', 'tags', 'image'
-    ];
+    // 欄位對照：每個欄位可接受多個名稱（中文 / 英文），
+    // 讀資料時會依序嘗試，第一個非空的值就採用。
+    var FIELD_ALIASES = {
+        id:              ['id', '提交時間', '時間戳記', 'Timestamp'],
+        title:           ['title', '主題', '活動主題'],
+        date:            ['date', '活動日期', '日期'],
+        startTime:       ['startTime', '開始時間'],
+        endTime:         ['endTime', '結束時間'],
+        location:        ['location', '活動地點', '地點'],
+        audience:        ['audience', '對象'],
+        description:     ['description', '活動簡要', '簡短引文', '簡介'],
+        registrationUrl: ['registrationUrl', '報名網址', '報名連結'],
+        format:          ['format', '形式', '活動形式'],
+        tags:            ['tags', '標籤', '分類'],
+        image:           ['image', '海報', '活動海報']
+    };
 
     // ---------------------------------------------------------------
     // 狀態
@@ -90,21 +101,30 @@
     }
 
     function normaliseEvent(raw) {
+        function pick(key) {
+            var aliases = FIELD_ALIASES[key];
+            for (var i = 0; i < aliases.length; i++) {
+                var v = raw[aliases[i]];
+                if (v != null && v !== '') return v;
+            }
+            return '';
+        }
+        var rawTags = pick('tags');
         return {
-            id: raw.id || '',
-            title: raw.title || '',
-            date: raw.date || '',
-            startTime: raw.startTime || '',
-            endTime: raw.endTime || '',
-            location: raw.location || '',
-            audience: raw.audience || '',
-            description: raw.description || '',
-            registrationUrl: raw.registrationUrl || '',
-            format: raw.format || '',
-            tags: Array.isArray(raw.tags)
-                ? raw.tags
-                : (raw.tags || '').split(/[,，、]/).map(function (t) { return t.trim(); }).filter(Boolean),
-            image: normaliseImageUrl(raw.image || '')
+            id:              pick('id'),
+            title:           pick('title'),
+            date:            pick('date'),
+            startTime:       pick('startTime'),
+            endTime:         pick('endTime'),
+            location:        pick('location'),
+            audience:        pick('audience'),
+            description:     pick('description'),
+            registrationUrl: pick('registrationUrl'),
+            format:          pick('format'),
+            tags: Array.isArray(rawTags)
+                ? rawTags
+                : String(rawTags).split(/[,，、]/).map(function (t) { return t.trim(); }).filter(Boolean),
+            image: normaliseImageUrl(pick('image'))
         };
     }
 
