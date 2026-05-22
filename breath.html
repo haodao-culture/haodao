@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>靜心修煉營 | 昊道文化文教發展協會</title>
+    <meta name="description" content="昊道文化靜心修煉營夥伴打卡、心得體悟與個人記錄查詢頁。">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#8b6f47">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="container">
+        <header class="hero practice-hero">
+            <h1 class="title">靜心修煉營</h1>
+            <p class="subtitle">每日打卡・心得體悟・修煉記錄</p>
+            <div class="divider"></div>
+            <p class="tagline">安住・覺察・實作・行證</p>
+        </header>
+
+        <section class="practice" id="practice-checkin" aria-label="靜心修煉營">
+            <p class="practice-lead">每日記錄靜心時間、狀態與心得，累積看見自己的修煉變化。</p>
+
+            <div class="practice-card">
+                <h2>靜心修煉打卡</h2>
+                <form id="checkin-form" class="practice-form">
+                    <label>
+                        <span>姓名</span>
+                        <input id="checkin-name" type="text" autocomplete="name" placeholder="請填寫中文全名" required>
+                        <small>避免符號、空格，系統僅抓取中文字。</small>
+                    </label>
+
+                    <label>
+                        <span>靜心的分鐘數</span>
+                        <span class="minute-field">
+                            <input id="checkin-minutes" type="number" min="1" step="1" inputmode="numeric" placeholder="例：60" required>
+                            <em>分鐘</em>
+                        </span>
+                    </label>
+
+                    <label>
+                        <span>靜心狀態記錄</span>
+                        <select id="checkin-state-preset">
+                            <option value="">選擇常用狀態</option>
+                            <option value="今日念頭較多較難收回">今日念頭較多較難收回</option>
+                            <option value="念頭越來越少了">念頭越來越少了</option>
+                            <option value="比較清靜">比較清靜</option>
+                            <option value="身心較安定">身心較安定</option>
+                            <option value="能較快回到覺察">能較快回到覺察</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        <span>自填狀態</span>
+                        <textarea id="checkin-state-custom" rows="4" placeholder="也可以寫下今日觀察到的狀態..."></textarea>
+                    </label>
+
+                    <button type="submit">送出打卡</button>
+                    <p id="checkin-message" class="form-note" role="status"></p>
+                </form>
+            </div>
+
+            <div class="practice-card">
+                <h2>靜心修煉心得體悟</h2>
+                <form id="reflection-form" class="practice-form">
+                    <label>
+                        <span>【姓名】</span>
+                        <input id="reflection-name" type="text" autocomplete="name" placeholder="請填寫中文全名" required>
+                    </label>
+
+                    <label>
+                        <span>【實作心得】</span>
+                        <textarea id="reflection-text" rows="6" placeholder="寫下今日靜心修煉心得分享..." required></textarea>
+                    </label>
+
+                    <label>
+                        <span>【文檔應心語句】</span>
+                        <textarea id="reflection-quote" rows="4" placeholder="若有閱讀文檔，可填寫；非必填"></textarea>
+                    </label>
+
+                    <button type="submit">送出心得</button>
+                    <p id="reflection-message" class="form-note" role="status"></p>
+                </form>
+            </div>
+
+            <div class="practice-card">
+                <h2>靜心修煉記錄查詢</h2>
+                <form id="practice-search-form" class="practice-search">
+                    <label>
+                        <span>輸入姓名</span>
+                        <input id="practice-search-name" type="text" placeholder="請輸入中文全名" required>
+                    </label>
+                    <label>
+                        <span>查詢範圍</span>
+                        <select id="practice-period-filter">
+                            <option value="all">總打卡記錄</option>
+                        </select>
+                    </label>
+                    <button type="submit">查詢</button>
+                </form>
+
+                <div id="practice-results" class="practice-results" hidden>
+                    <div class="practice-stats" aria-label="修煉統計">
+                        <div>
+                            <span>打卡次數</span>
+                            <strong id="practice-count">0</strong>
+                        </div>
+                        <div>
+                            <span>總靜心分鐘數</span>
+                            <strong><span id="practice-total-minutes">0</span> 分鐘</strong>
+                        </div>
+                    </div>
+
+                    <h3>靜心狀態記錄表</h3>
+                    <div class="practice-table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>時間</th>
+                                    <th>分鐘數</th>
+                                    <th>狀態記錄</th>
+                                    <th>刪除</th>
+                                </tr>
+                            </thead>
+                            <tbody id="practice-state-body"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="reflection-heading">
+                        <h3>靜心修煉心得體悟列表</h3>
+                        <div class="export-fields">
+                            <label>
+                                <span>匯出範圍</span>
+                                <select id="export-period-filter">
+                                    <option value="all">全部心得體悟</option>
+                                </select>
+                            </label>
+                            <button id="export-reflections" type="button">匯出 Excel</button>
+                        </div>
+                    </div>
+
+                    <div id="practice-reflections" class="practice-reflections"></div>
+                </div>
+
+                <p id="practice-search-message" class="form-note" role="status"></p>
+            </div>
+
+            <div class="admin-entry">
+                <a class="admin-link-button" href="cultivationadmin.html" target="_blank" rel="noopener">修煉組管理後台</a>
+            </div>
+        </section>
+
+        <footer>
+            <p class="contact-email">
+                聯絡我們：<a href="#" id="email-link" data-user="team" data-domain="haodao.org" rel="nofollow">team [at] haodao [dot] org</a>
+            </p>
+            <p class="copyright">&copy; 2026 昊道文化文教發展協會</p>
+        </footer>
+    </main>
+    <div id="app-dialog-modal" class="app-dialog-modal" hidden>
+        <div class="app-dialog" role="dialog" aria-modal="true" aria-live="polite">
+            <p id="app-dialog-message"></p>
+            <div class="app-dialog-actions">
+                <button id="app-dialog-cancel" class="text-link-button" type="button" hidden>取消</button>
+                <button id="app-dialog-confirm" class="password-submit-button" type="button">確定</button>
+            </div>
+        </div>
+    </div>
+    <script src="mindfulness.js?v=20260522-sheet1"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script>
+        (function () {
+            var a = document.getElementById('email-link');
+            if (!a) return;
+            var addr = a.dataset.user + '@' + a.dataset.domain;
+            a.href = 'mailto:' + addr;
+            a.textContent = addr;
+        })();
+    </script>
+</body>
+</html>

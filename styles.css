@@ -126,6 +126,489 @@ h2 {
     border-color: var(--color-accent);
 }
 
+.practice {
+    margin: 4rem 0;
+}
+
+.practice-lead {
+    max-width: 34rem;
+    margin: -0.5rem auto 1.8rem;
+    text-align: center;
+    color: var(--color-muted);
+    font-size: 0.98rem;
+}
+
+.practice-card {
+    border: 1px solid var(--color-divider);
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.42);
+    padding: 0 1.5rem 1.5rem;
+    margin: 1.2rem 0;
+    overflow: hidden;
+}
+
+.practice-card h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.3rem, 3vw, 1.65rem);
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.12em;
+    color: var(--color-bg);
+    background: var(--color-accent);
+    margin: 0 -1.5rem 1.5rem;
+    padding: 0.95rem 1rem;
+}
+
+.practice-form,
+.practice-search {
+    display: grid;
+    gap: 1rem;
+}
+
+.practice-form label,
+.practice-search label,
+.export-fields label {
+    display: grid;
+    gap: 0.35rem;
+    color: var(--color-text);
+}
+
+.practice-form label span,
+.practice-search label span,
+.export-fields label span {
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+.practice-form small {
+    color: var(--color-muted);
+    font-size: 0.82rem;
+}
+
+.practice input,
+.practice select,
+.practice textarea {
+    width: 100%;
+    border: 1px solid var(--color-divider);
+    border-radius: 0.4rem;
+    background: #fffdf8;
+    color: var(--color-text);
+    font: inherit;
+    padding: 0.72rem 0.85rem;
+    outline: none;
+}
+
+.practice textarea {
+    resize: vertical;
+}
+
+.practice input:focus,
+.practice select:focus,
+.practice textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.14);
+}
+
+.minute-field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.minute-field em {
+    color: var(--color-muted);
+    font-style: normal;
+}
+
+.practice button,
+.admin-link-button,
+.text-link-button {
+    justify-self: start;
+    border: 1px solid var(--color-accent);
+    border-radius: 2rem;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    cursor: pointer;
+    font: inherit;
+    letter-spacing: 0.08em;
+    padding: 0.65rem 1.4rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.practice button:hover,
+.admin-link-button:hover,
+.text-link-button:hover {
+    background: var(--color-text);
+    border-color: var(--color-text);
+}
+
+.form-note {
+    min-height: 1.6rem;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+}
+
+.form-note.success {
+    color: var(--color-accent);
+}
+
+.form-note.error {
+    color: #9a3b31;
+}
+
+.practice-search {
+    grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.7fr) auto;
+    align-items: end;
+}
+
+.practice-results {
+    margin-top: 1.5rem;
+}
+
+.practice-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.practice-stats div {
+    border: 1px solid rgba(201, 184, 150, 0.7);
+    border-radius: 0.4rem;
+    background: #fffdf8;
+    padding: 1rem;
+}
+
+.practice-stats span {
+    display: block;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+}
+
+.practice-stats strong {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--color-accent);
+    font-size: 1.35rem;
+}
+
+.practice h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.18rem, 3vw, 1.4rem);
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin: 2rem 0 1rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--color-divider);
+}
+
+.practice-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--color-divider);
+    border-radius: 0.4rem;
+    background: #fffdf8;
+}
+
+.practice table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 34rem;
+}
+
+.practice th,
+.practice td {
+    border-bottom: 1px solid rgba(201, 184, 150, 0.55);
+    padding: 0.72rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.practice th {
+    color: var(--color-accent);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.practice tr:last-child td {
+    border-bottom: 0;
+}
+
+.reflection-heading {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    padding-top: 0.2rem;
+}
+
+.reflection-heading h3 {
+    flex: 0 0 100%;
+    text-align: center;
+}
+
+.export-fields {
+    display: flex;
+    gap: 0.6rem;
+    align-items: end;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.export-fields label {
+    width: 15rem;
+}
+
+.export-fields button {
+    white-space: nowrap;
+}
+
+.practice-reflections {
+    display: grid;
+    gap: 0.8rem;
+    text-align: left;
+}
+
+.reflection-item,
+.empty-record {
+    border: 1px solid rgba(201, 184, 150, 0.7);
+    border-radius: 0.4rem;
+    background: #fffdf8;
+    padding: 1rem;
+}
+
+.reflection-item time {
+    color: var(--color-accent);
+    font-weight: 500;
+}
+
+.reflection-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.7rem;
+}
+
+.reflection-item-header span {
+    color: var(--color-muted);
+    font-size: 0.92rem;
+}
+
+.reflection-item p {
+    margin-top: 0.45rem;
+    white-space: pre-wrap;
+}
+
+.delete-record-button {
+    border-radius: 999px;
+    min-width: 2.2rem;
+    min-height: 2.2rem;
+    padding: 0.25rem 0.45rem;
+    text-align: center;
+}
+
+.practice td .delete-record-button {
+    justify-self: center;
+}
+
+.app-dialog-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: grid;
+    place-items: center;
+    background: rgba(44, 40, 32, 0.42);
+    padding: 1.5rem;
+}
+
+.app-dialog-modal[hidden] {
+    display: none;
+}
+
+.app-dialog {
+    width: min(100%, 26rem);
+    border: 1px solid var(--color-divider);
+    border-radius: 0.5rem;
+    background: var(--color-bg);
+    box-shadow: 0 22px 60px rgba(44, 40, 32, 0.22);
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.app-dialog p {
+    color: var(--color-text);
+    font-size: 1.05rem;
+    margin-bottom: 1.2rem;
+}
+
+.app-dialog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.admin-entry {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0 0;
+}
+
+.password-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    background: rgba(44, 40, 32, 0.42);
+    padding: 1.5rem;
+}
+
+.password-modal[hidden] {
+    display: none;
+}
+
+.password-dialog {
+    width: min(100%, 28rem);
+    border: 1px solid var(--color-divider);
+    border-radius: 0.5rem;
+    background: var(--color-bg);
+    box-shadow: 0 22px 60px rgba(44, 40, 32, 0.22);
+    padding: 1.5rem;
+}
+
+.password-dialog h2 {
+    background: var(--color-text);
+    border-radius: 0.4rem;
+    color: var(--color-bg);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+}
+
+.password-dialog p {
+    color: var(--color-muted);
+    margin-bottom: 1rem;
+}
+
+.admin-panel {
+    border: 1px solid var(--color-divider);
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.5);
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+}
+
+.admin-panel > h2 {
+    background: var(--color-text);
+    border-radius: 0.4rem;
+    color: var(--color-bg);
+    font-size: clamp(1.3rem, 3vw, 1.65rem);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-bottom: 1rem;
+    padding: 0.95rem 1rem;
+}
+
+.admin-note,
+.import-box small {
+    color: var(--color-muted);
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.2rem;
+}
+
+.admin-block {
+    border: 1px solid rgba(201, 184, 150, 0.7);
+    border-radius: 0.5rem;
+    background: #fffdf8;
+    padding: 1rem;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.admin-actions button[type="button"],
+.admin-list button[type="button"],
+.text-link-button {
+    background: transparent;
+    color: var(--color-accent);
+}
+
+.password-submit-button {
+    background: var(--color-accent);
+    color: var(--color-bg);
+}
+
+.admin-list {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 1rem;
+}
+
+.admin-row {
+    border: 1px solid rgba(201, 184, 150, 0.7);
+    border-radius: 0.4rem;
+    background: rgba(250, 248, 243, 0.8);
+    padding: 0.85rem;
+}
+
+.admin-row strong {
+    display: block;
+    color: var(--color-text);
+    font-size: 1rem;
+}
+
+.admin-row span,
+.admin-row p {
+    color: var(--color-muted);
+    font-size: 0.92rem;
+}
+
+.admin-row p {
+    margin-top: 0.25rem;
+}
+
+.admin-row-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.7rem;
+}
+
+.admin-row-actions button {
+    padding: 0.42rem 0.95rem;
+}
+
+.import-box {
+    border-top: 1px solid var(--color-divider);
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+}
+
+.import-box h4 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
 .social-links {
     display: flex;
     justify-content: center;
@@ -197,5 +680,18 @@ footer p {
     .social-links a {
         padding: 0.4rem 1rem;
         font-size: 0.9rem;
+    }
+    .practice-card {
+        padding: 1rem;
+    }
+    .practice-search,
+    .practice-stats,
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+    .practice button,
+    .export-fields,
+    .export-fields label {
+        width: 100%;
     }
 }

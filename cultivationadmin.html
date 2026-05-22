@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修煉組管理後台 | 昊道文化文教發展協會</title>
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#8b6f47">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="container">
+        <header class="hero practice-hero">
+            <h1 class="title">修煉組管理後台</h1>
+            <p class="subtitle">期數管理・報名名單・夥伴狀態</p>
+            <div class="divider"></div>
+            <p class="tagline">管理・同步・查詢</p>
+        </header>
+
+        <div id="admin-password-modal" class="password-modal" role="dialog" aria-modal="true" aria-labelledby="admin-password-title">
+            <div class="password-dialog">
+                <h2 id="admin-password-title">修煉組管理後台</h2>
+                <p>請輸入管理密碼。</p>
+                <form id="admin-password-form" class="practice-form">
+                    <label>
+                        <span>密碼</span>
+                        <input id="admin-password-input" type="password" autocomplete="current-password" required>
+                    </label>
+                    <div class="admin-actions">
+                        <button class="password-submit-button" type="submit">進入後台</button>
+                        <a class="text-link-button" href="breath.html">返回打卡頁</a>
+                    </div>
+                    <p id="admin-password-message" class="form-note" role="status"></p>
+                </form>
+            </div>
+        </div>
+
+        <section id="admin-panel" class="admin-panel" aria-label="修煉組管理後台" hidden>
+            <h2>修煉組管理後台</h2>
+            <p class="admin-note">管理期數與每一期報名名單。新增期數後，前台查詢與心得匯出的下拉選項會自動更新。</p>
+
+            <div class="admin-grid">
+                <div class="admin-block">
+                    <h3>期數管理</h3>
+                    <form id="period-form" class="practice-form">
+                        <input id="period-id" type="hidden">
+                        <label>
+                            <span>第幾期</span>
+                            <input id="period-number" type="number" min="1" step="1" inputmode="numeric" placeholder="例：1" required>
+                        </label>
+                        <label>
+                            <span>起始日</span>
+                            <input id="period-start" type="date" required>
+                        </label>
+                        <label>
+                            <span>結束日</span>
+                            <input id="period-end" type="date" required>
+                        </label>
+                        <div class="admin-actions">
+                            <button type="submit">儲存期數</button>
+                            <button id="period-reset" type="button">清除表單</button>
+                        </div>
+                        <p id="period-message" class="form-note" role="status"></p>
+                    </form>
+                    <div id="period-list" class="admin-list"></div>
+                </div>
+
+                <div class="admin-block">
+                    <h3>報名名單管理</h3>
+                    <form id="member-form" class="practice-form">
+                        <input id="member-id" type="hidden">
+                        <label>
+                            <span>所屬期數</span>
+                            <select id="member-period" required>
+                                <option value="">請先選擇期數</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>夥伴姓名</span>
+                            <input id="member-name" type="text" placeholder="請填寫中文全名" required>
+                        </label>
+                        <label>
+                            <span>夥伴狀態備註</span>
+                            <textarea id="member-note" rows="3" placeholder="例：5月1日加入、中途退出未完成此期"></textarea>
+                        </label>
+                        <div class="admin-actions">
+                            <button type="submit">儲存名單</button>
+                            <button id="member-reset" type="button">清除表單</button>
+                        </div>
+                        <p id="member-message" class="form-note" role="status"></p>
+                    </form>
+
+                    <div class="import-box">
+                        <h4>Excel 匯入每一期報名名單</h4>
+                        <label>
+                            <span>匯入期數</span>
+                            <select id="import-period">
+                                <option value="">請先選擇期數</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>選擇 Excel 檔</span>
+                            <input id="member-import-file" type="file" accept=".xlsx,.xls,.csv,.tsv">
+                        </label>
+                        <small>建議欄位：姓名、備註。若沒有欄位名稱，系統會以第一欄為姓名、第二欄為備註。</small>
+                        <p id="import-message" class="form-note" role="status"></p>
+                    </div>
+
+                    <div id="member-list" class="admin-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p><a class="text-link-button" href="breath.html">返回靜心修煉營</a></p>
+            <p class="copyright">&copy; 2026 昊道文化文教發展協會</p>
+        </footer>
+    </main>
+    <script src="mindfulness.js?v=20260522-sheet1"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</body>
+</html>
