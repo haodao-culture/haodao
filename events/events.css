@@ -224,6 +224,7 @@
     line-height: 1.8;
     margin: 0.3rem 0 0;
     opacity: 0.85;
+    white-space: pre-wrap;
 }
 
 .event-tags {
