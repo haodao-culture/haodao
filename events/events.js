@@ -12,7 +12,7 @@
     //   2. 「檔案 → 共用 → 發佈到網路」→ 選擇「逗號分隔值 (.csv)」→ 取得連結
     //   3. 把連結貼到 SHEET_CSV_URL
     // ---------------------------------------------------------------
-    var SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRN3Y4zJ-ReF0qFUbd8BPwdlwbWNZBA2RYL2XX3rWi51OeQtK2R4DOO8bwic1PH-WKJQyoVLudn0w2V/pub?gid=0&single=true&output=csv';
+    var SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRN3Y4zJ-ReF0qFUbd8BPwdlwbWNZBA2RYL2XX3rWi51OeQtK2R4DOO8bwic1PH-WKJQyoVLudn0w2V/pub?gid=1291996599&single=true&output=csv';
     var LOCAL_JSON_URL = 'events.json';
 
     // 欄位對照：每個欄位可接受多個名稱（中文 / 英文），
@@ -20,16 +20,17 @@
     var FIELD_ALIASES = {
         id:              ['id', '提交時間', '時間戳記', 'Timestamp'],
         title:           ['title', '主題', '活動主題'],
-        date:            ['date', '活動日期', '日期'],
-        startTime:       ['startTime', '開始時間'],
-        endTime:         ['endTime', '結束時間'],
+        date:            ['date', '活動日期', '日期', '日期 (開始)', '日期(開始)', '開始日期'],
+        endDate:         ['endDate', '日期 (結束)', '日期(結束)', '結束日期'],
+        startTime:       ['startTime', '開始時間', '時間 (開始)', '時間(開始)'],
+        endTime:         ['endTime', '結束時間', '時間 (結束)', '時間(結束)'],
         location:        ['location', '活動地點', '地點'],
-        audience:        ['audience', '對象'],
-        description:     ['description', '活動簡要', '簡短引文', '簡介'],
-        registrationUrl: ['registrationUrl', '報名網址', '報名連結'],
+        audience:        ['audience', '對象', '開放報名對象', '開放報名對象範圍（可多選、但儘量單一）'],
+        description:     ['description', '活動簡要', '活動簡要說明 (引文)', '簡短引文', '簡介'],
+        registrationUrl: ['registrationUrl', '報名網址', '報名連結', '報名網址 / 報名接龍群組'],
         format:          ['format', '形式', '活動形式'],
         tags:            ['tags', '標籤', '分類'],
-        image:           ['image', '海報', '活動海報']
+        image:           ['image', '海報', '活動海報', '上傳活動海報']
     };
 
     // ---------------------------------------------------------------
@@ -113,9 +114,10 @@
         return {
             id:              pick('id'),
             title:           pick('title'),
-            date:            pick('date'),
-            startTime:       pick('startTime'),
-            endTime:         pick('endTime'),
+            date:            normaliseDate(pick('date')),
+            endDate:         normaliseDate(pick('endDate')),
+            startTime:       normaliseTime(pick('startTime')),
+            endTime:         normaliseTime(pick('endTime')),
             location:        pick('location'),
             audience:        pick('audience'),
             description:     pick('description'),
@@ -126,6 +128,37 @@
                 : String(rawTags).split(/[,，、]/).map(function (t) { return t.trim(); }).filter(Boolean),
             image: normaliseImageUrl(pick('image'))
         };
+    }
+
+    // 把日期統一成 YYYY-MM-DD：接受 2026/7/17、2026-7-17、2026/07/17… 等格式
+    function normaliseDate(s) {
+        if (!s) return '';
+        var m = String(s).match(/(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})/);
+        if (!m) return s;
+        var pad = function (n) { return n.length < 2 ? '0' + n : n; };
+        return m[1] + '-' + pad(m[2]) + '-' + pad(m[3]);
+    }
+
+    // 把時間統一成 HH:MM：接受 上午 9:00:00、下午 5:00、09:00:00 等格式
+    function normaliseTime(s) {
+        if (!s) return '';
+        s = String(s).trim();
+        var ampm = /^(上午|下午|AM|PM|am|pm)\s*(\d{1,2}):(\d{2})/.exec(s);
+        var plain = /^(\d{1,2}):(\d{2})/.exec(s);
+        var h, mm;
+        if (ampm) {
+            h = parseInt(ampm[2], 10);
+            mm = ampm[3];
+            var isPm = ampm[1] === '下午' || /pm/i.test(ampm[1]);
+            if (isPm && h < 12) h += 12;
+            if (!isPm && h === 12) h = 0;
+        } else if (plain) {
+            h = parseInt(plain[1], 10);
+            mm = plain[2];
+        } else {
+            return s;
+        }
+        return (h < 10 ? '0' + h : '' + h) + ':' + mm;
     }
 
     // Google Drive 的分享網址（file/d/ID/view、open?id=ID、uc?id=ID）轉成
@@ -146,8 +179,9 @@
         if (!event.date) return false;
         var today = new Date();
         today.setHours(0, 0, 0, 0);
-        var eventDate = new Date(event.date + 'T00:00:00');
-        return eventDate < today;
+        var lastDay = event.endDate || event.date;
+        var eventEnd = new Date(lastDay + 'T00:00:00');
+        return eventEnd < today;
     }
 
     function matchesFilter(event, filter) {
@@ -157,7 +191,8 @@
                 || event.tags.indexOf('線上') !== -1;
         }
         if (filter === '線下實體') {
-            return event.format === '實體' || event.format === '實體活動' || event.format === '線下'
+            return event.format === '線下實體' || event.format === '實體'
+                || event.format === '實體活動' || event.format === '線下'
                 || event.tags.indexOf('線下') !== -1 || event.tags.indexOf('實體') !== -1;
         }
         return true;
@@ -216,7 +251,7 @@
     }
 
     function renderCard(event, isPastEvent) {
-        var dateStr = formatDate(event.date);
+        var dateStr = formatDateRange(event.date, event.endDate);
         var timeStr = event.startTime
             ? (event.endTime ? event.startTime + '–' + event.endTime : event.startTime)
             : '';
@@ -281,11 +316,13 @@
 
         var todayIso = isoOf(new Date());
 
-        // 預先建立日期 → 活動 的索引
+        // 預先建立日期 → 活動 的索引（跨日活動會出現在範圍內每一天）
         var byDate = {};
         state.events.forEach(function (e) {
             if (!e.date) return;
-            (byDate[e.date] = byDate[e.date] || []).push(e);
+            expandDateRange(e.date, e.endDate).forEach(function (d) {
+                (byDate[d] = byDate[d] || []).push(e);
+            });
         });
 
         var cells = [];
@@ -335,6 +372,22 @@
         return formatIso(date.getFullYear(), date.getMonth() + 1, date.getDate());
     }
 
+    // 把 [startIso, endIso] 展開成日期陣列（含起訖）
+    function expandDateRange(startIso, endIso) {
+        if (!startIso) return [];
+        if (!endIso || endIso === startIso) return [startIso];
+        var start = new Date(startIso + 'T00:00:00');
+        var end = new Date(endIso + 'T00:00:00');
+        if (isNaN(start.getTime()) || isNaN(end.getTime()) || end < start) return [startIso];
+        var result = [];
+        var d = new Date(start);
+        while (d <= end) {
+            result.push(isoOf(d));
+            d.setDate(d.getDate() + 1);
+        }
+        return result;
+    }
+
     // ---------------------------------------------------------------
     // 活動詳情 Modal
     // ---------------------------------------------------------------
@@ -343,7 +396,7 @@
         var body = document.getElementById('event-modal-body');
         if (!modal || !body) return;
 
-        var dateStr = formatDate(event.date);
+        var dateStr = formatDateRange(event.date, event.endDate);
         var timeStr = event.startTime
             ? (event.endTime ? event.startTime + '–' + event.endTime : event.startTime)
             : '';
@@ -394,6 +447,23 @@
         if (isNaN(d.getTime())) return iso;
         var weekdays = ['日', '一', '二', '三', '四', '五', '六'];
         return parts[0] + '年' + parseInt(parts[1], 10) + '月' + parseInt(parts[2], 10) + '日（' + weekdays[d.getDay()] + '）';
+    }
+
+    // 跨日活動顯示日期範圍；同年的話結束日省略年份
+    function formatDateRange(startIso, endIso) {
+        if (!startIso) return '';
+        var startStr = formatDate(startIso);
+        if (!endIso || endIso === startIso) return startStr;
+        var startD = new Date(startIso + 'T00:00:00');
+        var endD = new Date(endIso + 'T00:00:00');
+        if (isNaN(endD.getTime())) return startStr;
+        if (startD.getFullYear() === endD.getFullYear()) {
+            var weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+            var p = endIso.split('-');
+            var endShort = parseInt(p[1], 10) + '月' + parseInt(p[2], 10) + '日（' + weekdays[endD.getDay()] + '）';
+            return startStr + ' – ' + endShort;
+        }
+        return startStr + ' – ' + formatDate(endIso);
     }
 
     function escapeHtml(s) {
