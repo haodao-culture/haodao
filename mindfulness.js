@@ -1,6 +1,6 @@
 (function () {
     var storageKey = 'haodaoMindfulnessRecords';
-    var SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbyU6R2UsV4H001HQX9PKvwCAKYoPIBSQOoX-GEsoWyFz_tK83ZNHxRcXSWNikdjbjKo/exec';
+    var SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbx48abAm7fJCBbgvlawyZ-FaHsm3Y3qECy-S-iiQ8Ydot2LA7FgogGVvqjm0pyr9ixS/exec';
     var adminPassword = 'vx123';
     var records = {
         checkins: [],
