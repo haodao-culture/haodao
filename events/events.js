@@ -289,11 +289,21 @@
         if (isPastEvent) {
             return '<span class="event-cta is-disabled">活動已結束</span>';
         }
-        if (event.registrationUrl) {
-            return '<a class="event-cta" href="' + escapeAttr(event.registrationUrl) +
-                '" target="_blank" rel="noopener">立即報名</a>';
+        var reg = event.registrationUrl;
+        if (reg) {
+            if (isHttpUrl(reg)) {
+                return '<a class="event-cta" href="' + escapeAttr(reg) +
+                    '" target="_blank" rel="noopener">立即報名</a>';
+            }
+            // 非網址（例如於 LINE 群組接龍報名），直接顯示後台填寫的文字，避免變成失效連結
+            return '<p class="event-reg-note">報名方式：' + escapeHtml(reg) + '</p>';
         }
         return '<span class="event-cta is-disabled">報名連結準備中</span>';
+    }
+
+    // 判斷是否為可點擊的 http(s) 網址
+    function isHttpUrl(s) {
+        return /^https?:\/\//i.test(String(s).trim());
     }
 
     // ---------------------------------------------------------------
