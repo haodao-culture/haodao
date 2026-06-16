@@ -7,7 +7,11 @@
 ```
 .
 ├── index.html      # 首頁
-├── styles.css      # 樣式
+├── styles.css      # 共用樣式
+├── events/         # 近期活動與報名頁
+│   └── course1/    # 一階課程頁
+├── breath.html     # 靜心修煉營打卡頁
+├── cultivationadmin.html # 修煉組管理後台
 ├── robots.txt      # 搜尋引擎爬取規則
 ├── sitemap.xml     # 網站地圖
 ├── CNAME           # 自訂網域設定
