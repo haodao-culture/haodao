@@ -19,6 +19,8 @@
     figure { margin:16px 0 0; }
     img { width:100%; height:auto; border-radius:10px; display:block; background:#eee; }
     audio { width:100%; margin-top:16px; }
+    .video-wrap { position:relative; aspect-ratio:16/9; margin-top:16px; border-radius:10px; overflow:hidden; background:#000; }
+    .video-wrap iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
     .status { display:inline-block; font-size:.85rem; padding:3px 10px; border-radius:999px; margin-top:14px; }
     .ok { background:#e6f0e2; color:#3f6b32; }
     .pending { background:#f0ebe0; color:#8a8172; }
@@ -54,6 +56,21 @@
       <audio id="aud" controls preload="metadata"
              src="https://pub-cb0355e19c0545e799e53c8838d0b2cb.r2.dev/audio/%E6%9B%B8%E6%B3%95%E9%9F%B3%E6%A8%82.mp3"></audio>
       <span id="aud-status" class="status pending">載入中…</span>
+    </div>
+
+    <div class="card">
+      <h2>🎬 影片示範</h2>
+      <p class="small">來源:<strong>YouTube</strong>（不是 R2）——影片改用 YouTube 嵌入，串流流量由 YouTube 負擔，不佔我們的雲端空間。</p>
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/_7HHjvLj48c"
+          title="昊道～昊道文化"
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <span class="status ok" style="margin-top:14px;">✓ 影片以 iframe 嵌入（YouTube）</span>
     </div>
 
     <footer>
