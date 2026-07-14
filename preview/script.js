@@ -218,3 +218,12 @@ if (canvas && ctx) {
 
   requestAnimationFrame(drawInkFlow);
 }
+
+// 頁尾 email 組裝（避免以純文字被爬蟲抓取）
+(function () {
+  var a = document.getElementById("hd-email");
+  if (!a) return;
+  var addr = a.dataset.user + "@" + a.dataset.domain;
+  a.href = "mailto:" + addr;
+  a.textContent = addr;
+})();

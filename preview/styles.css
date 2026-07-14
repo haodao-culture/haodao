@@ -749,6 +749,16 @@ p {
   flex-wrap: wrap;
 }
 
+.footer-social {
+  justify-content: flex-start;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.footer-email {
+  margin-top: 4px;
+}
+
 .detail-dialog {
   width: min(620px, calc(100% - 36px));
   padding: 42px;
