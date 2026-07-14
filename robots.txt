@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /preview/
+Disallow: /test/
 
 Sitemap: https://www.haodao.org/sitemap.xml
