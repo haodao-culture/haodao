@@ -126,6 +126,15 @@ h2 {
     border-color: var(--color-accent);
 }
 
+.reading {
+    text-align: center;
+}
+
+.reading p {
+    color: var(--color-muted);
+    margin-bottom: 1.4rem;
+}
+
 .practice {
     margin: 4rem 0;
 }
