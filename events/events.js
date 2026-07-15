@@ -40,6 +40,7 @@
     // 狀態
     // ---------------------------------------------------------------
     var now = new Date();
+    var isPreviewPage = document.body.classList.contains('preview-events-page');
     var state = {
         events: [],
         currentTab: 'current',
@@ -258,6 +259,18 @@
         list.innerHTML = filtered.map(function (e) {
             return renderCard(e, showPast);
         }).join('');
+
+        if (isPreviewPage) bindEventDetailTriggers(list);
+    }
+
+    function bindEventDetailTriggers(container) {
+        container.querySelectorAll('.event-detail-trigger').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var id = button.dataset.eventId;
+                var event = state.events.find(function (item) { return item.id === id; });
+                if (event) openModal(event);
+            });
+        });
     }
 
     function renderCard(event, isPastEvent) {
@@ -271,6 +284,13 @@
         }).join('');
 
         var ctaHtml = renderCta(event, isPastEvent);
+        var detailHtml = isPreviewPage
+            ? '<button type="button" class="event-detail-trigger" data-event-id="' +
+                escapeAttr(event.id) + '">查看完整介紹</button>'
+            : '';
+        var actionsHtml = isPreviewPage
+            ? '<div class="event-actions">' + detailHtml + ctaHtml + '</div>'
+            : ctaHtml;
 
         var imageHtml = event.image
             ? '<div class="event-image"><img src="' + escapeAttr(event.image) +
@@ -290,7 +310,7 @@
                     (event.audience ? '<p class="event-audience">對象：' + escapeHtml(event.audience) + '</p>' : '') +
                     (event.description ? '<p class="event-desc">' + escapeHtml(event.description) + '</p>' : '') +
                     (tagsHtml ? '<p class="event-tags">' + tagsHtml + '</p>' : '') +
-                    ctaHtml +
+                    actionsHtml +
                 '</div>' +
             '</article>';
     }
