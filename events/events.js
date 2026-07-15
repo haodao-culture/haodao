@@ -13,7 +13,10 @@
     //   3. 把連結貼到 SHEET_CSV_URL
     // ---------------------------------------------------------------
     var SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRN3Y4zJ-ReF0qFUbd8BPwdlwbWNZBA2RYL2XX3rWi51OeQtK2R4DOO8bwic1PH-WKJQyoVLudn0w2V/pub?gid=1291996599&single=true&output=csv';
-    var LOCAL_JSON_URL = 'events.json';
+    // 以 script 檔案所在位置解析備援資料，讓同一支程式也能安全地被
+    // /preview/learning.html 共用，而不會誤抓 /preview/events.json。
+    var scriptSrc = document.currentScript && document.currentScript.src;
+    var LOCAL_JSON_URL = scriptSrc ? new URL('events.json', scriptSrc).href : 'events.json';
 
     // 欄位對照：每個欄位可接受多個名稱（中文 / 英文），
     // 讀資料時會依序嘗試，第一個非空的值就採用。
@@ -47,16 +50,23 @@
     // ---------------------------------------------------------------
     // 載入資料
     // ---------------------------------------------------------------
-    function loadEvents() {
-        var url = SHEET_CSV_URL || LOCAL_JSON_URL;
+    function fetchEvents(url, isCsv) {
         return fetch(url, { cache: 'no-cache' })
             .then(function (res) {
                 if (!res.ok) throw new Error('Failed to load events');
-                return SHEET_CSV_URL ? res.text().then(parseCsv) : res.json();
+                return isCsv ? res.text().then(parseCsv) : res.json();
             })
             .then(function (events) {
                 return events.map(normaliseEvent);
             });
+    }
+
+    function loadEvents() {
+        if (!SHEET_CSV_URL) return fetchEvents(LOCAL_JSON_URL, false);
+        return fetchEvents(SHEET_CSV_URL, true).catch(function (err) {
+            console.warn('Google Sheet 載入失敗，改用本地活動資料。', err);
+            return fetchEvents(LOCAL_JSON_URL, false);
+        });
     }
 
     function parseCsv(text) {
@@ -419,7 +429,7 @@
 
         body.innerHTML = '' +
             imageHtml +
-            '<h3 class="event-title">' + escapeHtml(event.title) + '</h3>' +
+            '<h3 class="event-title" id="event-modal-title">' + escapeHtml(event.title) + '</h3>' +
             '<p class="event-meta">' +
                 '<span class="event-date">' + escapeHtml(dateStr) + '</span>' +
                 (timeStr ? '<span class="event-time">' + escapeHtml(timeStr) + '</span>' : '') +
@@ -497,6 +507,7 @@
                 state.currentTab = btn.dataset.tab;
                 document.querySelectorAll('.tab-btn').forEach(function (b) {
                     b.classList.toggle('is-active', b === btn);
+                    b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
                 });
                 render();
             });
@@ -507,6 +518,7 @@
                 state.currentFilter = btn.dataset.filter;
                 document.querySelectorAll('.filter-chip').forEach(function (b) {
                     b.classList.toggle('is-active', b === btn);
+                    b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
                 });
                 render();
             });
@@ -550,12 +562,15 @@
     loadEvents()
         .then(function (events) {
             state.events = events;
+            var list = document.getElementById('events-list');
+            if (list) list.setAttribute('aria-busy', 'false');
             render();
         })
         .catch(function (err) {
             console.error(err);
             var list = document.getElementById('events-list');
             if (list) {
+                list.setAttribute('aria-busy', 'false');
                 list.innerHTML = '<p class="events-empty">活動資訊載入失敗，請稍後再試。</p>';
             }
         });

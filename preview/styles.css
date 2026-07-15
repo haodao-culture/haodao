@@ -714,6 +714,417 @@ p {
   margin-top: 12px;
 }
 
+/* 活動與課程：沿用 Preview 視覺，資料與 /events/ 共用 */
+.events-image-hero {
+  background-position: center 58%;
+}
+
+.events-image-hero h1 {
+  font-size: clamp(46px, 6vw, 78px);
+}
+
+.events-image-hero > p:last-child {
+  margin: 0;
+  color: #514a41;
+  font-size: clamp(15px, 1.5vw, 19px);
+  letter-spacing: .14em;
+}
+
+.events-shell {
+  margin-top: 22px;
+  padding: clamp(28px, 5vw, 52px);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: rgba(255, 253, 248, .56);
+}
+
+.events-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(240px, .75fr);
+  gap: clamp(28px, 6vw, 72px);
+  align-items: end;
+  padding-bottom: clamp(30px, 5vw, 52px);
+}
+
+.events-intro h2 {
+  max-width: 650px;
+  font-size: clamp(30px, 4vw, 48px);
+}
+
+.events-intro > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.events-tabs {
+  display: flex;
+  gap: clamp(18px, 4vw, 42px);
+  border-bottom: 1px solid var(--border);
+}
+
+.events-tabs .tab-btn {
+  position: relative;
+  min-height: 54px;
+  padding: 0 2px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: .06em;
+}
+
+.events-tabs .tab-btn::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transition: transform .25s ease;
+}
+
+.events-tabs .tab-btn:hover,
+.events-tabs .tab-btn.is-active {
+  color: var(--ink);
+}
+
+.events-tabs .tab-btn.is-active::after {
+  transform: scaleX(1);
+}
+
+.events-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 22px 0 28px;
+}
+
+.filter-label {
+  margin-right: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .08em;
+}
+
+.events-filter .filter-chip {
+  min-height: 34px;
+  padding: 0 13px;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: color .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.events-filter .filter-chip:hover,
+.events-filter .filter-chip.is-active {
+  color: var(--paper);
+  background: var(--dark);
+  border-color: var(--dark);
+}
+
+.events-list {
+  display: grid;
+  gap: 16px;
+}
+
+.event-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: rgba(251, 248, 242, .8);
+  transition: transform .28s ease, background .28s ease, box-shadow .28s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-3px);
+  background: #fffaf2;
+  box-shadow: 0 16px 42px rgba(49, 46, 41, .08);
+}
+
+.event-card.is-past {
+  background: rgba(242, 237, 229, .5);
+}
+
+.event-card .event-image {
+  min-height: 100%;
+  background: var(--ivory);
+}
+
+.event-card .event-image img {
+  height: 100%;
+  min-height: 250px;
+  object-fit: cover;
+  filter: saturate(.72) contrast(.96) sepia(.06);
+}
+
+.event-card .event-body {
+  grid-column: 1 / -1;
+  padding: clamp(24px, 4vw, 38px);
+}
+
+.event-card .event-image + .event-body {
+  grid-column: auto;
+}
+
+.event-title {
+  font-size: clamp(24px, 3vw, 34px);
+}
+
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 18px;
+  margin: 18px 0 0;
+  color: var(--brown);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.event-time::before,
+.event-location::before {
+  content: "·";
+  margin-right: 18px;
+  color: var(--border);
+}
+
+.event-audience,
+.event-desc,
+.event-reg-note {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.event-desc {
+  max-width: 680px;
+  white-space: pre-wrap;
+}
+
+.event-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 18px 0 0;
+}
+
+.event-tag {
+  color: var(--brown);
+  font-size: 12px;
+}
+
+.event-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  margin-top: 22px;
+  padding: 0 18px;
+  color: var(--paper);
+  background: var(--dark);
+  border: 1px solid var(--dark);
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: transform .2s ease, background .2s ease;
+}
+
+a.event-cta:hover {
+  transform: translateY(-2px);
+  background: var(--ink);
+}
+
+.event-cta.is-disabled {
+  color: var(--muted);
+  background: transparent;
+  border-color: var(--border);
+}
+
+.events-loading,
+.events-empty {
+  margin: 0;
+  padding: clamp(44px, 7vw, 76px) 20px;
+  color: var(--muted);
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 3px;
+}
+
+.events-calendar[hidden],
+.events-list[hidden],
+.events-filter[hidden] {
+  display: none !important;
+}
+
+.events-calendar {
+  margin-top: 28px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: rgba(251, 248, 242, .76);
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  min-width: 700px;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.calendar-title {
+  font-size: 24px;
+  text-align: center;
+}
+
+.calendar-nav {
+  width: 40px;
+  height: 40px;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.calendar-nav:hover {
+  background: var(--ivory);
+}
+
+.calendar-weekdays,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(100px, 1fr));
+  min-width: 700px;
+}
+
+.calendar-weekdays {
+  color: var(--muted);
+  background: var(--ivory);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  font-size: 12px;
+}
+
+.calendar-weekdays span {
+  padding: 10px 4px;
+}
+
+.cal-cell {
+  min-height: 112px;
+  padding: 10px;
+  border-right: 1px solid rgba(216, 208, 196, .72);
+  border-bottom: 1px solid rgba(216, 208, 196, .72);
+}
+
+.cal-cell:nth-child(7n) {
+  border-right: 0;
+}
+
+.cal-cell.is-empty {
+  background: rgba(228, 219, 207, .2);
+}
+
+.cal-day {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.cal-cell.is-today .cal-day {
+  color: var(--paper);
+  background: var(--brown);
+  border-radius: 50%;
+}
+
+.cal-chips {
+  display: grid;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.cal-chip {
+  width: 100%;
+  overflow: hidden;
+  padding: 6px 7px;
+  color: var(--ink);
+  background: var(--mist);
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 11px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cal-chip:hover {
+  background: #d8cabb;
+}
+
+.event-modal {
+  width: min(680px, calc(100% - 36px));
+  max-height: calc(100svh - 40px);
+  padding: 0;
+  overflow: auto;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 30px 100px rgba(40, 37, 31, .24);
+}
+
+.event-modal::backdrop {
+  background: rgba(40, 37, 31, .38);
+  backdrop-filter: blur(8px);
+}
+
+.event-modal-body {
+  --event-modal-padding: clamp(28px, 6vw, 52px);
+  padding: var(--event-modal-padding);
+}
+
+.event-modal .event-image {
+  margin: calc(0px - var(--event-modal-padding)) calc(0px - var(--event-modal-padding)) 32px;
+  background: var(--ivory);
+}
+
+.event-modal .event-image img {
+  max-height: 430px;
+  object-fit: cover;
+}
+
+.event-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--ink);
+  background: rgba(251, 248, 242, .88);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 22px;
+}
+
 .site-footer {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -840,6 +1251,27 @@ p {
   .long-card {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+  .events-intro {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .events-shell {
+    padding: 24px 18px 28px;
+  }
+  .event-card {
+    grid-template-columns: 1fr;
+  }
+  .event-card .event-image + .event-body,
+  .event-card .event-body {
+    grid-column: 1;
+  }
+  .event-card .event-image img {
+    max-height: 340px;
+  }
+  .event-time::before,
+  .event-location::before {
+    margin-right: 8px;
   }
   .site-footer {
     grid-template-columns: 1fr;
