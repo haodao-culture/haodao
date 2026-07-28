@@ -71,19 +71,72 @@ export default function Home() {
           <span />
         </button>
         <nav className={menuOpen ? "main-nav open" : "main-nav"} aria-label="主要導覽">
-          <a href="#about" onClick={closeMenu}>認識昊道</a>
-          <a href="#learning" onClick={closeMenu}>學習地圖</a>
-          <a href="#courses" onClick={closeMenu}>課程與活動</a>
-          <a href="#community" onClick={closeMenu}>共學與陪伴</a>
-          <a href="#service" onClick={closeMenu}>公益與服務</a>
-          <a
-            href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao"
-            target="_blank"
-            rel="noreferrer"
-            onClick={closeMenu}
-          >
-            昊道法舟 ↗
-          </a>
+          <div className="nav-group">
+            <a className="nav-label" href="#about" onClick={closeMenu}>
+              認識昊道 <span aria-hidden="true">⌄</span>
+            </a>
+            <div className="submenu">
+              <a href="#about" onClick={closeMenu}>成立緣起</a>
+              <a href="#about" onClick={closeMenu}>核心理念</a>
+              <a href="#about" onClick={closeMenu}>願景與公益定位</a>
+            </div>
+          </div>
+          <div className="nav-group">
+            <a className="nav-label" href="#learning" onClick={closeMenu}>
+              學習地圖 <span aria-hidden="true">⌄</span>
+            </a>
+            <div className="submenu">
+              <a href="#learning" onClick={closeMenu}>共學會</a>
+              <a href="#learning" onClick={closeMenu}>覺察學習</a>
+              <a href="#learning" onClick={closeMenu}>服務與陪伴</a>
+            </div>
+          </div>
+          <div className="nav-group">
+            <a className="nav-label" href="#courses" onClick={closeMenu}>
+              課程與活動 <span aria-hidden="true">⌄</span>
+            </a>
+            <div className="submenu">
+              <a href="#courses" onClick={closeMenu}>近期招生</a>
+              <a href="#courses" onClick={closeMenu}>五類課程介紹</a>
+              <a href="#courses" onClick={closeMenu}>課程行事曆</a>
+              <a href="#courses" onClick={closeMenu}>歷史回顧</a>
+            </div>
+          </div>
+          <div className="nav-group">
+            <a className="nav-label" href="#community" onClick={closeMenu}>
+              共學與陪伴 <span aria-hidden="true">⌄</span>
+            </a>
+            <div className="submenu">
+              <a href="#community" onClick={closeMenu}>各地共學點</a>
+              <a href="#community" onClick={closeMenu}>近期共學活動</a>
+              <a href="#community" onClick={closeMenu}>加入共學</a>
+            </div>
+          </div>
+          <div className="nav-group">
+            <a className="nav-label" href="#service" onClick={closeMenu}>
+              公益與服務 <span aria-hidden="true">⌄</span>
+            </a>
+            <div className="submenu">
+              <a href="#service" onClick={closeMenu}>志工服務</a>
+              <a href="#service" onClick={closeMenu}>文化推廣</a>
+              <a href="#service" onClick={closeMenu}>社會關懷</a>
+            </div>
+          </div>
+          <div className="nav-group">
+            <a
+              className="nav-label"
+              href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao"
+              target="_blank"
+              rel="noreferrer"
+            >
+              昊道法舟 <span aria-hidden="true">⌄</span>
+            </a>
+            <div className="submenu">
+              <a href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao" target="_blank" rel="noreferrer">書法</a>
+              <a href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao" target="_blank" rel="noreferrer">音樂</a>
+              <a href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao" target="_blank" rel="noreferrer">心靈慧談 ↗</a>
+            </div>
+          </div>
           <a className="nav-cta" href="#contact" onClick={closeMenu}>聯絡我們</a>
         </nav>
       </header>
