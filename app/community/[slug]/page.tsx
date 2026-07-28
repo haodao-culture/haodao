@@ -2,9 +2,9 @@ import Link from "next/link";
 import { PageHero, SiteFooter, SiteHeader } from "../../components/SiteChrome";
 
 const locations: Record<string, { name: string; region: string; time: string; image: string; intro: string }> = {
-  taipei: { name: "台北共學點", region: "台北市", time: "每月第二、四週", image: "/images/group-sharing.jpg", intro: "在城市裡留一個可以安心分享、持續練習的空間。" },
-  taichung: { name: "台中共學點", region: "台中市", time: "每月第一、三週", image: "/images/quiet-room.jpg", intro: "以穩定的相聚，陪伴彼此把覺察帶回日常。" },
-  kaohsiung: { name: "高雄共學點", region: "高雄市", time: "每月第二週", image: "/images/garden-meditation.jpg", intro: "在南方溫暖的同行裡，分享生活，也聆聽自己。" },
+  taipei: { name: "台北共學點", region: "台北市", time: "每月第二、四週", image: "/images/community-taipei.webp", intro: "在城市裡留一個可以安心分享、持續練習的空間。" },
+  taichung: { name: "台中共學點", region: "台中市", time: "每月第一、三週", image: "/images/community-taichung.webp", intro: "以穩定的相聚，陪伴彼此把覺察帶回日常。" },
+  kaohsiung: { name: "高雄共學點", region: "高雄市", time: "每月第二週", image: "/images/community-kaohsiung.webp", intro: "在南方溫暖的同行裡，分享生活，也聆聽自己。" },
 };
 
 export default async function LocationPage({ params }: { params: Promise<{ slug: string }> }) {

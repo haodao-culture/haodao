@@ -9,7 +9,7 @@ export default function CommunityLearningPage() {
         eyebrow="LEARNING STAGE 01 · 共學會"
         title="在真誠的相遇裡，開始看見自己。"
         description="核心學習路徑的第一站：共學會。"
-        image="/images/group-sharing.jpg"
+        image="/images/community-hero.webp"
       />
       <section className="detail-layout section">
         <aside>
@@ -37,4 +37,3 @@ export default function CommunityLearningPage() {
     </main>
   );
 }
-

@@ -39,7 +39,7 @@ export default function LearningPage() {
         eyebrow="LEARNING MAP · 學習地圖"
         title="每一步，都從此刻的你開始。"
         description="不需要預先成為更好的人。找到現在的位置，再選擇適合自己的下一步。"
-        image="/images/garden-meditation.jpg"
+        image="/images/learning-hero.webp"
       />
       <section className="learning-intro section">
         <div className="section-label"><span>01</span><p>如何使用學習地圖</p></div>

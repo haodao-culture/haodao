@@ -9,7 +9,7 @@ const previews = [
     title: "認識昊道",
     text: "從成立緣起、核心理念與公益定位，理解昊道文化希望帶來的影響。",
     href: "/about",
-    image: "/images/calligraphy.jpg",
+    image: "/images/about-hero.webp",
   },
   {
     number: "02",
@@ -17,7 +17,7 @@ const previews = [
     title: "學習地圖",
     text: "從共學會開始，找到此刻適合自己的學習入口與下一步。",
     href: "/learning",
-    image: "/images/garden-meditation.jpg",
+    image: "/images/learning-hero.webp",
   },
   {
     number: "03",
@@ -25,7 +25,7 @@ const previews = [
     title: "課程與活動",
     text: "查看目前進行中的線上與線下活動、行事曆及歷史紀錄。",
     href: "/events",
-    image: "/images/classroom.jpg",
+    image: "/images/events-hero.webp",
   },
   {
     number: "04",
@@ -33,7 +33,7 @@ const previews = [
     title: "共學與陪伴",
     text: "尋找各地共學點、近期共學活動，與同行的夥伴保持連結。",
     href: "/community",
-    image: "/images/group-sharing.jpg",
+    image: "/images/community-hero.webp",
   },
   {
     number: "05",
@@ -41,7 +41,7 @@ const previews = [
     title: "公益與服務",
     text: "看見志工服務、文化推廣、社會關懷與正在發生的公益行動。",
     href: "/welfare",
-    image: "/images/wildflowers.jpg",
+    image: "/images/welfare-impact.webp",
   },
   {
     number: "06",
@@ -49,7 +49,7 @@ const previews = [
     title: "昊道法舟",
     text: "在書法、音樂與心靈慧談之間，留一段安靜的時間與自己相遇。",
     href: "/fazhou",
-    image: "/images/quiet-room.jpg",
+    image: "/images/fazhou-calligraphy.webp",
   },
 ];
 

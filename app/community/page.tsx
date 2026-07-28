@@ -3,9 +3,9 @@ import { PageHero, SiteFooter, SiteHeader } from "../components/SiteChrome";
 import { assetUrl } from "../lib/assets";
 
 const points = [
-  ["taipei", "台北共學點", "台北市", "每月第二、四週", "/images/group-sharing.jpg"],
-  ["taichung", "台中共學點", "台中市", "每月第一、三週", "/images/quiet-room.jpg"],
-  ["kaohsiung", "高雄共學點", "高雄市", "每月第二週", "/images/garden-meditation.jpg"],
+  ["taipei", "台北共學點", "台北市", "每月第二、四週", "/images/community-taipei.webp"],
+  ["taichung", "台中共學點", "台中市", "每月第一、三週", "/images/community-taichung.webp"],
+  ["kaohsiung", "高雄共學點", "高雄市", "每月第二週", "/images/community-kaohsiung.webp"],
 ];
 
 export default function CommunityPage() {
@@ -16,7 +16,7 @@ export default function CommunityPage() {
         eyebrow="COMMUNITY & COMPANIONSHIP · 共學與陪伴"
         title="學習，不必獨自前行。"
         description="在固定相聚與真誠分享中，讓每次練習不只停留在課堂。"
-        image="/images/group-sharing.jpg"
+        image="/images/community-hero.webp"
       />
       <section className="community-purpose section">
         <div className="section-label"><span>01</span><p>共學的用意</p></div>
@@ -51,7 +51,7 @@ export default function CommunityPage() {
           <p>部分活動為線上進行，不受所在地區限制。</p>
         </div>
         <div className="community-activity-card">
-          <img src={assetUrl("/images/quiet-room.jpg")} alt="線上共學活動" />
+          <img src={assetUrl("/images/community-activity.webp")} alt="共學夥伴進行團體練習" />
           <div><span>線上 · 台北共學點</span><h3>每月線上共學夜</h3>
             <p>08.28 · 週五 19:30 · Google Meet</p>
             <Link href="/events">查看活動與報名方式 →</Link>

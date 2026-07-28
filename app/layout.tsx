@@ -33,10 +33,10 @@ export const metadata: Metadata = {
 };
 
 const assetStyles = {
-  "--asset-hero-walk": `url("${assetUrl("/images/hero-walk.jpg")}")`,
-  "--asset-quiet-room": `url("${assetUrl("/images/quiet-room.jpg")}")`,
-  "--asset-calligraphy": `url("${assetUrl("/images/calligraphy.jpg")}")`,
-  "--asset-garden-meditation": `url("${assetUrl("/images/garden-meditation.jpg")}")`,
+  "--asset-hero-walk": `url("${assetUrl("/images/about-hero.webp")}")`,
+  "--asset-quiet-room": `url("${assetUrl("/images/learning-hero.webp")}")`,
+  "--asset-calligraphy": `url("${assetUrl("/images/fazhou-calligraphy.webp")}")`,
+  "--asset-garden-meditation": `url("${assetUrl("/images/community-activity.webp")}")`,
 } as CSSProperties;
 
 export default function RootLayout({

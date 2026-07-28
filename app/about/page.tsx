@@ -16,7 +16,7 @@ export default function AboutPage() {
         eyebrow="ABOUT HAODAO · 認識昊道"
         title="一條把理解化為實踐的路。"
         description="認識昊道文化的成立緣起、核心理念、願景與公益定位。"
-        image="/images/calligraphy.jpg"
+        image="/images/about-hero.webp"
       />
       <section className="story-section section">
         <div className="section-label"><span>01</span><p>成立緣起</p></div>
@@ -67,4 +67,3 @@ export default function AboutPage() {
     </main>
   );
 }
-

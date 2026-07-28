@@ -71,7 +71,7 @@ export default function EventsPage() {
           eyebrow={`${online ? "ONLINE" : "IN PERSON"} · 活動詳情`}
           title={selectedEvent.title}
           description={formatEventDate(selectedEvent.date, selectedEvent.endDate)}
-          image={selectedEvent.image || "/images/classroom.jpg"}
+          image={selectedEvent.image || "/images/events-hero.webp"}
         />
         <section className="event-detail-page section">
           <aside>
@@ -106,7 +106,7 @@ export default function EventsPage() {
         eyebrow="COURSES & EVENTS · 活動與課程"
         title="在適合的時間，走進一段學習。"
         description="查看進行中的線上與線下活動、日期行事曆及歷史活動。"
-        image="/images/classroom.jpg"
+        image="/images/events-hero.webp"
       />
       <section className="events-page section">
         <div className="section-heading">

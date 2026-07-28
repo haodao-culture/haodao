@@ -23,7 +23,7 @@ export default function SearchPage() {
   return (
     <main>
       <SiteHeader />
-      <PageHero eyebrow="SITE SEARCH · 全站搜尋" title="找到你正在尋找的內容。" description="搜尋學習路徑、課程、活動、共學點、公益與文化內容。" image="/images/quiet-room.jpg" />
+      <PageHero eyebrow="SITE SEARCH · 全站搜尋" title="找到你正在尋找的內容。" description="搜尋學習路徑、課程、活動、共學點、公益與文化內容。" image="/images/learning-hero.webp" />
       <section className="search-page section">
         <label htmlFor="site-search">輸入關鍵字</label>
         <input id="site-search" autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="例如：共學、活動、公益" />

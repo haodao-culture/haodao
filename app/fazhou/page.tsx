@@ -6,7 +6,7 @@ export default function FazhouPage() {
   return (
     <main>
       <SiteHeader />
-      <PageHero eyebrow="HAODAO FAZHOU · 昊道法舟" title="以文化為舟，渡向心中的清明。" description="在一筆一畫、一音一念之間，留一段安靜的時間與自己相遇。" image="/images/calligraphy.jpg" />
+      <PageHero eyebrow="HAODAO FAZHOU · 昊道法舟" title="以文化為舟，渡向心中的清明。" description="在一筆一畫、一音一念之間，留一段安靜的時間與自己相遇。" image="/images/fazhou-calligraphy.webp" />
       <section className="fazhou-intro section">
         <div className="section-label"><span>01</span><p>法舟簡介</p></div>
         <div><p className="eyebrow">A VESSEL OF CULTURE</p><h2>承載文化，也承載一段與自己相遇的時間。</h2><p>昊道法舟收藏書法、音樂與心靈慧談。它與學習課程不同，不要求按照順序前進，而是讓每個人依照當下的心境，自由停留與感受。</p></div>
