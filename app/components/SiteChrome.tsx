@@ -99,8 +99,13 @@ export function SiteFooter() {
           <p className="eyebrow light">STAY CONNECTED</p>
           <h2>從一次相遇開始。</h2>
           <p>追蹤官方社群，取得近期課程、共學活動與文化內容。</p>
-          <a className="button warm" href="mailto:team@haodao.org">
-            寫信聯絡我們
+          <a
+            className="button warm"
+            href="https://www.instagram.com/haodao_culture"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            前往官方 Instagram ↗
           </a>
         </div>
         <div className="footer-links">
@@ -129,7 +134,6 @@ export function SiteFooter() {
                 {link.label} ↗
               </a>
             ))}
-            <a href="mailto:team@haodao.org">team@haodao.org</a>
           </div>
         </div>
       </div>

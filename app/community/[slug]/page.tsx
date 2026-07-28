@@ -21,9 +21,9 @@ export default async function LocationPage({ params }: { params: Promise<{ slug:
           <div className="detail-facts">
             <article><h3>共學時間</h3><p>{location.time}，實際日期請以聯絡通知為準。</p></article>
             <article><h3>地點與地圖</h3><p>{location.region}，報名後由主辦人提供完整地址與交通方式。</p></article>
-            <article><h3>聯絡方式</h3><p>可透過官方信箱留下聯絡資訊，再由共學主辦人與您聯繫。</p></article>
+            <article><h3>聯絡方式</h3><p>請先透過昊道文化官方社群取得最新共學資訊與聯絡方式。</p></article>
           </div>
-          <div className="inline-actions"><a className="button primary" href="mailto:team@haodao.org">留下聯絡資訊</a><a className="button outline" href="mailto:team@haodao.org">聯絡共學主辦人</a></div>
+          <div className="inline-actions"><a className="button primary" href="https://www.facebook.com/profile.php?id=100063957733524" target="_blank" rel="noopener noreferrer">前往官方 Facebook ↗</a><a className="button outline" href="https://www.instagram.com/haodao_culture" target="_blank" rel="noopener noreferrer">前往官方 Instagram ↗</a></div>
         </div>
       </section>
       <section className="page-next"><p>返回查看其他地區與近期活動。</p><Link className="button warm" href="/community">返回共學與陪伴 →</Link></section>

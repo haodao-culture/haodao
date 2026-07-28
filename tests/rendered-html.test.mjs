@@ -70,7 +70,7 @@ test("footer uses the official social and contact links", async () => {
   assert.match(chrome, /instagram\.com\/haodao_culture/);
   assert.match(chrome, /threads\.net\/@haodao_culture/);
   assert.match(chrome, /youtube\.com\/@昊道文化/);
-  assert.match(chrome, /mailto:team@haodao\.org/);
+  assert.doesNotMatch(chrome, /team@haodao\.org|mailto:/);
   assert.doesNotMatch(chrome, /href="#"/);
   assert.doesNotMatch(chrome, /官方 LINE/);
 });
