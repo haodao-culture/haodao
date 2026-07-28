@@ -103,7 +103,7 @@ export default function Home() {
         <h2>每一步，都從此刻的你開始。</h2>
         <div>
           <Link className="button warm" href="/learning">探索核心學習路徑</Link>
-          <Link className="button ghost" href="/events">查看近期招生</Link>
+          <Link className="button ghost" href="/events">查看近期活動</Link>
         </div>
       </section>
       <SiteFooter />
