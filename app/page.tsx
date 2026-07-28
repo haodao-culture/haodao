@@ -1,393 +1,384 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
-const courses = [
+type Version = "lobby" | "original" | "recommended";
+
+const fazhouUrl =
+  "https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao";
+
+const originalSections = [
   {
-    type: "靜心",
-    mode: "實體",
-    date: "08.16",
-    title: "週末靜心練習",
-    place: "台北共學點",
-    image: "/images/quiet-room.jpg",
+    id: "about-original",
+    number: "01",
+    eyebrow: "ABOUT HAODAO",
+    title: "認識昊道",
+    description: "集中呈現昊道文化的完整介紹，讓訪客先理解我們是誰。",
+    links: ["昊道文化介紹"],
   },
   {
-    type: "一階",
-    mode: "實體",
-    date: "08.23",
-    title: "覺察，從生活開始",
-    place: "台中共學點",
-    image: "/images/classroom.jpg",
+    id: "learning-original",
+    number: "02",
+    eyebrow: "LEARNING MAP",
+    title: "學習地圖",
+    description: "以三個階段呈現學習路徑，每一站都有獨立說明與下一步入口。",
+    links: ["第一步｜共學會", "第二步｜待確認", "第三步｜待確認"],
   },
   {
-    type: "共學會",
-    mode: "線上",
-    date: "08.28",
-    title: "每月線上共學夜",
-    place: "Google Meet",
-    image: "/images/group-sharing.jpg",
+    id: "courses-original",
+    number: "03",
+    eyebrow: "COURSES & EVENTS",
+    title: "課程與活動",
+    description: "把課程介紹、近期招生、行事曆與歷史回顧集中在同一個主題。",
+    links: ["五類課程介紹", "近期招生", "課程行事曆", "歷史回顧"],
   },
   {
-    type: "覺察覺知",
-    mode: "實體",
-    date: "09.06",
-    title: "在關係中看見自己",
-    place: "高雄共學點",
-    image: "/images/teaching.jpg",
+    id: "community-original",
+    number: "04",
+    eyebrow: "COMMUNITY",
+    title: "共學與陪伴",
+    description: "介紹共學的價值，並提供各地共學點及近期共學活動資訊。",
+    links: ["共學理念", "各地共學點", "近期共學活動", "加入共學"],
+  },
+  {
+    id: "welfare-original",
+    number: "05",
+    eyebrow: "PUBLIC WELFARE",
+    title: "公益與服務",
+    description: "呈現志工服務、文化推廣、社會關懷與公益行動。",
+    links: ["志工服務", "文化推廣", "社會關懷", "公益行動"],
   },
 ];
 
-const filters = ["全部", "一階", "靜心", "覺察覺知", "共學會"];
+const recommendedSections = [
+  {
+    id: "about-recommended",
+    number: "01",
+    eyebrow: "KNOW HAODAO",
+    title: "先認識昊道",
+    description: "從成立緣起、核心理念、願景與公益定位，建立完整的品牌理解。",
+    links: ["成立緣起", "核心理念", "願景", "社會影響"],
+  },
+  {
+    id: "journey-recommended",
+    number: "02",
+    eyebrow: "FIND YOUR WAY",
+    title: "找到學習起點",
+    description: "先回答「我適合從哪裡開始」，再把每個階段連到明確的課程或活動。",
+    links: ["共學會", "階段二", "階段三", "適合我的入口"],
+  },
+  {
+    id: "programs-recommended",
+    number: "03",
+    eyebrow: "LEARN & JOIN",
+    title: "選擇課程與場次",
+    description: "清楚區分課程類型、實際招生場次與日期行事曆，避免資訊混在一起。",
+    links: ["課程類型", "近期招生", "日期行事曆", "活動回顧"],
+  },
+  {
+    id: "community-recommended",
+    number: "04",
+    eyebrow: "FIND COMPANIONS",
+    title: "加入共學與陪伴",
+    description: "依照使用需求，分成尋找固定共學點及尋找近期共學活動。",
+    links: ["尋找共學點", "近期共學活動", "地區篩選", "聯絡主辦人"],
+  },
+  {
+    id: "impact-recommended",
+    number: "05",
+    eyebrow: "CREATE IMPACT",
+    title: "參與公益行動",
+    description: "先說明公益理念，再用具體行動、紀錄與成果呈現帶來的影響。",
+    links: ["公益理念", "服務領域", "行動紀錄", "如何參與"],
+  },
+];
 
-export default function Home() {
-  const [filter, setFilter] = useState("全部");
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const visibleCourses = useMemo(
-    () => courses.filter((course) => filter === "全部" || course.type === filter),
-    [filter],
-  );
-
-  const closeMenu = () => setMenuOpen(false);
-
+function Brand() {
   return (
-    <main>
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="昊道文化首頁" onClick={closeMenu}>
-          <span className="brand-mark">昊</span>
-          <span>
-            昊道文化
-            <small>HAODAO CULTURE</small>
-          </span>
-        </a>
-        <button
-          className="menu-button"
-          type="button"
-          aria-label="開啟選單"
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <span />
-          <span />
-        </button>
-        <nav className={menuOpen ? "main-nav open" : "main-nav"} aria-label="主要導覽">
-          <div className="nav-group">
-            <a className="nav-label" href="#about" onClick={closeMenu}>
-              認識昊道 <span aria-hidden="true">⌄</span>
-            </a>
-            <div className="submenu">
-              <a href="#about" onClick={closeMenu}>成立緣起</a>
-              <a href="#about" onClick={closeMenu}>核心理念</a>
-              <a href="#about" onClick={closeMenu}>願景與公益定位</a>
-            </div>
-          </div>
-          <div className="nav-group">
-            <a className="nav-label" href="#learning" onClick={closeMenu}>
-              學習地圖 <span aria-hidden="true">⌄</span>
-            </a>
-            <div className="submenu">
-              <a href="#learning" onClick={closeMenu}>共學會</a>
-              <a href="#learning" onClick={closeMenu}>覺察學習</a>
-              <a href="#learning" onClick={closeMenu}>服務與陪伴</a>
-            </div>
-          </div>
-          <div className="nav-group">
-            <a className="nav-label" href="#courses" onClick={closeMenu}>
-              課程與活動 <span aria-hidden="true">⌄</span>
-            </a>
-            <div className="submenu">
-              <a href="#courses" onClick={closeMenu}>近期招生</a>
-              <a href="#courses" onClick={closeMenu}>五類課程介紹</a>
-              <a href="#courses" onClick={closeMenu}>課程行事曆</a>
-              <a href="#courses" onClick={closeMenu}>歷史回顧</a>
-            </div>
-          </div>
-          <div className="nav-group">
-            <a className="nav-label" href="#community" onClick={closeMenu}>
-              共學與陪伴 <span aria-hidden="true">⌄</span>
-            </a>
-            <div className="submenu">
-              <a href="#community" onClick={closeMenu}>各地共學點</a>
-              <a href="#community" onClick={closeMenu}>近期共學活動</a>
-              <a href="#community" onClick={closeMenu}>加入共學</a>
-            </div>
-          </div>
-          <div className="nav-group">
-            <a className="nav-label" href="#service" onClick={closeMenu}>
-              公益與服務 <span aria-hidden="true">⌄</span>
-            </a>
-            <div className="submenu">
-              <a href="#service" onClick={closeMenu}>志工服務</a>
-              <a href="#service" onClick={closeMenu}>文化推廣</a>
-              <a href="#service" onClick={closeMenu}>社會關懷</a>
-            </div>
-          </div>
-          <div className="nav-group">
-            <a
-              className="nav-label"
-              href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao"
-              target="_blank"
-              rel="noreferrer"
-            >
-              昊道法舟 <span aria-hidden="true">⌄</span>
-            </a>
-            <div className="submenu">
-              <a href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao" target="_blank" rel="noreferrer">書法</a>
-              <a href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao" target="_blank" rel="noreferrer">音樂</a>
-              <a href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao" target="_blank" rel="noreferrer">心靈慧談 ↗</a>
-            </div>
-          </div>
-          <a className="nav-cta" href="#contact" onClick={closeMenu}>聯絡我們</a>
-        </nav>
+    <span className="brand">
+      <span className="brand-mark">昊</span>
+      <span className="brand-name">
+        昊道文化
+        <small>HAODAO CULTURE</small>
+      </span>
+    </span>
+  );
+}
+
+function Lobby({ enter }: { enter: (version: Version) => void }) {
+  return (
+    <main className="lobby">
+      <div className="lobby-photo" aria-hidden="true" />
+      <div className="lobby-shade" aria-hidden="true" />
+      <header className="lobby-header">
+        <Brand />
+        <span className="prototype-label">網站架構對焦展示</span>
       </header>
 
-      <section className="hero" id="top">
-        <div className="hero-image" aria-hidden="true" />
-        <div className="hero-wash" />
-        <div className="hero-content">
-          <p className="eyebrow light">HAODAO CULTURE · 昊道文化</p>
-          <h1>在覺察裡，<br />走回生命的從容。</h1>
-          <p className="hero-copy">
-            透過學習、共修與服務，陪伴每個人看見自己，
-            把內在的安定帶回日常，也帶進與人的關係裡。
-          </p>
-          <div className="hero-actions">
-            <a className="button primary" href="#learning">找到我的學習起點</a>
-            <a className="button ghost" href="#courses">查看近期招生</a>
-          </div>
-        </div>
-        <a className="scroll-cue" href="#about" aria-label="向下了解昊道">
-          <span>SCROLL</span>
-          <i />
-        </a>
-      </section>
+      <section className="lobby-content">
+        <p className="eyebrow light">TWO WAYS TO EXPERIENCE HAODAO</p>
+        <h1>
+          同一份內容，
+          <br />
+          兩種抵達的方式。
+        </h1>
+        <p className="lobby-intro">
+          選擇一個版本進入，實際感受兩種網站架構的導覽邏輯與內容關係。
+          您可以隨時回到這一頁切換比較。
+        </p>
 
-      <section className="intro section" id="about">
-        <div className="section-label">
-          <span>01</span>
-          <p>認識昊道</p>
-        </div>
-        <div className="intro-copy">
-          <p className="eyebrow">ABOUT HAODAO</p>
-          <h2>一條把理解化為實踐，<br />把善意帶進生活的路。</h2>
-          <p>
-            昊道文化相信，每個人都擁有回到內在安定的能力。
-            我們以平實、可實踐的學習方式，陪伴人們培養覺察、
-            理解生命，並在共學與公益行動中彼此支持。
-          </p>
-          <a className="text-link" href="#learning">了解我們的理念 <span>→</span></a>
-        </div>
-        <figure className="intro-figure">
-          <img src="/images/calligraphy.jpg" alt="昊道文化書法與靜心活動現場" />
-          <figcaption>以文化為舟，以覺察為路。</figcaption>
-        </figure>
-      </section>
+        <div className="version-cards">
+          <button className="version-card original-card" onClick={() => enter("original")}>
+            <span className="version-index">A</span>
+            <span className="version-copy">
+              <small>ORIGINAL STRUCTURE</small>
+              <strong>原始架構設計</strong>
+              <span>忠實呈現 Notion 分層，以內容主題及頁面類型進行分類。</span>
+            </span>
+            <span className="enter-arrow" aria-hidden="true">進入體驗 ↗</span>
+          </button>
 
-      <section className="learning section-dark" id="learning">
-        <div className="section-heading light-heading">
-          <div>
-            <p className="eyebrow light">LEARNING JOURNEY</p>
-            <h2>每一步，都從此刻的你開始。</h2>
-          </div>
-          <p>不需要預先成為更好的人。從一次共學、一段練習開始，讓理解慢慢長成自己的力量。</p>
-        </div>
-
-        <div className="path">
-          <article className="path-card active">
-            <span className="path-number">01</span>
-            <div>
-              <p className="path-kicker">入門 · 相遇</p>
-              <h3>共學會</h3>
-              <p>在安全、真誠的空間裡，透過分享與練習，開始看見自己的內在。</p>
-              <a href="#community">了解共學會 →</a>
-            </div>
-          </article>
-          <article className="path-card">
-            <span className="path-number">02</span>
-            <div>
-              <p className="path-kicker">深化 · 練習</p>
-              <h3>覺察學習</h3>
-              <p>透過階段課程，學習辨認情緒、信念與關係中的慣性反應。</p>
-              <a href="#courses">探索階段課程 →</a>
-            </div>
-          </article>
-          <article className="path-card">
-            <span className="path-number">03</span>
-            <div>
-              <p className="path-kicker">實踐 · 同行</p>
-              <h3>服務與陪伴</h3>
-              <p>把學習帶入生活，透過共修與志願服務，讓善意持續流動。</p>
-              <a href="#service">看見公益行動 →</a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section className="courses section" id="courses">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">UPCOMING PROGRAMS</p>
-            <h2>近期招生</h2>
-          </div>
-          <p>選一個適合此刻自己的入口。所有內容皆為 MVP 展示資料。</p>
-        </div>
-
-        <div className="filter-bar" role="group" aria-label="篩選課程類型">
-          {filters.map((item) => (
-            <button
-              type="button"
-              className={filter === item ? "selected" : ""}
-              aria-pressed={filter === item}
-              onClick={() => setFilter(item)}
-              key={item}
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-
-        <div className="course-grid">
-          {visibleCourses.map((course) => (
-            <article className="course-card" key={course.title}>
-              <div className="course-image">
-                <img src={course.image} alt="" />
-                <div className="course-tags">
-                  <span>{course.type}</span>
-                  <span>{course.mode}</span>
-                </div>
-              </div>
-              <div className="course-info">
-                <p className="course-date">{course.date}</p>
-                <div>
-                  <h3>{course.title}</h3>
-                  <p>{course.place}</p>
-                </div>
-                <button type="button" aria-label={`查看${course.title}詳情`}>↗</button>
-              </div>
-            </article>
-          ))}
-        </div>
-        <div className="section-action">
-          <a className="button outline" href="#contact">查看全部場次</a>
-        </div>
-      </section>
-
-      <section className="community" id="community">
-        <div className="community-photo">
-          <img src="/images/group-sharing.jpg" alt="共學夥伴圍坐分享" />
-        </div>
-        <div className="community-copy">
-          <p className="eyebrow light">COMMUNITY & COMPANIONSHIP</p>
-          <h2>學習不必獨自前行。</h2>
-          <p>
-            共學點是生活裡可以反覆回來的地方。有人傾聽、有人同行，
-            讓每次練習都不只停留在課堂。
-          </p>
-          <div className="community-stats">
-            <div><strong>8</strong><span>個共學城市</span></div>
-            <div><strong>24+</strong><span>每月共學場次</span></div>
-          </div>
-          <a className="button warm" href="#contact">尋找離我最近的共學點</a>
-        </div>
-      </section>
-
-      <section className="service section" id="service">
-        <div className="service-heading">
-          <p className="eyebrow">PUBLIC WELFARE</p>
-          <h2>讓內在的改變，<br />成為照亮他人的行動。</h2>
-        </div>
-        <div className="service-grid">
-          <article>
-            <span>01</span>
-            <img src="/images/wildflowers.jpg" alt="自然中的野花" />
-            <h3>志工服務</h3>
-            <p>讓每一份專長與時間，都能成為溫柔而具體的支持。</p>
-          </article>
-          <article>
-            <span>02</span>
-            <img src="/images/garden-meditation.jpg" alt="戶外靜心活動" />
-            <h3>文化推廣</h3>
-            <p>以課程、藝術與分享，讓覺察成為人人可親近的生活文化。</p>
-          </article>
-          <article>
-            <span>03</span>
-            <img src="/images/teaching.jpg" alt="帶領者與學員交流" />
-            <h3>社會關懷</h3>
-            <p>走進需要陪伴的地方，讓理解與尊重成為關係的起點。</p>
-          </article>
-        </div>
-      </section>
-
-      <section className="fazhou" id="fazhou">
-        <div className="fazhou-art" aria-hidden="true">
-          <span>法</span>
-          <span>舟</span>
-        </div>
-        <div className="fazhou-copy">
-          <p className="eyebrow light">HAODAO FAZHOU</p>
-          <h2>以文化為舟，<br />渡向心中的清明。</h2>
-          <p>
-            昊道法舟收藏書法、音樂與心靈慧談。
-            在一筆一畫、一音一念之間，留一段安靜的時間與自己相遇。
-          </p>
-          <a
-            className="button warm"
-            href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao"
-            target="_blank"
-            rel="noreferrer"
+          <button
+            className="version-card recommended-card"
+            onClick={() => enter("recommended")}
           >
-            前往昊道法舟 <span aria-hidden="true">↗</span>
-          </a>
-          <small>將在新分頁開啟法舟網站</small>
+            <span className="recommended-tag">建議</span>
+            <span className="version-index">B</span>
+            <span className="version-copy">
+              <small>RECOMMENDED STRUCTURE</small>
+              <strong>使用者路徑架構</strong>
+              <span>依照訪客下一步重新組織，讓學習、報名與參與路徑更明確。</span>
+            </span>
+            <span className="enter-arrow" aria-hidden="true">進入體驗 ↗</span>
+          </button>
         </div>
       </section>
 
-      <section className="quote-section">
-        <p>「真正的學習，是在每一個當下，<br />更清楚地看見，也更自由地選擇。」</p>
-        <span>昊道文化 · 心靈慧談</span>
-      </section>
-
-      <footer id="contact">
-        <div className="footer-main">
-          <div>
-            <p className="eyebrow light">STAY CONNECTED</p>
-            <h2>從一次相遇開始。</h2>
-            <p>加入官方 LINE，取得近期課程、共學活動與文化內容。</p>
-            <a className="button warm" href="#top">加入官方 LINE（展示）</a>
-          </div>
-          <div className="footer-links">
-            <div>
-              <p>探索</p>
-              <a href="#about">認識昊道</a>
-              <a href="#learning">學習地圖</a>
-              <a href="#courses">課程與活動</a>
-            </div>
-            <div>
-              <p>參與</p>
-              <a href="#community">共學與陪伴</a>
-              <a href="#service">公益與服務</a>
-              <a
-                href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao"
-                target="_blank"
-                rel="noreferrer"
-              >
-                昊道法舟 ↗
-              </a>
-            </div>
-            <div>
-              <p>社群</p>
-              <a href="#top">LINE</a>
-              <a href="#top">Facebook</a>
-              <a href="#top">Instagram</a>
-              <a href="#top">Threads</a>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>© 2026 昊道文化 · MVP CONCEPT</span>
-          <span>此網站為架構與視覺展示，內容非正式公告</span>
-        </div>
+      <footer className="lobby-footer">
+        <span>HAODAO CULTURE · ARCHITECTURE PROTOTYPE</span>
+        <span>兩個版本均為架構對焦用展示</span>
       </footer>
     </main>
   );
+}
+
+function SiteHeader({
+  version,
+  setVersion,
+}: {
+  version: Exclude<Version, "lobby">;
+  setVersion: (version: Version) => void;
+}) {
+  const original = version === "original";
+  const nav = original
+    ? [
+        ["認識昊道", "#about-original"],
+        ["學習地圖", "#learning-original"],
+        ["課程與活動", "#courses-original"],
+        ["共學與陪伴", "#community-original"],
+        ["公益與服務", "#welfare-original"],
+      ]
+    : [
+        ["認識昊道", "#about-recommended"],
+        ["學習與參與", "#journey-recommended"],
+        ["近期招生", "#programs-recommended"],
+        ["共學與陪伴", "#community-recommended"],
+        ["公益與服務", "#impact-recommended"],
+      ];
+
+  return (
+    <header className="demo-header">
+      <button className="brand-button" onClick={() => setVersion("lobby")} aria-label="回到版本選擇">
+        <Brand />
+      </button>
+      <nav className="demo-nav" aria-label={`${original ? "原始" : "建議"}架構主選單`}>
+        {nav.map(([label, href]) => (
+          <a key={label} href={href}>
+            {label}
+          </a>
+        ))}
+        <a href={fazhouUrl} target="_blank" rel="noreferrer">
+          昊道法舟 ↗
+        </a>
+      </nav>
+      <div className="version-switch" aria-label="切換架構版本">
+        <button
+          className={original ? "active" : ""}
+          onClick={() => setVersion("original")}
+          aria-pressed={original}
+        >
+          原始版
+        </button>
+        <button
+          className={!original ? "active" : ""}
+          onClick={() => setVersion("recommended")}
+          aria-pressed={!original}
+        >
+          建議版
+        </button>
+      </div>
+    </header>
+  );
+}
+
+function SectionGrid({
+  version,
+}: {
+  version: Exclude<Version, "lobby">;
+}) {
+  const sections = version === "original" ? originalSections : recommendedSections;
+  return (
+    <section className="architecture-section">
+      <div className="architecture-heading">
+        <p className="eyebrow">
+          {version === "original" ? "CONTENT-LED ARCHITECTURE" : "JOURNEY-LED ARCHITECTURE"}
+        </p>
+        <h2>
+          {version === "original" ? "依照內容主題，逐層展開。" : "依照使用者意圖，引導下一步。"}
+        </h2>
+        <p>
+          {version === "original"
+            ? "每個主題各自形成完整頁面，再從頁面深入詳情、活動與功能。"
+            : "每一個頁面都回答一個問題，並提供明確、可預期的下一個行動。"}
+        </p>
+      </div>
+
+      <div className="architecture-grid">
+        {sections.map((section) => (
+          <article className="architecture-card" id={section.id} key={section.id}>
+            <div className="architecture-number">{section.number}</div>
+            <p className="eyebrow">{section.eyebrow}</p>
+            <h3>{section.title}</h3>
+            <p>{section.description}</p>
+            <ul>
+              {section.links.map((link) => (
+                <li key={link}>
+                  <span>{link}</span>
+                  <span aria-hidden="true">→</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function VersionSite({
+  version,
+  setVersion,
+}: {
+  version: Exclude<Version, "lobby">;
+  setVersion: (version: Version) => void;
+}) {
+  const original = version === "original";
+  return (
+    <main className={`demo-site ${version}`}>
+      <SiteHeader version={version} setVersion={setVersion} />
+
+      <section className="demo-hero" id="top">
+        <div className="demo-hero-image" aria-hidden="true" />
+        <div className="demo-hero-shade" aria-hidden="true" />
+        <div className="demo-hero-copy">
+          <div className="version-pill">
+            {original ? "VERSION A · 原始架構設計" : "VERSION B · 建議架構"}
+          </div>
+          <p className="eyebrow light">HAODAO CULTURE</p>
+          <h1>
+            {original ? (
+              <>
+                在覺察裡，
+                <br />
+                走回生命的從容。
+              </>
+            ) : (
+              <>
+                從此刻出發，
+                <br />
+                找到適合你的路。
+              </>
+            )}
+          </h1>
+          <p>
+            {original
+              ? "透過學習、共修與服務，陪伴每個人看見自己，把內在的安定帶回日常。"
+              : "不必先理解所有內容。告訴我們你想認識、學習、參與或同行，我們帶你找到下一步。"}
+          </p>
+          <div className="demo-actions">
+            <a className="primary-action" href={original ? "#learning-original" : "#journey-recommended"}>
+              {original ? "探索學習地圖" : "找到我的學習起點"}
+            </a>
+            <a className="secondary-action" href={original ? "#courses-original" : "#programs-recommended"}>
+              查看近期招生
+            </a>
+          </div>
+        </div>
+        <div className="hero-note">
+          <span>{original ? "內容分類導向" : "使用者任務導向"}</span>
+          <p>
+            {original
+              ? "先選主題，再閱讀完整內容。"
+              : "先選目的，再抵達需要的內容。"}
+          </p>
+        </div>
+      </section>
+
+      {!original && (
+        <section className="intent-strip" aria-label="初次來訪者入口">
+          <p>今天來到昊道，你想要——</p>
+          <div>
+            <a href="#about-recommended">先認識昊道 <span>01</span></a>
+            <a href="#journey-recommended">找到學習起點 <span>02</span></a>
+            <a href="#programs-recommended">直接找課程活動 <span>03</span></a>
+          </div>
+        </section>
+      )}
+
+      <SectionGrid version={version} />
+
+      <section className="fazhou-panel">
+        <div>
+          <p className="eyebrow light">HAODAO FAZHOU</p>
+          <h2>以文化為舟，承載書法、音樂與心靈慧談。</h2>
+        </div>
+        <a href={fazhouUrl} target="_blank" rel="noreferrer">
+          前往昊道法舟 <span>↗</span>
+        </a>
+      </section>
+
+      <section className="comparison-note">
+        <p className="eyebrow">COMPARE THE TWO</p>
+        <h2>{original ? "想看看另一種走法嗎？" : "回頭比較原始分類方式。"}</h2>
+        <p>
+          {original
+            ? "建議版保留相同內容，但把導覽改成依照訪客的目的與下一步組織。"
+            : "原始版忠實呈現 Notion 的分層邏輯，適合檢查內容是否齊全。"}
+        </p>
+        <button onClick={() => setVersion(original ? "recommended" : "original")}>
+          切換至{original ? "建議架構" : "原始架構"} →
+        </button>
+      </section>
+
+      <footer className="demo-footer">
+        <Brand />
+        <div>
+          <a href="#top">回到頁首</a>
+          <a href={fazhouUrl} target="_blank" rel="noreferrer">昊道法舟</a>
+          <button onClick={() => setVersion("lobby")}>版本選擇</button>
+        </div>
+        <p>© 2026 昊道文化 · 架構對焦展示</p>
+      </footer>
+    </main>
+  );
+}
+
+export default function Home() {
+  const [version, setVersion] = useState<Version>("lobby");
+
+  if (version === "lobby") {
+    return <Lobby enter={setVersion} />;
+  }
+
+  return <VersionSite version={version} setVersion={setVersion} />;
 }
