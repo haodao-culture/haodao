@@ -11,7 +11,7 @@ export const metadata: Metadata = {
       "透過學習、共修、公益服務與昊道法舟，陪伴每個人把內在安定帶回日常。",
     images: [
       {
-        url: "https://haodao-culture-mvp-2026.shianyow.chatgpt.site/og-restored.png",
+        url: "https://haodao-culture-mvp-2026.shianyow.chatgpt.site/home-hero.png",
         width: 1659,
         height: 948,
         alt: "昊道文化｜在覺察裡，走回生命的從容",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description:
       "透過學習、共修、公益服務與昊道法舟，陪伴每個人把內在安定帶回日常。",
     images: [
-      "https://haodao-culture-mvp-2026.shianyow.chatgpt.site/og-restored.png",
+      "https://haodao-culture-mvp-2026.shianyow.chatgpt.site/home-hero.png",
     ],
   },
 };
