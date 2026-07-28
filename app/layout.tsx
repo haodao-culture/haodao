@@ -2,29 +2,29 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "昊道文化｜雙版本網站架構展示",
+  title: "昊道文化｜在覺察裡，走回生命的從容",
   description:
-    "比較昊道文化原始架構與使用者路徑建議架構，實際體驗兩種不同的網站導覽方式。",
+    "昊道文化 MVP 展示網站。透過學習、共修與服務，陪伴每個人把內在安定帶回日常。",
   openGraph: {
-    title: "昊道文化｜雙版本網站架構展示",
+    title: "昊道文化｜在覺察裡，走回生命的從容",
     description:
-      "同一份內容，兩種抵達的方式。比較原始架構與使用者路徑建議架構。",
+      "透過學習、共修、公益服務與昊道法舟，陪伴每個人把內在安定帶回日常。",
     images: [
       {
-        url: "https://haodao-culture-mvp-2026.shianyow.chatgpt.site/og-architecture.png",
-        width: 1760,
-        height: 893,
-        alt: "昊道文化網站架構對焦展示",
+        url: "https://haodao-culture-mvp-2026.shianyow.chatgpt.site/og-restored.png",
+        width: 1659,
+        height: 948,
+        alt: "昊道文化｜在覺察裡，走回生命的從容",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "昊道文化｜雙版本網站架構展示",
+    title: "昊道文化｜在覺察裡，走回生命的從容",
     description:
-      "同一份內容，兩種抵達的方式。比較原始架構與使用者路徑建議架構。",
+      "透過學習、共修、公益服務與昊道法舟，陪伴每個人把內在安定帶回日常。",
     images: [
-      "https://haodao-culture-mvp-2026.shianyow.chatgpt.site/og-architecture.png",
+      "https://haodao-culture-mvp-2026.shianyow.chatgpt.site/og-restored.png",
     ],
   },
 };
