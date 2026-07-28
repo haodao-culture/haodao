@@ -76,6 +76,14 @@ export default function Home() {
           <a href="#courses" onClick={closeMenu}>課程與活動</a>
           <a href="#community" onClick={closeMenu}>共學與陪伴</a>
           <a href="#service" onClick={closeMenu}>公益與服務</a>
+          <a
+            href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao"
+            target="_blank"
+            rel="noreferrer"
+            onClick={closeMenu}
+          >
+            昊道法舟 ↗
+          </a>
           <a className="nav-cta" href="#contact" onClick={closeMenu}>聯絡我們</a>
         </nav>
       </header>
@@ -257,6 +265,30 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="fazhou" id="fazhou">
+        <div className="fazhou-art" aria-hidden="true">
+          <span>法</span>
+          <span>舟</span>
+        </div>
+        <div className="fazhou-copy">
+          <p className="eyebrow light">HAODAO FAZHOU</p>
+          <h2>以文化為舟，<br />渡向心中的清明。</h2>
+          <p>
+            昊道法舟收藏書法、音樂與心靈慧談。
+            在一筆一畫、一音一念之間，留一段安靜的時間與自己相遇。
+          </p>
+          <a
+            className="button warm"
+            href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao"
+            target="_blank"
+            rel="noreferrer"
+          >
+            前往昊道法舟 <span aria-hidden="true">↗</span>
+          </a>
+          <small>將在新分頁開啟法舟網站</small>
+        </div>
+      </section>
+
       <section className="quote-section">
         <p>「真正的學習，是在每一個當下，<br />更清楚地看見，也更自由地選擇。」</p>
         <span>昊道文化 · 心靈慧談</span>
@@ -281,7 +313,13 @@ export default function Home() {
               <p>參與</p>
               <a href="#community">共學與陪伴</a>
               <a href="#service">公益與服務</a>
-              <a href="#top">昊道法舟</a>
+              <a
+                href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao"
+                target="_blank"
+                rel="noreferrer"
+              >
+                昊道法舟 ↗
+              </a>
             </div>
             <div>
               <p>社群</p>

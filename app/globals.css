@@ -636,6 +636,71 @@ h2 {
   line-height: 1.9;
 }
 
+.fazhou {
+  background:
+    linear-gradient(90deg, rgba(18, 37, 31, 0.96) 0%, rgba(18, 37, 31, 0.76) 54%, rgba(18, 37, 31, 0.3) 100%),
+    url("/images/calligraphy.jpg") center 42% / cover;
+  color: var(--white);
+  display: grid;
+  grid-template-columns: 0.7fr 1fr;
+  min-height: 650px;
+  overflow: hidden;
+  padding: 110px clamp(24px, 8vw, 130px);
+  position: relative;
+}
+
+.fazhou::after {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  content: "";
+  inset: 34px;
+  pointer-events: none;
+  position: absolute;
+}
+
+.fazhou-art {
+  align-items: center;
+  align-self: center;
+  display: flex;
+  font-family: "Noto Serif TC", "Songti TC", serif;
+  font-size: clamp(76px, 10vw, 150px);
+  font-weight: 400;
+  gap: 0.08em;
+  letter-spacing: 0.08em;
+  opacity: 0.16;
+  writing-mode: vertical-rl;
+}
+
+.fazhou-copy {
+  align-self: center;
+  max-width: 660px;
+  position: relative;
+  z-index: 1;
+}
+
+.fazhou-copy h2 {
+  margin-bottom: 28px;
+}
+
+.fazhou-copy > p:not(.eyebrow) {
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 0.055em;
+  line-height: 2.05;
+  max-width: 580px;
+}
+
+.fazhou-copy .button {
+  gap: 22px;
+  margin-top: 24px;
+}
+
+.fazhou-copy small {
+  color: rgba(255, 255, 255, 0.44);
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  margin-top: 14px;
+}
+
 .quote-section {
   background:
     linear-gradient(rgba(27, 48, 41, 0.72), rgba(27, 48, 41, 0.72)),
@@ -898,6 +963,20 @@ footer {
 
   .community-copy {
     padding: 76px 24px;
+  }
+
+  .fazhou {
+    display: block;
+    min-height: 620px;
+    padding: 100px 24px;
+  }
+
+  .fazhou::after {
+    inset: 18px;
+  }
+
+  .fazhou-art {
+    display: none;
   }
 
   .community-stats {
