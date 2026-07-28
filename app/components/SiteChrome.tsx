@@ -6,6 +6,29 @@ import { useState } from "react";
 const fazhouUrl =
   "https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao";
 
+const socialLinks = [
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/profile.php?id=100063957733524",
+    ariaLabel: "昊道文化 Facebook 粉絲專頁",
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/haodao_culture",
+    ariaLabel: "昊道文化 Instagram",
+  },
+  {
+    label: "Threads",
+    href: "https://www.threads.net/@haodao_culture",
+    ariaLabel: "昊道文化 Threads",
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@昊道文化",
+    ariaLabel: "昊道文化 YouTube 頻道",
+  },
+];
+
 export function Brand() {
   return (
     <>
@@ -75,8 +98,10 @@ export function SiteFooter() {
         <div>
           <p className="eyebrow light">STAY CONNECTED</p>
           <h2>從一次相遇開始。</h2>
-          <p>加入官方 LINE，取得近期課程、共學活動與文化內容。</p>
-          <a className="button warm" href="#">加入官方 LINE（展示）</a>
+          <p>追蹤官方社群，取得近期課程、共學活動與文化內容。</p>
+          <a className="button warm" href="mailto:team@haodao.org">
+            寫信聯絡我們
+          </a>
         </div>
         <div className="footer-links">
           <div>
@@ -93,10 +118,18 @@ export function SiteFooter() {
           </div>
           <div>
             <p>社群</p>
-            <a href="#">LINE</a>
-            <a href="#">Facebook</a>
-            <a href="#">Instagram</a>
-            <a href="#">Threads</a>
+            {socialLinks.map((link) => (
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={link.ariaLabel}
+                key={link.label}
+              >
+                {link.label} ↗
+              </a>
+            ))}
+            <a href="mailto:team@haodao.org">team@haodao.org</a>
           </div>
         </div>
       </div>
@@ -131,4 +164,3 @@ export function PageHero({
     </section>
   );
 }
-

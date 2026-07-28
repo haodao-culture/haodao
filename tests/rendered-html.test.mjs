@@ -60,3 +60,17 @@ test("events page uses the shared live backend and online/offline filters", asyn
   assert.match(eventsLib, /docs\.google\.com\/spreadsheets/);
   assert.match(eventsLib, /parseEvents/);
 });
+
+test("footer uses the official social and contact links", async () => {
+  const chrome = await readFile(
+    new URL("../app/components/SiteChrome.tsx", import.meta.url),
+    "utf8",
+  );
+  assert.match(chrome, /facebook\.com\/profile\.php\?id=100063957733524/);
+  assert.match(chrome, /instagram\.com\/haodao_culture/);
+  assert.match(chrome, /threads\.net\/@haodao_culture/);
+  assert.match(chrome, /youtube\.com\/@昊道文化/);
+  assert.match(chrome, /mailto:team@haodao\.org/);
+  assert.doesNotMatch(chrome, /href="#"/);
+  assert.doesNotMatch(chrome, /官方 LINE/);
+});
