@@ -35,7 +35,7 @@ npm run deploy:cloudflare
 使用既有的 Cloudflare R2：
 
 - Bucket：`haodao-media`
-- 開發素材前綴：`development/website-mvp/`
+- 開發素材前綴：`development/`
 
 MVP 階段的圖片先放在同一個開發目錄，不占用既有的 `images/`、
 `audio/`、`documents/`、`videos/` 正式目錄。網站內容穩定後，再把確認
@@ -46,7 +46,7 @@ Workers Builds 加入：
 
 ```text
 NEXT_PUBLIC_SITE_URL=https://www.haodao.org
-NEXT_PUBLIC_ASSET_BASE_URL=https://assets.haodao.org/development/website-mvp
+NEXT_PUBLIC_ASSET_BASE_URL=https://assets.haodao.org/development
 ```
 
 未設定 `NEXT_PUBLIC_ASSET_BASE_URL` 時，網站會使用分支內的圖片，因此
@@ -61,7 +61,7 @@ npm run assets:upload
 若 bucket 或前綴不同，可以臨時指定：
 
 ```bash
-R2_BUCKET=haodao-media R2_PREFIX=development/website-mvp npm run assets:upload
+R2_BUCKET=haodao-media R2_PREFIX=development npm run assets:upload
 ```
 
 請勿把 Cloudflare API Token、R2 Access Key 或其他密鑰提交到 Git。

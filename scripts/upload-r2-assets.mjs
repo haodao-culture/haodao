@@ -3,7 +3,7 @@ import { basename, join } from "node:path";
 import { spawnSync } from "node:child_process";
 
 const bucket = process.env.R2_BUCKET || "haodao-media";
-const prefix = (process.env.R2_PREFIX || "development/website-mvp").replace(
+const prefix = (process.env.R2_PREFIX || "development").replace(
   /^\/+|\/+$/g,
   "",
 );
