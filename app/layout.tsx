@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import { assetUrl } from "./lib/assets";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.haodao.org";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://new.haodao.org";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

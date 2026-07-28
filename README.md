@@ -30,6 +30,10 @@ npm run deploy:cloudflare
 建置後的 Worker 設定由 Vinext 產生在 `dist/server/wrangler.json`，
 靜態檔案則位於 `dist/client`。
 
+目前的新版測試網域為 `https://new.haodao.org`。這個 Custom Domain
+會由 Cloudflare 自動建立 DNS 記錄與 SSL 憑證，不影響既有的
+`haodao.org` 與 `www.haodao.org`。
+
 ## 圖片素材
 
 使用既有的 Cloudflare R2：
