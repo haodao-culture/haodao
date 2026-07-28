@@ -130,7 +130,7 @@ export default function EventsPage() {
             <div className="live-calendar">
               {Object.entries(calendarGroups).map(([month, monthEvents]) => (
                 <section key={month}><h3>{month.replace("-", " 年 ")} 月</h3><div>
-                  {monthEvents.map((event) => <Link href={`/events?event=${encodeURIComponent(event.id)}`} key={event.id}><time>{event.date.slice(8, 10)}</time><span><strong>{event.title}</strong><small>{event.format || event.location}</small></span></Link>)}
+                  {monthEvents.map((event) => <a href={`/events?event=${encodeURIComponent(event.id)}`} key={event.id}><time>{event.date.slice(8, 10)}</time><span><strong>{event.title}</strong><small>{event.format || event.location}</small></span></a>)}
                 </div></section>
               ))}
               {!Object.keys(calendarGroups).length && <p className="events-status">目前行事曆中沒有活動。</p>}
@@ -139,6 +139,7 @@ export default function EventsPage() {
             <div className="live-events-list">
               {visibleEvents.map((event) => {
                 const online = /線上|meet|zoom/i.test(`${event.format} ${event.location}`);
+                const registrationIsLink = /^https?:\/\//.test(event.registrationUrl);
                 return (
                   <article className="live-event-card" key={event.id}>
                     {event.image && <div className="live-event-image"><img src={event.image} alt={`${event.title}活動海報`} loading="lazy" /></div>}
@@ -146,7 +147,30 @@ export default function EventsPage() {
                       <div className="live-event-heading"><span>{online ? "線上" : "線下"}</span><h3>{event.title}</h3></div>
                       <div className="live-event-meta"><p>{formatEventDate(event.date, event.endDate)}</p>{event.location && <p>{event.location}</p>}</div>
                       {event.description && <p className="live-event-description">{event.description}</p>}
-                      <Link className="live-event-cta" href={`/events?event=${encodeURIComponent(event.id)}`}>查看完整介紹 →</Link>
+                      <div className="live-event-actions">
+                        <a
+                          className="live-event-detail-link"
+                          href={`/events?event=${encodeURIComponent(event.id)}`}
+                        >
+                          查看完整介紹 →
+                        </a>
+                        {event.registrationUrl && (
+                          registrationIsLink ? (
+                            <a
+                              className="live-event-cta"
+                              href={event.registrationUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {view === "past" ? "查看原活動頁" : "立即報名"} ↗
+                            </a>
+                          ) : (
+                            <p className="live-event-registration">
+                              報名方式：{event.registrationUrl}
+                            </p>
+                          )
+                        )}
+                      </div>
                     </div>
                   </article>
                 );
@@ -158,4 +182,3 @@ export default function EventsPage() {
     </main>
   );
 }
-

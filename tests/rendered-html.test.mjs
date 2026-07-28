@@ -56,6 +56,8 @@ test("events page uses the shared live backend and online/offline filters", asyn
   ]);
   assert.match(eventsPage, /const filters = \["全部", "線上", "線下"\]/);
   assert.match(eventsPage, /查看完整介紹/);
+  assert.match(eventsPage, /立即報名/);
+  assert.match(eventsPage, /event\.registrationUrl/);
   assert.match(eventsPage, /URLSearchParams/);
   assert.match(eventsLib, /docs\.google\.com\/spreadsheets/);
   assert.match(eventsLib, /parseEvents/);

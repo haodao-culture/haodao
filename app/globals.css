@@ -916,6 +916,26 @@ h2 {
   margin-top: auto;
 }
 
+.live-event-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.live-event-actions .live-event-cta,
+.live-event-actions .live-event-registration {
+  margin-top: 0;
+}
+
+.live-event-detail-link {
+  border-bottom: 1px solid var(--ink);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 11px 0 8px;
+}
+
 .live-event-cta {
   background: var(--forest);
   color: var(--white);
