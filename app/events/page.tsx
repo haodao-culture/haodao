@@ -19,10 +19,13 @@ export default function EventsPage() {
   const [view, setView] = useState<"current" | "calendar" | "past">("current");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [selectedId, setSelectedId] = useState("");
+  const [selectedId] = useState(() =>
+    typeof window === "undefined"
+      ? ""
+      : new URLSearchParams(window.location.search).get("event") || "",
+  );
 
   useEffect(() => {
-    setSelectedId(new URLSearchParams(window.location.search).get("event") || "");
     const controller = new AbortController();
     fetch(sheetCsvUrl, { cache: "no-store", signal: controller.signal })
       .then((response) => {

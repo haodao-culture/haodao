@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PageHero, SiteFooter, SiteHeader } from "../components/SiteChrome";
+import { assetUrl } from "../lib/assets";
 
 const points = [
   ["taipei", "台北共學點", "台北市", "每月第二、四週", "/images/group-sharing.jpg"],
@@ -36,7 +37,7 @@ export default function CommunityPage() {
         <div className="point-grid">
           {points.map(([slug, name, region, time, image]) => (
             <article key={slug}>
-              <img src={image} alt={`${name}活動空間`} />
+              <img src={assetUrl(image)} alt={`${name}活動空間`} />
               <div><span>{region}</span><h3>{name}</h3><p>{time}</p>
                 <Link href={`/community/${slug}`}>查看共學點詳情 →</Link>
               </div>
@@ -50,7 +51,7 @@ export default function CommunityPage() {
           <p>部分活動為線上進行，不受所在地區限制。</p>
         </div>
         <div className="community-activity-card">
-          <img src="/images/quiet-room.jpg" alt="線上共學活動" />
+          <img src={assetUrl("/images/quiet-room.jpg")} alt="線上共學活動" />
           <div><span>線上 · 台北共學點</span><h3>每月線上共學夜</h3>
             <p>08.28 · 週五 19:30 · Google Meet</p>
             <Link href="/events">查看活動與報名方式 →</Link>
@@ -61,4 +62,3 @@ export default function CommunityPage() {
     </main>
   );
 }
-

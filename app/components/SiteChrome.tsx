@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { assetUrl } from "../lib/assets";
 
 const fazhouUrl =
   "https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/haodao";
@@ -158,7 +159,10 @@ export function PageHero({
 }) {
   return (
     <section className="inner-hero">
-      <div className="inner-hero-image" style={{ backgroundImage: `url(${image})` }} />
+      <div
+        className="inner-hero-image"
+        style={{ backgroundImage: `url("${assetUrl(image)}")` }}
+      />
       <div className="inner-hero-wash" />
       <div className="inner-hero-copy">
         <p className="eyebrow light">{eyebrow}</p>

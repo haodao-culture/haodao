@@ -1,98 +1,67 @@
-# vinext-starter
+# 昊道文化網站
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+昊道文化新版網站 MVP。這個分支可直接由 Cloudflare Workers Builds 部署，
+也能在本機即時預覽修改。
 
-## Prerequisites
+## 本機預覽
 
-- Node.js `>=22.13.0`
-
-## Quick Start
+需要 Node.js 22.13 以上版本。
 
 ```bash
-npm install
+npm ci
 npm run dev
-npm run build
 ```
 
-This starter does not use `wrangler.jsonc`.
+## Cloudflare Workers 部署
 
-## Included Shape
+Cloudflare Workers Builds 建議設定：
 
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
+- Production branch：`codex/cloudflare-workers-site`
+- Root directory：留白（網站就在分支根目錄）
+- Build command：`npm ci && npm run build`
+- Deploy command：`npx wrangler deploy --config dist/server/wrangler.json`
 
-## Workspace Auth Headers
+也可以在已登入 Cloudflare 的電腦執行：
 
-OpenAI workspace sites can read the current user's email from
-`oai-authenticated-user-email`.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+```bash
+npm run deploy:cloudflare
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+建置後的 Worker 設定由 Vinext 產生在 `dist/server/wrangler.json`，
+靜態檔案則位於 `dist/client`。
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
+## 圖片素材
 
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
+使用既有的 Cloudflare R2：
 
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
+- Bucket：`haodao-media`
+- 開發素材前綴：`development/website-mvp/`
 
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
+MVP 階段的圖片先放在同一個開發目錄，不占用既有的 `images/`、
+`audio/`、`documents/`、`videos/` 正式目錄。網站內容穩定後，再把確認
+採用的素材搬到正式分類。
 
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
+建議替 R2 設定自訂網域 `assets.haodao.org`。完成後，在 Cloudflare
+Workers Builds 加入：
 
-## Useful Commands
+```text
+NEXT_PUBLIC_SITE_URL=https://www.haodao.org
+NEXT_PUBLIC_ASSET_BASE_URL=https://assets.haodao.org/development/website-mvp
+```
 
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
+未設定 `NEXT_PUBLIC_ASSET_BASE_URL` 時，網站會使用分支內的圖片，因此
+本機與初次部署都不會破圖。
 
-## Learn More
+建立 R2 bucket 並登入 Wrangler 後，可一次上傳目前的官網圖片：
 
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+```bash
+npm run assets:upload
+```
+
+若 bucket 或前綴不同，可以臨時指定：
+
+```bash
+R2_BUCKET=haodao-media R2_PREFIX=development/website-mvp npm run assets:upload
+```
+
+請勿把 Cloudflare API Token、R2 Access Key 或其他密鑰提交到 Git。

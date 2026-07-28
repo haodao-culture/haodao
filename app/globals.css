@@ -224,7 +224,7 @@ img {
 }
 
 .hero-image {
-  background-image: url("/images/hero-walk.jpg");
+  background-image: var(--asset-hero-walk);
   background-position: center 35%;
   background-size: cover;
   inset: 0;
@@ -1111,7 +1111,7 @@ h2 {
   align-items: end;
   background:
     linear-gradient(90deg, rgba(24, 48, 40, 0.95), rgba(24, 48, 40, 0.55)),
-    url("/images/quiet-room.jpg") center / cover;
+    var(--asset-quiet-room) center / cover;
   color: var(--white);
   display: flex;
   justify-content: space-between;
@@ -1171,7 +1171,7 @@ h2 {
 .fazhou {
   background:
     linear-gradient(90deg, rgba(18, 37, 31, 0.96) 0%, rgba(18, 37, 31, 0.76) 54%, rgba(18, 37, 31, 0.3) 100%),
-    url("/images/calligraphy.jpg") center 42% / cover;
+    var(--asset-calligraphy) center 42% / cover;
   color: var(--white);
   display: grid;
   grid-template-columns: 0.7fr 1fr;
@@ -1236,7 +1236,7 @@ h2 {
 .quote-section {
   background:
     linear-gradient(rgba(27, 48, 41, 0.72), rgba(27, 48, 41, 0.72)),
-    url("/images/garden-meditation.jpg") center 58% / cover;
+    var(--asset-garden-meditation) center 58% / cover;
   color: white;
   padding: 150px 24px;
   text-align: center;

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "./components/SiteChrome";
+import { assetUrl } from "./lib/assets";
 
 const previews = [
   {
@@ -58,7 +59,7 @@ export default function Home() {
       <SiteHeader />
       <section className="home-art-hero">
         <img
-          src="/home-hero.png"
+          src={assetUrl("/home-hero.png")}
           alt="昊道文化，在覺察裡，走回生命的從容。山林中的晨光小徑。"
         />
         <div className="home-art-actions">
@@ -83,7 +84,7 @@ export default function Home() {
         {previews.map((item, index) => (
           <article className="home-preview-card" key={item.href}>
             <div className="home-preview-image">
-              <img src={item.image} alt="" />
+              <img src={assetUrl(item.image)} alt="" />
             </div>
             <div className="home-preview-copy">
               <span>{item.number}</span>
