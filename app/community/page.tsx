@@ -37,7 +37,7 @@ export default function CommunityPage() {
         <div className="point-grid">
           {points.map(([slug, name, region, time, image]) => (
             <article key={slug}>
-              <img src={assetUrl(image)} alt={`${name}活動空間`} />
+              <img src={assetUrl(image)} alt={`${name}的自然意象`} />
               <div><span>{region}</span><h3>{name}</h3><p>{time}</p>
                 <Link href={`/community/${slug}`}>查看共學點詳情 →</Link>
               </div>
@@ -51,7 +51,7 @@ export default function CommunityPage() {
           <p>部分活動為線上進行，不受所在地區限制。</p>
         </div>
         <div className="community-activity-card">
-          <img src={assetUrl("/images/community-activity.webp")} alt="共學夥伴進行團體練習" />
+          <img src={assetUrl("/images/community-activity.webp")} alt="象徵共學陪伴的自然景色" />
           <div><span>線上 · 台北共學點</span><h3>每月線上共學夜</h3>
             <p>08.28 · 週五 19:30 · Google Meet</p>
             <Link href="/events">查看活動與報名方式 →</Link>

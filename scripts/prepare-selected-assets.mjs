@@ -8,26 +8,29 @@ const sourceDir =
 const outputDir = new URL("../public/images/", import.meta.url).pathname;
 
 const assets = [
-  "about-hero.jpg",
-  "learning-hero.jpg",
-  "events-hero.jpg",
-  "community-hero.jpg",
-  "community-activity.jpg",
-  "community-taipei.jpg",
-  "community-taichung.jpg",
-  "community-kaohsiung.jpg",
-  "welfare-service.jpg",
-  "welfare-culture.jpg",
-  "welfare-care.jpg",
-  "welfare-impact.jpg",
-  "fazhou-calligraphy.jpg",
+  ["about-hero.jpg"],
+  ["learning-hero.jpg"],
+  ["events-hero.jpg"],
+  // Keep the community page people-free until explicit publication consent is
+  // available for identifiable partners.
+  ["community-taichung.jpg", "community-hero.webp"],
+  ["community-taipei.jpg", "community-activity.webp"],
+  ["community-taipei.jpg"],
+  ["community-taichung.jpg"],
+  ["community-kaohsiung.jpg"],
+  ["welfare-service.jpg"],
+  ["welfare-culture.jpg"],
+  ["welfare-care.jpg"],
+  ["welfare-impact.jpg"],
+  ["fazhou-calligraphy.jpg"],
 ];
 
 await mkdir(outputDir, { recursive: true });
 
-for (const filename of assets) {
-  const outputFilename = `${basename(filename, ".jpg")}.webp`;
-  await sharp(join(sourceDir, filename))
+for (const [sourceFilename, explicitOutputFilename] of assets) {
+  const outputFilename =
+    explicitOutputFilename || `${basename(sourceFilename, ".jpg")}.webp`;
+  await sharp(join(sourceDir, sourceFilename))
     .rotate()
     .resize({
       width: 2200,
