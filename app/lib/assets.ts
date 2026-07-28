@@ -1,7 +1,10 @@
-const configuredAssetBase = process.env.NEXT_PUBLIC_ASSET_BASE_URL?.replace(
-  /\/+$/,
-  "",
-);
+const developmentR2AssetBase =
+  "https://pub-cb0355e19c0545e799e53c8838d0b2cb.r2.dev/development";
+
+const configuredAssetBase = (
+  process.env.NEXT_PUBLIC_ASSET_BASE_URL ||
+  (process.env.NODE_ENV === "production" ? developmentR2AssetBase : "")
+).replace(/\/+$/, "");
 
 function toR2Key(path: string) {
   const cleanPath = path.replace(/^\/+/, "");

@@ -41,16 +41,17 @@ MVP 階段的圖片先放在同一個開發目錄，不占用既有的 `images/`
 `audio/`、`documents/`、`videos/` 正式目錄。網站內容穩定後，再把確認
 採用的素材搬到正式分類。
 
-建議替 R2 設定自訂網域 `assets.haodao.org`。完成後，在 Cloudflare
-Workers Builds 加入：
+目前使用 R2 的公開開發網址，正式建置會自動從 `development/` 載入素材。
+未來設定自訂網域 `assets.haodao.org` 後，可以在 Cloudflare Workers
+Builds 加入以下設定來覆蓋預設網址：
 
 ```text
 NEXT_PUBLIC_SITE_URL=https://www.haodao.org
 NEXT_PUBLIC_ASSET_BASE_URL=https://assets.haodao.org/development
 ```
 
-未設定 `NEXT_PUBLIC_ASSET_BASE_URL` 時，網站會使用分支內的圖片，因此
-本機與初次部署都不會破圖。
+本機開發在未設定 `NEXT_PUBLIC_ASSET_BASE_URL` 時會使用分支內的圖片，
+因此離線修改也不會破圖。
 
 建立 R2 bucket 並登入 Wrangler 後，可一次上傳目前的官網圖片：
 
