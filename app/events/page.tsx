@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { PageHero, SiteFooter, SiteHeader } from "../components/SiteChrome";
 import {
@@ -19,12 +18,6 @@ export default function EventsPage() {
   const [view, setView] = useState<"current" | "calendar" | "past">("current");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [selectedId] = useState(() =>
-    typeof window === "undefined"
-      ? ""
-      : new URLSearchParams(window.location.search).get("event") || "",
-  );
-
   useEffect(() => {
     const controller = new AbortController();
     fetch(sheetCsvUrl, { cache: "no-store", signal: controller.signal })
@@ -54,56 +47,17 @@ export default function EventsPage() {
       .sort((a, b) => view === "past" ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date));
   }, [events, filter, view]);
 
-  const selectedEvent = events.find((event) => event.id === selectedId);
   const calendarGroups = visibleEvents.reduce<Record<string, EventItem[]>>((groups, event) => {
     const key = event.date.slice(0, 7);
     groups[key] = [...(groups[key] || []), event];
     return groups;
   }, {});
 
-  if (!loading && selectedId && selectedEvent) {
-    const online = /線上|meet|zoom/i.test(`${selectedEvent.format} ${selectedEvent.location}`);
-    const registrationIsLink = /^https?:\/\//.test(selectedEvent.registrationUrl);
-    return (
-      <main>
-        <SiteHeader />
-        <PageHero
-          eyebrow={`${online ? "ONLINE" : "IN PERSON"} · 活動詳情`}
-          title={selectedEvent.title}
-          description={formatEventDate(selectedEvent.date, selectedEvent.endDate)}
-          image={selectedEvent.image || "/images/events-hero.webp"}
-        />
-        <section className="event-detail-page section">
-          <aside>
-            <Link href="/events">← 返回活動列表</Link>
-            <span>{online ? "線上活動" : "線下活動"}</span>
-          </aside>
-          <article>
-            <div className="event-detail-meta">
-              <div><small>日期</small><p>{formatEventDate(selectedEvent.date, selectedEvent.endDate)}</p></div>
-              <div><small>時間</small><p>{selectedEvent.startTime}{selectedEvent.endTime ? `－${selectedEvent.endTime}` : ""}</p></div>
-              <div><small>地點</small><p>{selectedEvent.location || "另行通知"}</p></div>
-            </div>
-            <h2>活動介紹</h2>
-            <p className="event-detail-description">{selectedEvent.description}</p>
-            {selectedEvent.audience && <div className="event-audience-box"><h3>適合對象</h3><p>{selectedEvent.audience}</p></div>}
-            {selectedEvent.registrationUrl && (
-              registrationIsLink
-                ? <a className="button primary" href={selectedEvent.registrationUrl} target="_blank" rel="noreferrer">前往報名 ↗</a>
-                : <p className="live-event-registration">報名方式：{selectedEvent.registrationUrl}</p>
-            )}
-          </article>
-        </section>
-        <SiteFooter />
-      </main>
-    );
-  }
-
   return (
     <main>
       <SiteHeader />
       <PageHero
-        eyebrow="COURSES & EVENTS · 活動與課程"
+        eyebrow="COURSES & EVENTS · 課程與活動"
         title="在適合的時間，走進一段學習。"
         description="查看進行中的線上與線下活動、日期行事曆及歷史活動。"
         image="/images/events-hero.webp"
@@ -133,7 +87,12 @@ export default function EventsPage() {
             <div className="live-calendar">
               {Object.entries(calendarGroups).map(([month, monthEvents]) => (
                 <section key={month}><h3>{month.replace("-", " 年 ")} 月</h3><div>
-                  {monthEvents.map((event) => <a href={`/events?event=${encodeURIComponent(event.id)}`} key={event.id}><time>{event.date.slice(8, 10)}</time><span><strong>{event.title}</strong><small>{event.format || event.location}</small></span></a>)}
+                  {monthEvents.map((event) => {
+                    const content = <><time>{event.date.slice(8, 10)}</time><span><strong>{event.title}</strong><small>{event.format || event.location}</small></span></>;
+                    return /^https?:\/\//.test(event.registrationUrl)
+                      ? <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer" key={event.id}>{content}</a>
+                      : <div className="live-calendar-item" key={event.id}>{content}</div>;
+                  })}
                 </div></section>
               ))}
               {!Object.keys(calendarGroups).length && <p className="events-status">目前行事曆中沒有活動。</p>}
@@ -151,12 +110,6 @@ export default function EventsPage() {
                       <div className="live-event-meta"><p>{formatEventDate(event.date, event.endDate)}</p>{event.location && <p>{event.location}</p>}</div>
                       {event.description && <p className="live-event-description">{event.description}</p>}
                       <div className="live-event-actions">
-                        <a
-                          className="live-event-detail-link"
-                          href={`/events?event=${encodeURIComponent(event.id)}`}
-                        >
-                          查看完整介紹 →
-                        </a>
                         {event.registrationUrl && (
                           registrationIsLink ? (
                             <a

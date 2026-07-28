@@ -70,7 +70,7 @@ export default function LearningPage() {
       </section>
       <section className="page-next">
         <p>想先看看目前有哪些活動？</p>
-        <Link className="button warm" href="/events">查看近期活動 →</Link>
+        <Link className="button warm" href="/events">查看課程與活動 →</Link>
       </section>
       <SiteFooter />
     </main>

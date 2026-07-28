@@ -64,7 +64,7 @@ export default function Home() {
         />
         <div className="home-art-actions">
           <Link className="button primary" href="/learning">探索學習地圖</Link>
-          <Link className="button art-outline" href="/events">查看近期活動</Link>
+          <Link className="button art-outline" href="/events">查看課程與活動</Link>
         </div>
       </section>
 
@@ -103,7 +103,7 @@ export default function Home() {
         <h2>每一步，都從此刻的你開始。</h2>
         <div>
           <Link className="button warm" href="/learning">探索核心學習路徑</Link>
-          <Link className="button ghost" href="/events">查看近期活動</Link>
+          <Link className="button ghost" href="/events">查看課程與活動</Link>
         </div>
       </section>
       <SiteFooter />

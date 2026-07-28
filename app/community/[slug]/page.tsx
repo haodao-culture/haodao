@@ -26,7 +26,7 @@ export default async function LocationPage({ params }: { params: Promise<{ slug:
           <div className="inline-actions"><a className="button primary" href="https://www.facebook.com/profile.php?id=100063957733524" target="_blank" rel="noopener noreferrer">前往官方 Facebook ↗</a><a className="button outline" href="https://www.instagram.com/haodao_culture" target="_blank" rel="noopener noreferrer">前往官方 Instagram ↗</a></div>
         </div>
       </section>
-      <section className="page-next"><p>返回查看其他地區與近期活動。</p><Link className="button warm" href="/community">返回共學與陪伴 →</Link></section>
+      <section className="page-next"><p>返回查看其他地區與共學資訊。</p><Link className="button warm" href="/community">返回共學與陪伴 →</Link></section>
       <SiteFooter />
     </main>
   );

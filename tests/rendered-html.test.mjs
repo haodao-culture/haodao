@@ -55,12 +55,20 @@ test("events page uses the shared live backend and online/offline filters", asyn
     readFile(new URL("../app/lib/events.ts", import.meta.url), "utf8"),
   ]);
   assert.match(eventsPage, /const filters = \["全部", "線上", "線下"\]/);
-  assert.match(eventsPage, /查看完整介紹/);
   assert.match(eventsPage, /立即報名/);
   assert.match(eventsPage, /event\.registrationUrl/);
-  assert.match(eventsPage, /URLSearchParams/);
+  assert.doesNotMatch(eventsPage, /查看完整介紹|URLSearchParams|\/events\?event=/);
   assert.match(eventsLib, /docs\.google\.com\/spreadsheets/);
   assert.match(eventsLib, /parseEvents/);
+});
+
+test("navigation has one clear courses and events destination", async () => {
+  const chrome = await readFile(
+    new URL("../app/components/SiteChrome.tsx", import.meta.url),
+    "utf8",
+  );
+  assert.equal((chrome.match(/>課程與活動</g) || []).length, 2);
+  assert.doesNotMatch(chrome, />近期活動</);
 });
 
 test("footer uses the official social and contact links", async () => {

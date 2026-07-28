@@ -70,7 +70,6 @@ export function SiteHeader() {
           <div className="submenu mega-menu">
             <Link href="/learning" onClick={closeMenu}>學習地圖</Link>
             <Link href="/events" onClick={closeMenu}>課程與活動</Link>
-            <Link href="/events" onClick={closeMenu}>近期活動</Link>
             <Link href="/community" onClick={closeMenu}>共學與陪伴</Link>
             <Link href="/welfare" onClick={closeMenu}>公益與服務</Link>
           </div>

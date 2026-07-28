@@ -970,7 +970,8 @@ h2 {
   padding: 28px;
 }
 
-.live-calendar a {
+.live-calendar a,
+.live-calendar-item {
   align-items: center;
   border-bottom: 1px solid var(--line);
   display: grid;
@@ -979,7 +980,8 @@ h2 {
   padding: 19px 24px;
 }
 
-.live-calendar a:last-child {
+.live-calendar a:last-child,
+.live-calendar-item:last-child {
   border-bottom: 0;
 }
 
@@ -989,7 +991,8 @@ h2 {
   font-size: 22px;
 }
 
-.live-calendar a span {
+.live-calendar a span,
+.live-calendar-item span {
   display: flex;
   flex-direction: column;
   gap: 7px;
