@@ -17,17 +17,13 @@ async function render(pathname = "/") {
   );
 }
 
-test("homepage renders the selected artwork and links to independent pages", async () => {
+test("homepage renders the architecture V2 holding page", async () => {
   const response = await render("/");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /home-hero\.png/);
-  assert.match(html, /href="\/about"/);
-  assert.match(html, /href="\/learning"/);
-  assert.match(html, /href="\/events"/);
-  assert.match(html, /href="\/community"/);
-  assert.match(html, /href="\/welfare"/);
-  assert.match(html, /href="\/fazhou"/);
+  assert.match(html, /新版官網架構建置中/);
+  assert.match(html, /new2\.haodao\.org 已連線/);
+  assert.match(html, /href="https:\/\/new\.haodao\.org"/);
 });
 
 test("main architecture pages render as independent routes", async () => {

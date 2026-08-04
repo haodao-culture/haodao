@@ -3,17 +3,16 @@ import type { CSSProperties } from "react";
 import { assetUrl } from "./lib/assets";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://new.haodao.org";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://new2.haodao.org";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "昊道文化｜在覺察裡，走回生命的從容",
+  title: "昊道文化｜新版官網架構建置中",
   description:
-    "昊道文化 MVP 展示網站。透過學習、共修與服務，陪伴每個人把內在安定帶回日常。",
+    "昊道文化新版官網架構的獨立測試環境。",
   openGraph: {
-    title: "昊道文化｜在覺察裡，走回生命的從容",
-    description:
-      "透過學習、共修、公益服務與昊道法舟，陪伴每個人把內在安定帶回日常。",
+    title: "昊道文化｜新版官網架構建置中",
+    description: "昊道文化新版官網架構的獨立測試環境。",
     images: [
       {
         url: assetUrl("/home-hero.png"),
@@ -25,9 +24,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "昊道文化｜在覺察裡，走回生命的從容",
-    description:
-      "透過學習、共修、公益服務與昊道法舟，陪伴每個人把內在安定帶回日常。",
+    title: "昊道文化｜新版官網架構建置中",
+    description: "昊道文化新版官網架構的獨立測試環境。",
     images: [assetUrl("/home-hero.png")],
   },
 };

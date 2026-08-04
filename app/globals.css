@@ -1543,6 +1543,104 @@ footer {
   justify-content: center;
 }
 
+.v2-holding-page {
+  align-items: center;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(188, 157, 92, 0.18), transparent 34%),
+    radial-gradient(circle at 86% 78%, rgba(48, 79, 64, 0.2), transparent 38%),
+    linear-gradient(135deg, #f5f0e4 0%, #ece6d8 52%, #dfe5dc 100%);
+  display: flex;
+  justify-content: center;
+  min-height: 100svh;
+  overflow: hidden;
+  padding: 48px 24px;
+  position: relative;
+}
+
+.v2-holding-page::before,
+.v2-holding-page::after {
+  border: 1px solid rgba(117, 95, 49, 0.2);
+  content: "";
+  inset: 20px;
+  pointer-events: none;
+  position: absolute;
+}
+
+.v2-holding-page::after {
+  border-color: rgba(117, 95, 49, 0.08);
+  inset: 28px;
+}
+
+.v2-holding-card {
+  align-items: center;
+  background: rgba(255, 253, 247, 0.78);
+  border: 1px solid rgba(104, 87, 53, 0.16);
+  box-shadow: 0 28px 80px rgba(43, 56, 47, 0.12);
+  display: flex;
+  flex-direction: column;
+  max-width: 760px;
+  padding: clamp(52px, 9vw, 96px) clamp(30px, 8vw, 88px);
+  position: relative;
+  text-align: center;
+  z-index: 1;
+}
+
+.v2-holding-card .eyebrow {
+  color: #877041;
+  margin-bottom: 30px;
+}
+
+.v2-holding-mark {
+  align-items: center;
+  border: 1px solid rgba(135, 112, 65, 0.5);
+  color: var(--forest);
+  display: flex;
+  font-family: serif;
+  font-size: 34px;
+  height: 72px;
+  justify-content: center;
+  margin-bottom: 34px;
+  transform: rotate(45deg);
+  width: 72px;
+}
+
+.v2-holding-mark > span {
+  transform: rotate(-45deg);
+}
+
+.v2-holding-card h1 {
+  color: var(--forest);
+  font-size: clamp(38px, 7vw, 68px);
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  margin: 0 0 28px;
+}
+
+.v2-holding-card > p:not(.eyebrow) {
+  color: #5f6b65;
+  line-height: 2;
+  margin: 0;
+  max-width: 560px;
+}
+
+.v2-holding-status {
+  align-items: center;
+  color: #547061;
+  display: flex;
+  font: 12px Arial, sans-serif;
+  gap: 9px;
+  letter-spacing: 0.08em;
+  margin: 34px 0;
+}
+
+.v2-holding-status span {
+  background: #6d977e;
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px rgba(109, 151, 126, 0.14);
+  height: 8px;
+  width: 8px;
+}
+
 .inner-hero {
   color: var(--white);
   height: 620px;

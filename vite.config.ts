@@ -12,11 +12,12 @@ const { d1, r2 } = hostingConfig;
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 
 const localBindingConfig = {
+  name: "haodao-culture-website-v2",
   main: "./worker/index.ts",
   compatibility_flags: ["nodejs_compat"],
   routes: [
     {
-      pattern: "new.haodao.org",
+      pattern: "new2.haodao.org",
       custom_domain: true,
     },
   ],
