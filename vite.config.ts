@@ -12,15 +12,8 @@ const { d1, r2 } = hostingConfig;
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 
 const localBindingConfig = {
-  name: "haodao-culture-website-v2",
   main: "./worker/index.ts",
   compatibility_flags: ["nodejs_compat"],
-  routes: [
-    {
-      pattern: "new2.haodao.org",
-      custom_domain: true,
-    },
-  ],
   d1_databases: d1
     ? [
         {
@@ -51,14 +44,19 @@ export default defineConfig(async () => {
   const { cloudflare } = await import("@cloudflare/vite-plugin");
 
   return {
-    server: isCodexSeatbeltSandbox
-      ? { watch: { useFsEvents: false, usePolling: true } }
-      : undefined,
+    server: {
+      host: "0.0.0.0",
+      allowedHosts: ["terminal.local"],
+      ...(isCodexSeatbeltSandbox
+        ? { watch: { useFsEvents: false, usePolling: true } }
+        : {}),
+    },
     plugins: [
       vinext(),
       sites(),
       cloudflare({
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
+        inspectorPort: false,
         config: localBindingConfig,
       }),
     ],
