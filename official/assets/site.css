@@ -441,6 +441,7 @@ main { overflow: clip; }
 .tab-button { min-height: 42px; padding: .48rem 1rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: transparent; font-weight: 700; cursor: pointer; }
 .tab-button[aria-selected="true"] { border-color: var(--ink); color: #fff; background: var(--ink); }
 .board-toolbar { display: flex; justify-content: space-between; gap: 1rem; align-items: center; margin-bottom: 1.4rem; }
+.board-toolbar .tabs { margin-bottom: 0; }
 .admin-button, .button-primary, .button-secondary {
   display: inline-flex;
   align-items: center;
@@ -470,9 +471,12 @@ main { overflow: clip; }
 [data-event-board="community"] .event-card { scroll-snap-align: start; }
 .event-card { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
 .event-media { aspect-ratio: 16/10; overflow: hidden; background: var(--paper-deep); }
+.event-media-placeholder { display: grid; place-items: center; color: rgba(255,255,255,.76); background: linear-gradient(135deg, var(--ink), #173b61); font-family: "Noto Serif TC", "Songti TC", serif; letter-spacing: .24em; }
 .event-copy { padding: 1.3rem; }
 .event-copy h3 { margin: 0 0 .7rem; color: var(--ink); font-family: "Noto Serif TC", "Songti TC", serif; font-size: 1.35rem; }
 .event-copy p { margin: .35rem 0; }
+.event-description { white-space: pre-line; }
+.event-link { margin-top: 1rem; }
 .event-meta { color: var(--muted); font-size: .9rem; }
 .tag { display: inline-flex; margin-bottom: .7rem; padding: .25rem .6rem; border-radius: 999px; color: var(--ink); background: rgba(189,138,53,.16); font-size: .76rem; font-weight: 800; }
 .empty-state { grid-column: 1/-1; padding: 2.8rem; border: 1px dashed rgba(11,35,64,.25); border-radius: var(--radius); text-align: center; color: var(--muted); background: rgba(255,255,255,.38); }

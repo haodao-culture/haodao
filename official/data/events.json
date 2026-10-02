@@ -1,0 +1,19 @@
+{
+  "_說明": "課程與活動請放在 courses；共修活動請放在 community。修改完成後按 GitHub 的 Commit changes，公開網站約數分鐘後更新。日期格式請用 YYYY-MM-DD。",
+  "_範例_請勿直接顯示": {
+    "id": "unique-event-id",
+    "title": "活動名稱",
+    "description": "活動內容簡介",
+    "date": "2026-12-31",
+    "endDate": "2026-12-31",
+    "time": "14:00",
+    "place": "活動地點",
+    "category": "線下",
+    "region": "北區",
+    "image": "assets/images/example.jpg",
+    "link": "https://example.com/registration",
+    "published": true
+  },
+  "courses": [],
+  "community": []
+}

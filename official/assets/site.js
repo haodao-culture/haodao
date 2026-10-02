@@ -167,16 +167,110 @@
     });
   });
 
-  function setupEventBoard(board) {
-    const list = board.querySelector("[data-event-list]");
-    const history = board.dataset.history === "true";
-    const filters = [...board.querySelectorAll("[data-filter]")];
-    const message = history ? "活動結束後，相關記錄將整理至此。" : "近期活動正在整理中，歡迎透過聯絡方式洽詢。";
+  const eventBoards = [...document.querySelectorAll("[data-event-board]")];
 
-    filters.forEach(button => button.addEventListener("click", () => {
-      filters.forEach(b => b.setAttribute("aria-selected", String(b === button)));
-    }));
-    if (list) list.innerHTML = `<div class="empty-state">${message}</div>`;
+  function escapeHtml(value) {
+    const characters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+    return String(value ?? "").replace(/[&<>"']/g, character => characters[character]);
   }
-  document.querySelectorAll("[data-event-board]").forEach(setupEventBoard);
+
+  function safeUrl(value) {
+    if (!value) return "";
+    try {
+      const url = new URL(String(value), document.baseURI);
+      const allowed = url.protocol === "https:" || url.protocol === "http:" || (url.protocol === "file:" && location.protocol === "file:");
+      return allowed ? url.href : "";
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function formatEventDate(value) {
+    const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!match) return value || "日期另行公告";
+    return `${match[1]} 年 ${Number(match[2])} 月 ${Number(match[3])} 日`;
+  }
+
+  function eventCard(item, kind) {
+    const title = item.title || item.name || "未命名活動";
+    const label = kind === "courses" ? item.category : item.region;
+    const image = safeUrl(item.image || (item.mediaType === "image" ? item.media : ""));
+    const video = safeUrl(item.video || (item.mediaType === "video" ? item.media : ""));
+    const link = safeUrl(item.link || item.registrationUrl);
+    const media = image
+      ? `<div class="event-media"><img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="lazy"></div>`
+      : video
+        ? `<div class="event-media"><video src="${escapeHtml(video)}" controls preload="metadata" aria-label="${escapeHtml(title)}"></video></div>`
+        : `<div class="event-media event-media-placeholder" aria-hidden="true"><span>昊道文化</span></div>`;
+    const details = [
+      formatEventDate(item.date),
+      item.time || "",
+      item.place || item.location || ""
+    ].filter(Boolean).map(escapeHtml).join(" · ");
+
+    return `<article class="event-card">
+      ${media}
+      <div class="event-copy">
+        ${label ? `<span class="tag">${escapeHtml(label)}</span>` : ""}
+        <h3>${escapeHtml(title)}</h3>
+        <p class="event-meta">${details}</p>
+        ${item.description ? `<p class="event-description">${escapeHtml(item.description)}</p>` : ""}
+        ${link ? `<a class="button-primary event-link" href="${escapeHtml(link)}" target="_blank" rel="noopener">查看詳情／報名</a>` : ""}
+      </div>
+    </article>`;
+  }
+
+  async function setupEventBoards() {
+    if (!eventBoards.length) return;
+    eventBoards.forEach(board => {
+      const list = board.querySelector("[data-event-list]");
+      if (list) list.innerHTML = '<div class="empty-state">活動資料載入中…</div>';
+    });
+
+    let eventData = { courses: [], community: [] };
+    try {
+      const response = await fetch("data/events.json", { cache: "no-store" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      eventData = await response.json();
+    } catch (error) {
+      console.warn("活動資料載入失敗。", error);
+    }
+
+    const today = new Date();
+    const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+    eventBoards.forEach(board => {
+      const kind = board.dataset.eventBoard;
+      const history = board.dataset.history === "true";
+      const list = board.querySelector("[data-event-list]");
+      const filters = [...board.querySelectorAll("[data-filter]")];
+      const items = Array.isArray(eventData[kind]) ? eventData[kind].filter(item => item && item.published !== false) : [];
+      const emptyMessage = history ? "活動結束後，相關記錄將整理至此。" : "近期活動正在整理中，歡迎透過聯絡方式洽詢。";
+
+      function renderEvents() {
+        const activeFilter = filters.find(button => button.getAttribute("aria-selected") === "true")?.dataset.filter || "全部";
+        const filtered = items
+          .filter(item => {
+            const endDate = String(item.endDate || item.date || "");
+            const isPast = Boolean(endDate && endDate < todayKey);
+            const label = kind === "courses" ? item.category : item.region;
+            return isPast === history && (activeFilter === "全部" || label === activeFilter);
+          })
+          .sort((a, b) => {
+            const left = String(a.date || "9999-12-31");
+            const right = String(b.date || "9999-12-31");
+            return history ? right.localeCompare(left) : left.localeCompare(right);
+          });
+        if (list) list.innerHTML = filtered.length ? filtered.map(item => eventCard(item, kind)).join("") : `<div class="empty-state">${emptyMessage}</div>`;
+      }
+
+      filters.forEach(button => button.addEventListener("click", () => {
+        filters.forEach(filter => filter.setAttribute("aria-selected", String(filter === button)));
+        renderEvents();
+      }));
+      renderEvents();
+    });
+  }
+
+  setupEventBoards();
 })();
