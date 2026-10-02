@@ -60,7 +60,7 @@
 
   const footer = document.querySelector("[data-site-footer]");
   if (footer) {
-    footer.innerHTML = `<div class="floating-social" aria-label="社群連結">${socialLinks("social-icon")}</div>
+    footer.innerHTML = `<div class="floating-social" aria-label="快速連結"><button class="social-icon scroll-top-button" type="button" data-scroll-top aria-label="到畫面最上方" title="到畫面最上方"><span aria-hidden="true">↑</span></button>${socialLinks("social-icon")}</div>
       <footer class="site-footer" id="contact">
         <div class="footer-main">
           <div class="footer-brand"><img src="assets/images/logo.png" alt="昊道文化"><p>讓生命，在學習、修煉與實踐中持續成長。</p></div>
@@ -81,14 +81,31 @@
   const toggle = document.querySelector(".nav-toggle");
   const mainNav = document.querySelector(".main-nav");
   if (toggle && mainNav) {
-    toggle.addEventListener("click", () => {
-      const open = mainNav.classList.toggle("is-open");
+    const setNavigationOpen = open => {
+      mainNav.classList.toggle("is-open", open);
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "關閉導覽" : "開啟導覽");
       toggle.textContent = open ? "×" : "☰";
       document.body.classList.toggle("menu-open", open);
+    };
+    toggle.addEventListener("click", () => setNavigationOpen(!mainNav.classList.contains("is-open")));
+    mainNav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => setNavigationOpen(false)));
+    window.addEventListener("keydown", event => {
+      if (event.key === "Escape" && mainNav.classList.contains("is-open")) {
+        setNavigationOpen(false);
+        toggle.focus();
+      }
+    });
+    const desktopNavigation = window.matchMedia("(min-width: 901px)");
+    desktopNavigation.addEventListener?.("change", event => {
+      if (event.matches) setNavigationOpen(false);
     });
   }
+
+  document.querySelector("[data-scroll-top]")?.addEventListener("click", () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  });
 
   document.querySelectorAll(".nav-group > button").forEach(button => {
     button.addEventListener("click", () => {
@@ -230,6 +247,17 @@
     return `${match[1]} 年 ${Number(match[2])} 月 ${Number(match[3])} 日`;
   }
 
+  function formatEventDateRange(startValue, endValue) {
+    const start = String(startValue || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    const end = String(endValue || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!start || !end || String(endValue) <= String(startValue)) return formatEventDate(startValue);
+    const startText = `${start[1]}/${start[2]}/${start[3]}`;
+    const endText = start[1] === end[1]
+      ? `${end[2]}/${end[3]}`
+      : `${end[1]}/${end[2]}/${end[3]}`;
+    return `${startText}~${endText}`;
+  }
+
   function eventCard(item, kind, history) {
     const title = item.title || item.name || "未命名活動";
     const label = kind === "courses" ? item.category : item.region;
@@ -242,7 +270,7 @@
         ? `<div class="event-media"><video src="${escapeHtml(video)}" controls preload="metadata" aria-label="${escapeHtml(title)}"></video></div>`
         : `<div class="event-media event-media-placeholder" aria-hidden="true"><span>昊道文化</span></div>`;
     const details = [
-      formatEventDate(item.date),
+      formatEventDateRange(item.date, item.endDate),
       item.time || "",
       item.place || item.location || ""
     ].filter(Boolean).map(escapeHtml).join(" · ");
@@ -414,7 +442,9 @@
           <div class="field full"><span class="field-label" data-admin-image-label>活動海報</span><label class="admin-dropzone" for="admin-image" data-admin-dropzone><input class="visually-hidden" id="admin-image" name="imageFile" type="file" accept="image/jpeg,image/png,image/webp"><strong>點選上傳，或將海報拖曳到這裡</strong><span data-admin-upload-name>支援 JPG、PNG、WebP</span><small>上傳時會自動縮放、移除照片定位資訊，檔案上限 1.5MB。</small></label></div>
           <div class="admin-image-preview field full" data-admin-image-preview hidden><img alt="活動海報預覽"><button class="button-secondary" type="button" data-admin-remove-image>移除圖片</button></div>
           <div class="field full"><label for="admin-description">活動內容簡介</label><textarea id="admin-description" name="description" required></textarea></div>
-          <div class="field"><label for="admin-date">日期</label><input id="admin-date" name="date" type="date" required></div>
+          <div class="field"><label for="admin-duration">活動天數</label><select id="admin-duration" name="duration"><option value="single">一天</option><option value="multiple">超過一天</option></select></div>
+          <div class="field"><label for="admin-date" data-admin-start-date-label>日期</label><input id="admin-date" name="date" type="date" required></div>
+          <div class="field" data-admin-end-date hidden><label for="admin-end-date">結束日期</label><input id="admin-end-date" name="endDate" type="date"></div>
           <div class="field"><label for="admin-time">時間</label><input id="admin-time" name="time" type="time" required></div>
           <div class="field admin-course-field"><label for="admin-place">地點</label><input id="admin-place" name="place"></div>
           <div class="field admin-course-field"><label for="admin-category">標籤</label><select id="admin-category" name="category"><option>線下</option><option>線上</option></select></div>
@@ -443,6 +473,8 @@
     const previewImage = preview.querySelector("img");
     const dropzone = dialog.querySelector("[data-admin-dropzone]");
     const uploadName = dialog.querySelector("[data-admin-upload-name]");
+    const endDateField = dialog.querySelector("[data-admin-end-date]");
+    const startDateLabel = dialog.querySelector("[data-admin-start-date-label]");
     const deleteButton = dialog.querySelector("[data-admin-delete]");
     const saveButton = dialog.querySelector("[data-admin-save]");
     const loginStatus = dialog.querySelector("[data-login-status]");
@@ -462,6 +494,20 @@
       isPreparingImage = false;
       dropzone.removeAttribute("aria-busy");
       syncSaveButton();
+    }
+
+    function syncDurationFields() {
+      const multipleDays = eventForm.elements.duration.value === "multiple";
+      const startDate = String(eventForm.elements.date.value || "");
+      const startMatch = startDate.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      const minimumEndDate = startMatch
+        ? new Date(Date.UTC(Number(startMatch[1]), Number(startMatch[2]) - 1, Number(startMatch[3]) + 1)).toISOString().slice(0, 10)
+        : "";
+      endDateField.hidden = !multipleDays;
+      eventForm.elements.endDate.required = multipleDays;
+      eventForm.elements.endDate.min = minimumEndDate;
+      startDateLabel.textContent = multipleDays ? "開始日期" : "日期";
+      if (!multipleDays) eventForm.elements.endDate.value = "";
     }
 
     function setStatus(element, message, state = "") {
@@ -512,11 +558,14 @@
       eventForm.elements.title.value = item?.title || item?.name || "";
       eventForm.elements.description.value = item?.description || "";
       eventForm.elements.date.value = String(item?.date || "").slice(0, 10);
+      eventForm.elements.endDate.value = String(item?.endDate || "").slice(0, 10);
+      eventForm.elements.duration.value = item?.endDate && item.endDate > item.date ? "multiple" : "single";
       eventForm.elements.time.value = item?.time || "";
       eventForm.elements.place.value = item?.place || item?.location || "";
       eventForm.elements.category.value = item?.category || "線下";
       eventForm.elements.link.value = item?.link || item?.registrationUrl || "";
       eventForm.elements.region.value = item?.region || "北區";
+      syncDurationFields();
       setPreview(item?.image || "");
       deleteButton.hidden = !item;
       setStatus(adminStatus, "");
@@ -592,6 +641,8 @@
     });
 
     existingSelect.addEventListener("change", () => fillEditor(existingSelect.value));
+    eventForm.elements.duration.addEventListener("change", syncDurationFields);
+    eventForm.elements.date.addEventListener("change", syncDurationFields);
 
     async function prepareImage(file) {
       if (!file) return;
@@ -661,6 +712,7 @@
         title: eventForm.elements.title.value.trim(),
         description: eventForm.elements.description.value.trim(),
         date: eventForm.elements.date.value,
+        endDate: eventForm.elements.duration.value === "multiple" ? eventForm.elements.endDate.value : "",
         time: eventForm.elements.time.value,
         published: true
       };
