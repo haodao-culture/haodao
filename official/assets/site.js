@@ -258,6 +258,15 @@
     return `${startText}~${endText}`;
   }
 
+  function formatEventTimeRange(startValue, endValue) {
+    const start = String(startValue || "").trim();
+    const end = String(endValue || "").trim();
+    if (start && end) return `${start}~${end}`;
+    if (start) return `${start} 起`;
+    if (end) return `至 ${end}`;
+    return "";
+  }
+
   function eventCard(item, kind, history) {
     const title = item.title || item.name || "未命名活動";
     const label = kind === "courses" ? item.category : item.region;
@@ -271,7 +280,7 @@
         : `<div class="event-media event-media-placeholder" aria-hidden="true"><span>昊道文化</span></div>`;
     const details = [
       formatEventDateRange(item.date, item.endDate),
-      item.time || "",
+      formatEventTimeRange(item.time, item.endTime),
       item.place || item.location || ""
     ].filter(Boolean).map(escapeHtml).join(" · ");
 
@@ -445,7 +454,8 @@
           <div class="field"><label for="admin-duration">活動天數</label><select id="admin-duration" name="duration"><option value="single">一天</option><option value="multiple">超過一天</option></select></div>
           <div class="field"><label for="admin-date" data-admin-start-date-label>日期</label><input id="admin-date" name="date" type="date" required></div>
           <div class="field" data-admin-end-date hidden><label for="admin-end-date">結束日期</label><input id="admin-end-date" name="endDate" type="date"></div>
-          <div class="field"><label for="admin-time">時間</label><input id="admin-time" name="time" type="time" required></div>
+          <div class="field"><label for="admin-time">開始時間（選填）</label><input id="admin-time" name="time" type="time" aria-describedby="admin-start-time-hint"><small id="admin-start-time-hint">時間未定可留空。</small></div>
+          <div class="field"><label for="admin-end-time">結束時間（選填）</label><input id="admin-end-time" name="endTime" type="time" aria-describedby="admin-end-time-hint"><small id="admin-end-time-hint">可留空；單日活動的結束時間需晚於開始時間。</small></div>
           <div class="field admin-course-field"><label for="admin-place">地點</label><input id="admin-place" name="place"></div>
           <div class="field admin-course-field"><label for="admin-category">標籤</label><select id="admin-category" name="category"><option>線下</option><option>線上</option></select></div>
           <div class="field full admin-course-field"><label for="admin-link">報名連結</label><input id="admin-link" name="link" type="url" inputmode="url" placeholder="https://"></div>
@@ -508,6 +518,14 @@
       eventForm.elements.endDate.min = minimumEndDate;
       startDateLabel.textContent = multipleDays ? "開始日期" : "日期";
       if (!multipleDays) eventForm.elements.endDate.value = "";
+      syncTimeValidity();
+    }
+
+    function syncTimeValidity() {
+      const startTime = eventForm.elements.time.value;
+      const endTime = eventForm.elements.endTime.value;
+      const invalidRange = eventForm.elements.duration.value === "single" && startTime && endTime && endTime <= startTime;
+      eventForm.elements.endTime.setCustomValidity(invalidRange ? "單日活動的結束時間必須晚於開始時間。" : "");
     }
 
     function setStatus(element, message, state = "") {
@@ -561,6 +579,7 @@
       eventForm.elements.endDate.value = String(item?.endDate || "").slice(0, 10);
       eventForm.elements.duration.value = item?.endDate && item.endDate > item.date ? "multiple" : "single";
       eventForm.elements.time.value = item?.time || "";
+      eventForm.elements.endTime.value = item?.endTime || "";
       eventForm.elements.place.value = item?.place || item?.location || "";
       eventForm.elements.category.value = item?.category || "線下";
       eventForm.elements.link.value = item?.link || item?.registrationUrl || "";
@@ -643,6 +662,8 @@
     existingSelect.addEventListener("change", () => fillEditor(existingSelect.value));
     eventForm.elements.duration.addEventListener("change", syncDurationFields);
     eventForm.elements.date.addEventListener("change", syncDurationFields);
+    eventForm.elements.time.addEventListener("input", syncTimeValidity);
+    eventForm.elements.endTime.addEventListener("input", syncTimeValidity);
 
     async function prepareImage(file) {
       if (!file) return;
@@ -699,6 +720,8 @@
 
     eventForm.addEventListener("submit", async event => {
       event.preventDefault();
+      syncTimeValidity();
+      if (!eventForm.reportValidity()) return;
       if (isPreparingImage) {
         setStatus(adminStatus, "圖片仍在處理中，請稍候完成後再儲存。", "error");
         return;
@@ -714,6 +737,7 @@
         date: eventForm.elements.date.value,
         endDate: eventForm.elements.duration.value === "multiple" ? eventForm.elements.endDate.value : "",
         time: eventForm.elements.time.value,
+        endTime: eventForm.elements.endTime.value,
         published: true
       };
       if (pendingImageData) record.imageData = pendingImageData;
