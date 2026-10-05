@@ -1,0 +1,22 @@
+node_modules/
+.wrangler/
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+*.sqlite*
+*.db*
+auth.json
+sheets.json
+secrets*.json
+.DS_Store
+__pycache__/
+
+# Photos are kept in Cloudflare R2; existing tracked legacy images are retained.
+*.webp
+*.jpg
+*.jpeg
+*.png
+*.JPG
+*.JPEG
+*.PNG

@@ -2,6 +2,14 @@
 
 [www.haodao.org](https://www.haodao.org) 的官方網站原始碼。
 
+## 2026 官網改版
+
+- 品牌頁面來源與建置方式：[website-src](website-src/README.md)。執行 `node website-src/tools/build.mjs` 產生可直接收錄的完整 HTML。
+- 活動與共學正式後端：[backend](backend/README.md)，部署在 Cloudflare Worker，資料保存於 D1。
+- 新版照片使用 Cloudflare R2 `haodao-media/images/website-20261005/`，由 `media.haodao.org` 提供，不將照片加入 Git。
+- 原有活動、靜心閱讀與獨立管理頁保留原網址；網站地圖一併保留舊網址。
+- `www.haodao.org` 仍透過既有 GitHub Pages 發布，CNAME 與原有 Search Console DNS 驗證不變。
+
 ## 檔案結構
 
 ```

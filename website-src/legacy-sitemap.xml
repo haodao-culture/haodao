@@ -1,100 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://www.haodao.org/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/about/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/learning/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/courses/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/courses/level-1/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/courses/level-2/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/courses/advanced/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/courses/meditation/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/courses/awareness/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/community/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/retreat/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/volunteer/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/gallery/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/contact/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/privacy/</loc><lastmod>2026-10-05</lastmod></url>
-<url><loc>https://www.haodao.org/copyright/</loc><lastmod>2026-10-05</lastmod></url>
-<url>
+    <url>
+        <loc>https://www.haodao.org/</loc>
+        <lastmod>2026-04-29</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
         <loc>https://www.haodao.org/events/</loc>
         <lastmod>2026-05-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/events/course1/</loc>
         <lastmod>2026-06-16</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/ch01.html</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/ch02.html</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/ch03.html</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/ch04.html</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/ch05.html</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/ch06.html</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/ch07.html</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/ch08.html</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/ch09.html</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/ch10.html</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-<url>
+    <url>
         <loc>https://www.haodao.org/breathing/ch11.html</loc>
         <lastmod>2026-06-30</lastmod>
         <changefreq>monthly</changefreq>
