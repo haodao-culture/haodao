@@ -33,6 +33,50 @@
       document.querySelectorAll('[data-region]').forEach(x => { x.hidden = button.textContent !== '全部' && x.dataset.region !== button.textContent; });
     };
   });
+  const catalog = document.getElementById('regular');
+  if (catalog) {
+    const links = [...catalog.querySelectorAll('.course-sidebar nav a')];
+    const initialCourse = Number(catalog.querySelector('.course-product').dataset.courseIndex);
+    const templates = [...catalog.querySelectorAll('template[data-course-template]')];
+    const status = document.createElement('p');
+    status.className = 'course-switch-status';
+    status.setAttribute('role', 'status');
+    catalog.append(status);
+    const selectCourse = (index, scroll = true) => {
+      const template = templates.find(item => Number(item.dataset.courseTemplate) === index);
+      if (!template) return;
+      const current = catalog.querySelector('.course-product');
+      if (Number(current.dataset.courseIndex) !== index) {
+        current.replaceWith(template.content.firstElementChild.cloneNode(true));
+        const name = links[index].textContent.replace(/^\s*0\d\s*/, '').trim();
+        status.textContent = '已切換至' + name;
+      }
+      links.forEach((link, i) => {
+        link.classList.toggle('selected', i === index);
+        if (i === index) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+      if (scroll) catalog.scrollIntoView({block:'start', behavior:'instant'});
+    };
+    const courseFromHash = () => {
+      const index = courses.findIndex(slug => location.hash === '#regular-' + slug);
+      return index < 0 ? initialCourse : index;
+    };
+    links.forEach((link, index) => {
+      link.addEventListener('click', event => {
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        const hash = '#regular-' + courses[index];
+        if (location.hash !== hash) history.pushState(null, '', hash);
+        selectCourse(index);
+      });
+    });
+    selectCourse(courseFromHash(), location.hash.startsWith('#regular-'));
+    window.addEventListener('popstate', () => selectCourse(courseFromHash()));
+    window.addEventListener('hashchange', () => {
+      if (location.hash.startsWith('#regular-')) selectCourse(courseFromHash());
+    });
+  }
   // Build output must not reuse a registration request ID across visitors.
   document.querySelectorAll('[name="request_id"]').forEach(input => { input.value = crypto.randomUUID(); });
   window.HaodaoEvents?.mount(pageKey);
