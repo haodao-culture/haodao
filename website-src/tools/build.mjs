@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import {formatHtml} from './format-html.mjs';
 import path from 'node:path';
 import vm from 'node:vm';
 import {fileURLToPath} from 'node:url';
@@ -68,7 +69,7 @@ for(const route of routes){
  main=main.replaceAll('本機預覽：Google 試算表尚待授權，目前提交會先存入預覽後台。','報名資料將保存於協會後台，供志工聯繫及安排共學。');
  main=main.replaceAll('<p class="note">正在讀取活動…</p>','<p class="note">活動資訊載入中。也可<a class="textlink" href="/events/">查看活動與報名資訊</a>，或<a class="textlink" href="https://lin.ee/VJrd0i3" rel="noopener noreferrer" target="_blank">聯絡官方 LINE</a>。</p>');
  const html=head(route)+finalize(body.replace('<body>',`<body data-page="${route.key}">`).replace('<main id="main"></main>',`<main id="main">${main}</main>`));
- const target=path.join(root,route.path,'index.html');fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,html);
+ const target=path.join(root,route.path,'index.html');fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,await formatHtml(html));
  if(!route.noindex)searchIndex.push({title:route.title,path:route.path,text:plain(main)});
 }
 for(const f of ['style.css','editorial.css','events.css','bootstrap.js'])fs.copyFileSync(path.join(src,f),path.join(out,f));
@@ -85,5 +86,5 @@ const entries=routes.filter(r=>!r.noindex).map(r=>`<url><loc>${origin+r.path}</l
 fs.writeFileSync(path.join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...entries,...old].join('\n')+'\n</urlset>\n');
 fs.writeFileSync(path.join(root,'robots.txt'),'User-agent: *\nAllow: /\nDisallow: /preview/\nDisallow: /test/\nDisallow: /website-src/\nDisallow: /backend/\nDisallow: /api/\n\nSitemap: https://www.haodao.org/sitemap.xml\n');
 const notFound={key:'404',path:'/404.html',title:'找不到此頁面｜昊道文化',description:'此頁面不存在，請從昊道文化首頁繼續瀏覽。',noindex:true};
-fs.writeFileSync(path.join(root,'404.html'),head(notFound)+finalize(body.replace('<body>','<body data-page="404">').replace('<main id="main"></main>','<main id="main"><div class="article"><h1>找不到此頁面</h1><p>您可以回到<a class="textlink" href="/">首頁</a>，或<a class="textlink" href="/search/">搜尋網站內容</a>。</p></div></main>')));
+fs.writeFileSync(path.join(root,'404.html'),await formatHtml(head(notFound)+finalize(body.replace('<body>','<body data-page="404">').replace('<main id="main"></main>','<main id="main"><div class="article"><h1>找不到此頁面</h1><p>您可以回到<a class="textlink" href="/">首頁</a>，或<a class="textlink" href="/search/">搜尋網站內容</a>。</p></div></main>'))));
 console.log(`Built ${routes.length} complete HTML pages; ${old.length} legacy sitemap entries preserved.`);

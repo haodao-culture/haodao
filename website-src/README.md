@@ -2,7 +2,13 @@
 
 `website-src` 保存版型與品牌內容。正式頁面由同一份版型預先產生完整 HTML；一般訪客與搜尋引擎取得相同內容。
 
-執行 `node website-src/tools/build.mjs` 更新根目錄與各頁 `index.html`，再提交產出檔案至 GitHub `main`，由既有 GitHub Pages 發布。
+首次使用或更新依賴後，執行 `npm --prefix website-src ci` 安裝鎖定版本的建置工具。
+
+執行 `npm --prefix website-src run build`（或 `node website-src/tools/build.mjs`）更新根目錄與各頁 `index.html`，再提交產出檔案至 GitHub `main`，由既有 GitHub Pages 發布。
+
+建置會使用固定版本的 Prettier，輸出兩格縮排、LF 換行與穩定的 HTML 格式；嚴格保留行內元素間的空白，避免改變文字間距。請修改來源後重新建置，不要手動排版產出檔案。首次導入格式會有較大的 diff，後續內容修改則能顯示局部差異。
+
+執行 `npm --prefix website-src test` 驗證行內文字、預格式化內容、課程 template 與全部正式頁面的結構保留，以及格式化的可重複性。
 
 - `routes.json`：正式網址、搜尋標題與描述。
 - `app.js`、`editorial.js`：品牌頁面版型（供建置使用）。
