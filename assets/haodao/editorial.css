@@ -68,3 +68,15 @@ html{scroll-padding-top:0}#story{scroll-margin-top:135px}@media(max-width:700px)
 .volunteer-gallery-item figcaption{display:flex;justify-content:space-between;gap:16px;padding:17px 4px 0;color:var(--gold);font:11px Georgia;letter-spacing:.17em}
 .volunteer-gallery-item figcaption>span:last-child{font-size:14px}
 @media(max-width:700px){.volunteer-gallery{padding:35px 0 10px}.volunteer-gallery-heading{margin-bottom:32px}.volunteer-gallery-heading h2{font-size:28px}.volunteer-gallery-grid{grid-template-columns:1fr;gap:30px}.volunteer-gallery-frame{padding:9px}.volunteer-gallery-item figcaption{padding-top:12px;font-size:10px}}
+
+/* Course names sit on their photographs at every screen size. */
+.course-product{min-width:0}
+.course-product-visual{position:relative;isolation:isolate;display:grid;min-height:440px;overflow:hidden;background:#293f4b}
+.course-product-visual>.course-product-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.course-product-visual:after{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(20,30,25,.58),rgba(20,30,25,.05)),linear-gradient(0deg,rgba(20,30,25,.75),rgba(20,30,25,.05) 85%)}
+.course-product-visual .course-product-head{align-self:end;padding:44px 40px;margin:0;color:#fff;text-shadow:0 2px 12px #0005}
+.course-product-visual .course-product-head .eyebrow{color:#f5ebd8;margin-bottom:18px}
+.course-product-visual .course-product-head h2{color:#fff}
+.course-product-visual .course-product-head h2 span{color:#f5ebd8}
+.course-product-visual .course-product-head>p:last-child{color:#fff;margin:18px 0 0}
+@media(max-width:700px){.course-product-visual{min-height:360px}.course-product-visual .course-product-head{padding:30px 24px}.course-product-visual .course-product-head h2{font-size:29px}.course-product-visual .course-product-head h2 span{font-size:21px;line-height:1.7}.course-product-visual .course-product-head>p:last-child{font-size:13px;letter-spacing:.08em}.course-product-visual .eyebrow{font-size:12px}}
