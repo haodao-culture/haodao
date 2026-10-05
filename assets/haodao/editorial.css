@@ -70,6 +70,8 @@ html{scroll-padding-top:0}#story{scroll-margin-top:135px}@media(max-width:700px)
 @media(max-width:700px){.volunteer-gallery{padding:35px 0 10px}.volunteer-gallery-heading{margin-bottom:32px}.volunteer-gallery-heading h2{font-size:28px}.volunteer-gallery-grid{grid-template-columns:1fr;gap:30px}.volunteer-gallery-frame{padding:9px}.volunteer-gallery-item figcaption{padding-top:12px;font-size:10px}}
 
 /* Course names sit on their photographs at every screen size. */
+.course-switch-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:700px){.course-sidebar nav{display:grid;grid-template-columns:1fr;gap:0;overflow:visible;padding:0 18px}.course-sidebar a{white-space:normal;padding:12px 0;min-height:50px}.course-sidebar a:last-child{border-bottom:0}.course-sidebar a.selected:after{display:block}}
 .course-product{min-width:0}
 .course-product-visual{position:relative;isolation:isolate;display:grid;min-height:440px;overflow:hidden;background:#293f4b}
 .course-product-visual>.course-product-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
@@ -80,3 +82,13 @@ html{scroll-padding-top:0}#story{scroll-margin-top:135px}@media(max-width:700px)
 .course-product-visual .course-product-head h2 span{color:#f5ebd8}
 .course-product-visual .course-product-head>p:last-child{color:#fff;margin:18px 0 0}
 @media(max-width:700px){.course-product-visual{min-height:360px}.course-product-visual .course-product-head{padding:30px 24px}.course-product-visual .course-product-head h2{font-size:29px}.course-product-visual .course-product-head h2 span{font-size:21px;line-height:1.7}.course-product-visual .course-product-head>p:last-child{font-size:13px;letter-spacing:.08em}.course-product-visual .eyebrow{font-size:12px}}
+
+/* Home and contact artwork, with a shared footer navigation heading. */
+.hero>img:first-child{object-position:center bottom}
+.contact-cover{grid-template-columns:1.25fr 1fr;padding-bottom:45px;overflow:hidden}
+.contact-cover .about-cover-copy{min-width:0}
+.contact-cover h1{margin-bottom:0}
+footer .footer-main{grid-template-columns:1fr 1fr;gap:50px}
+footer .footer-main h3{font-size:25px;letter-spacing:.08em;line-height:1.5;margin:25px 0}
+.footer-guide-links{display:grid;grid-template-columns:1fr 1fr;gap:50px}
+@media(max-width:700px){.hero>img:first-child{object-position:65% bottom}.contact-cover{padding-bottom:30px}.contact-cover .about-cover-copy{padding-top:28px}footer .footer-main{grid-template-columns:1fr;gap:15px}footer .footer-main h3{font-size:22px}.footer-guide-links{gap:24px}}
