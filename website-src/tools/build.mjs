@@ -54,7 +54,7 @@ const organization={'@type':'NGO','@id':origin+'/#organization',name:'昊道文�
 const searchIndex=[];
 function head(route){
  const url=origin+route.path;
- const ogImage=mediaUrl(route.course!==undefined?ctx.data.content.courses[route.course].image:'昊道文化主頁2.jpg');
+ const ogImage=mediaUrl(route.image||(route.course!==undefined?ctx.data.content.courses[route.course].image:'昊道文化主頁2.jpg'));
  const graph=[organization,{'@type':'WebSite','@id':origin+'/#website',name:'昊道文化文教發展協會',url:origin+'/',inLanguage:'zh-Hant',publisher:{'@id':organization['@id']}},{'@type':'WebPage','@id':url+'#webpage',url,name:route.title,description:route.description,inLanguage:'zh-Hant',isPartOf:{'@id':origin+'/#website'}}];
  if(route.key!=='home')graph.push({'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'首頁',item:origin+'/'},...(route.course!==undefined?[{'@type':'ListItem',position:2,name:'課程與活動',item:origin+'/courses/'}]:[]),{'@type':'ListItem',position:route.course!==undefined?3:2,name:route.title.split('｜')[0],item:url}]});
  if(route.course!==undefined)graph.push({'@type':'Course',name:route.title.split('｜')[0],description:route.description,url,provider:{'@id':organization['@id']},inLanguage:'zh-Hant'});
@@ -82,7 +82,7 @@ fs.writeFileSync(path.join(out,'search-index.json'),JSON.stringify(searchIndex))
 fs.writeFileSync(path.join(out,'favicon.svg'),'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="24" fill="#293f4b"/><text x="24" y="33" text-anchor="middle" font-size="30" fill="#f7f5ef" font-family="serif">昊</text></svg>');
 const baseline=read('legacy-sitemap.xml');
 const old=Array.from(baseline.matchAll(/<url>\s*<loc>([^<]+)<\/loc>[\s\S]*?<\/url>/g)).filter(m=>m[1]!==origin+'/').map(m=>m[0]);
-const entries=routes.filter(r=>!r.noindex).map(r=>`<url><loc>${origin+r.path}</loc><lastmod>2026-10-05</lastmod></url>`);
+const entries=routes.filter(r=>!r.noindex).map(r=>`<url><loc>${origin+r.path}</loc><lastmod>${r.lastmod||'2026-10-05'}</lastmod></url>`);
 fs.writeFileSync(path.join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...entries,...old].join('\n')+'\n</urlset>\n');
 fs.writeFileSync(path.join(root,'robots.txt'),'User-agent: *\nAllow: /\nDisallow: /preview/\nDisallow: /test/\nDisallow: /website-src/\nDisallow: /backend/\nDisallow: /api/\n\nSitemap: https://www.haodao.org/sitemap.xml\n');
 const notFound={key:'404',path:'/404.html',title:'找不到此頁面｜昊道文化',description:'此頁面不存在，請從昊道文化首頁繼續瀏覽。',noindex:true};

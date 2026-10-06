@@ -6,11 +6,12 @@
   const hrefFor = value => {
     const [key, anchor] = value.replace(/^#/, '').split('/');
     if (key === 'home') return '/';
+    if (key === 'volunteer-reflections') return '/volunteer/reflections/' + (anchor ? '#' + anchor : '');
     if (key === 'courses' && /^course-[0-4]$/.test(anchor || '')) return '/courses/' + courses[Number(anchor.slice(-1))] + '/';
     return '/' + key + '/' + (anchor ? '#' + anchor : '');
   };
   const legacy = location.hash.slice(1);
-  if (/^(home|about|learning|courses|community|retreat|volunteer|gallery|contact|privacy|copyright|search)(\/.*)?$/.test(legacy)) {
+  if (/^(home|about|learning|courses|community|retreat|volunteer|volunteer-reflections|gallery|contact|privacy|copyright|search)(\/.*)?$/.test(legacy)) {
     location.replace(hrefFor(legacy));
     return;
   }
