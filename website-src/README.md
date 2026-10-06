@@ -16,7 +16,9 @@
 - `website-src` 的來源檔符合 Prettier 格式（設定在 `.prettierrc.json`）。提交前可執行 `npm --prefix website-src run format` 自動整理。
 - 重新建置後產出檔沒有任何變動，也就是來源改了一定要重新建置並一起提交，產出檔也不能手動修改。
 
-`.prettierignore` 列出尚未整理格式的舊檔案，整理完一個就從清單移除；新增的檔案一律需要符合格式。
+`website-src` 的所有來源檔都必須符合格式。`index.html` 與產出的 HTML 一樣使用嚴格空白模式，排版不會改變行內元素間的空白。
+
+`build.mjs` 會在來源中尋找固定片段（例如 `<main id="main"></main>`、`function render()`、`events.js` 的 API 網址），每個片段必須剛好出現一次，否則建置直接失敗，避免替換被悄悄略過。修改這些片段時請一併更新 `build.mjs`。
 
 - `routes.json`：正式網址、搜尋標題與描述。
 - `app.js`、`editorial.js`：品牌頁面版型（供建置使用）。
