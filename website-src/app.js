@@ -72,22 +72,88 @@ function heroBrandmark() {
   const paint = 'data:image/svg+xml,' + encodeURIComponent(gradient).replace(/'/g, '%27');
   return `<svg class="hero-paint-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs><filter id="hero-brand-paint" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feImage href="${paint}" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="paint"/><feComposite in="paint" in2="SourceAlpha" operator="in"/></filter></defs></svg>${photo('昊道-黑.png', '', 'watermark hero-brandmark', true)}`;
 }
+const homeFeatures = [
+  [
+    '聖賢智慧與心智教育',
+    '古今中外許多聖賢，都留下了深刻的領悟與智慧，學習與理解這些智慧，拓展我們的心智格局與人生視野，看見不同的生命可能。',
+  ],
+  ['共學、共修與生命陪伴', '所以，生命成長需要陪伴，也需要一個能持續支持自己學習與成長的環境。'],
+  [
+    '修煉實踐與志工服務',
+    '透過志工服務，在付出、服務與陪伴中，學習放下自我、拓展心量格局，也讓自己的生命在服務中恢復本有的愛與光。',
+  ],
+];
+// Line breaks only sit between block elements, where whitespace does not render.
 function home() {
-  return `<section class="hero hero-sunrise">${photo('ChatGPT 圖像 2026年10月6日 下午05_36_34.png', '晨光映照山海，以紙張紋理與暖陽拼貼的風景', '', true)}${heroBrandmark()}<div class="hero-copy"><div class="eyebrow">HAODAO CULTURE · LIFE IN BLOOM</div><h1>讓生命，在學習、修煉<br>與實踐中持續成長。</h1><p>明理・修煉・愿行</p></div><div class="hero-bottom"><span>回到內在本有的清明</span><a href="#story" id="scroll-story">SCROLL TO EXPLORE　↓</a></div></section><section class="intro"><h2>從成長自己，走向陪伴生命。</h2><p>從明白走向修煉，從修煉走向轉化，從成長自己走向陪伴生命。<br>回到內在本有的清明，提升內心文明與生命維度，活出生命本質的智慧、愛與力量。</p></section><section class="section split" id="story"><div>${photo('昊道文化主頁1.jpeg', '木質空間中的昊道品牌書法', 'photo')}<div class="photo-caption">HAODAO CULTURE ／ 生命相遇的地方</div></div><div><div class="eyebrow">OUR STORY</div><h2>用生命陪伴生命，<br>用修煉陪伴成長。</h2><p>${clean(content.about[0].paragraphs[0])}</p><p>${clean(content.about[0].paragraphs[2])}</p><a class="textlink" href="#about">閱讀昊道的故事</a></div></section><section class="stats" aria-label="昊道的成長支持"><div><strong>3</strong><span>三維根基</span><small>理法・修煉・愿景使命</small></div><div><strong>4</strong><span>學習途徑</span><small>共學・課程・修煉・服務</small></div><div><strong>5</strong><span>各地共學點</span><small>讓陪伴，走進日常</small></div></section><section class="section"><div class="section-head"><div><div class="eyebrow">THE WAY WE GROW</div><h2>把成長，帶回每一天。</h2></div><p>在學習中明理，在生活中修煉，在修煉中轉化。</p></div><div class="features">${[
-    [
-      '聖賢智慧與心智教育',
-      '古今中外許多聖賢，都留下了深刻的領悟與智慧，學習與理解這些智慧，拓展我們的心智格局與人生視野，看見不同的生命可能。',
-    ],
-    ['共學、共修與生命陪伴', '所以，生命成長需要陪伴，也需要一個能持續支持自己學習與成長的環境。'],
-    [
-      '修煉實踐與志工服務',
-      '透過志工服務，在付出、服務與陪伴中，學習放下自我、拓展心量格局，也讓自己的生命在服務中恢復本有的愛與光。',
-    ],
-  ]
+  const features = homeFeatures
     .map(([t, p], i) => `<article class="feature">${icon(i)}<h3>${t}</h3><p>${p}</p></article>`)
-    .join(
-      '',
-    )}</div></section><section class="learning"><div class="section"><div class="section-head"><div><div class="eyebrow">YOUR LEARNING JOURNEY</div><h2>找到適合自己的成長起點。</h2></div><a class="textlink" href="#learning">探索學習地圖</a></div>${cards()}</div></section><section class="letter">${photo('昊道-黑.png', '', 'letter-mark')}${photo('板塊四共學.jpg', '共學夥伴彼此陪伴')}<div class="eyebrow">A LETTER TO YOU</div><h2>每個生命，<br>都有本自具足的光與力量。</h2><p>用生命陪伴生命，用修煉陪伴成長；在愿行中發光，成為別人的好環境，也陪伴更多人看見自己本自具足的光與力量。</p><p>讓愛持續傳出去，提升內心文明與生命維度，回到內在本有的清明，活出生命本質實相。</p><div class="signature">昊道文化</div></section><section class="contact"><div><div class="eyebrow">LET'S BEGIN</div><h2>生命成長的路，我們一起走。</h2><p>歡迎與我們聊聊，找到適合你的學習與陪伴。</p></div><a class="pill" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">與昊道聊聊</a></section>`;
+    .join('');
+  return `<section class="hero hero-sunrise">${photo('ChatGPT 圖像 2026年10月6日 下午05_36_34.png', '晨光映照山海，以紙張紋理與暖陽拼貼的風景', '', true)}${heroBrandmark()}
+  <div class="hero-copy">
+    <div class="eyebrow">HAODAO CULTURE · LIFE IN BLOOM</div>
+    <h1>讓生命，在學習、修煉<br>與實踐中持續成長。</h1>
+    <p>明理・修煉・愿行</p>
+  </div>
+  <div class="hero-bottom"><span>回到內在本有的清明</span><a href="#story" id="scroll-story">SCROLL TO EXPLORE　↓</a></div>
+</section>
+<section class="intro">
+  <h2>從成長自己，走向陪伴生命。</h2>
+  <p>從明白走向修煉，從修煉走向轉化，從成長自己走向陪伴生命。<br>回到內在本有的清明，提升內心文明與生命維度，活出生命本質的智慧、愛與力量。</p>
+</section>
+<section class="section split" id="story">
+  <div>${photo('昊道文化主頁1.jpeg', '木質空間中的昊道品牌書法', 'photo')}
+    <div class="photo-caption">HAODAO CULTURE ／ 生命相遇的地方</div>
+  </div>
+  <div>
+    <div class="eyebrow">OUR STORY</div>
+    <h2>用生命陪伴生命，<br>用修煉陪伴成長。</h2>
+    <p>${clean(content.about[0].paragraphs[0])}</p>
+    <p>${clean(content.about[0].paragraphs[2])}</p>
+    <a class="textlink" href="#about">閱讀昊道的故事</a>
+  </div>
+</section>
+<section class="stats" aria-label="昊道的成長支持">
+  <div><strong>3</strong><span>三維根基</span><small>理法・修煉・愿景使命</small></div>
+  <div><strong>4</strong><span>學習途徑</span><small>共學・課程・修煉・服務</small></div>
+  <div><strong>5</strong><span>各地共學點</span><small>讓陪伴，走進日常</small></div>
+</section>
+<section class="section">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">THE WAY WE GROW</div>
+      <h2>把成長，帶回每一天。</h2>
+    </div>
+    <p>在學習中明理，在生活中修煉，在修煉中轉化。</p>
+  </div>
+  <div class="features">${features}</div>
+</section>
+<section class="learning">
+  <div class="section">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">YOUR LEARNING JOURNEY</div>
+        <h2>找到適合自己的成長起點。</h2>
+      </div>
+      <a class="textlink" href="#learning">探索學習地圖</a>
+    </div>
+    ${cards()}
+  </div>
+</section>
+<section class="letter">${photo('昊道-黑.png', '', 'letter-mark')}${photo('板塊四共學.jpg', '共學夥伴彼此陪伴')}
+  <div class="eyebrow">A LETTER TO YOU</div>
+  <h2>每個生命，<br>都有本自具足的光與力量。</h2>
+  <p>用生命陪伴生命，用修煉陪伴成長；在愿行中發光，成為別人的好環境，也陪伴更多人看見自己本自具足的光與力量。</p>
+  <p>讓愛持續傳出去，提升內心文明與生命維度，回到內在本有的清明，活出生命本質實相。</p>
+  <div class="signature">昊道文化</div>
+</section>
+<section class="contact">
+  <div>
+    <div class="eyebrow">LET'S BEGIN</div>
+    <h2>生命成長的路，我們一起走。</h2>
+    <p>歡迎與我們聊聊，找到適合你的學習與陪伴。</p>
+  </div>
+  <a class="pill" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">與昊道聊聊</a>
+</section>`;
 }
 function block(b, i, title = '') {
   return `<section class="article-block">${title ? `<h2>${title}</h2>` : ''}${b.image ? photo(b.image, title || '昊道文化學習與生活') : ''}${paras(b.paragraphs)}</section>`;
