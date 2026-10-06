@@ -92,3 +92,98 @@ footer .footer-main{grid-template-columns:1fr 1fr;gap:50px}
 footer .footer-main h3{font-size:25px;letter-spacing:.08em;line-height:1.5;margin:25px 0}
 .footer-guide-links{display:grid;grid-template-columns:1fr 1fr;gap:50px}
 @media(max-width:700px){.hero>img:first-child{object-position:65% bottom}.contact-cover{padding-bottom:30px}.contact-cover .about-cover-copy{padding-top:28px}footer .footer-main{grid-template-columns:1fr;gap:15px}footer .footer-main h3{font-size:22px}.footer-guide-links{gap:24px}}
+
+/* Sunlit paper collage: dark type on the open paper, scenery kept bright. */
+.hero-sunrise{height:clamp(580px,calc(56.28vw - 36px),850px);color:var(--blue);background:#f6f1e8}
+.hero-sunrise>img:first-child{filter:none;object-position:center top}
+.hero-sunrise .hero-copy{top:12%;left:calc(4% + 140px);z-index:1}
+.hero-sunrise .eyebrow{color:#6d624e;font-size:12px}
+.hero-sunrise h1{font-size:clamp(32px,3.3vw,48px);letter-spacing:.09em;line-height:1.75}
+.hero-sunrise .hero-copy>p{display:inline-block;padding:5px 12px;margin:0;background:#f8f4e8eb;border-left:1px solid #b69e73}
+.hero-paint-defs{position:absolute;pointer-events:none}
+.hero-sunrise .watermark{opacity:1;top:12%;left:4%;right:auto;width:110px;height:220px;filter:url(#hero-brand-paint)}
+.hero-sunrise:after{content:'';position:absolute;inset:auto 0 0;height:100px;background:linear-gradient(transparent,#253a426b);pointer-events:none}
+.hero-sunrise .hero-bottom{color:white;z-index:1;text-shadow:0 1px 5px #20313d}
+
+/* Anonymous excerpts, arranged as an open reading collection. */
+.reflections-cover{max-width:1260px;margin:auto;padding:65px 45px 40px;display:grid;grid-template-columns:1fr 1.2fr;gap:65px;align-items:center}
+.reflections-cover-copy h1{font:500 43px/1.6 var(--serif);letter-spacing:.1em;margin:0 0 24px;color:var(--blue)}
+.reflections-cover-note{font:500 26px/1.9 var(--serif);letter-spacing:.12em;color:#53644f;margin:0 0 28px}
+.reflections-caption{font-size:13px;letter-spacing:.09em;color:var(--gold)}
+.reflections-cover .breadcrumb{color:var(--muted);font-size:12px;line-height:2}
+.reflections-cover .breadcrumb span{margin:0 10px}
+.reflections-cover figure{margin:0;position:relative}
+.reflections-cover figure:before{content:'';position:absolute;inset:-15px 25px 40px -15px;border:1px solid var(--line);z-index:-1}
+.reflections-cover figure img{width:100%;height:390px;object-fit:cover;object-position:58% center}
+.reflections-cover figcaption{padding-top:17px;font:10px Georgia;letter-spacing:.2em;color:var(--gold);text-align:right}
+.reflections-reading{max-width:1260px;margin:auto;padding:25px 45px 90px}
+.reflections-topics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:0 0 65px}
+.reflections-topics a{display:flex;align-items:center;gap:12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 8px;font-size:14px}
+.reflections-topics a span:first-child{color:var(--gold);font:12px Georgia}
+.reflections-topics a span:last-child{margin-left:auto;color:var(--gold)}
+.reflections-topics a:hover,.reflections-topics a:focus-visible{background:#ecece1;color:var(--blue)}
+.reflections-chapter{margin:0 0 70px;scroll-margin-top:135px}
+.reflections-heading{display:flex;align-items:baseline;gap:25px;flex-wrap:wrap;margin:0 0 26px}
+.reflections-heading .eyebrow{font-size:11px;margin:0}
+.reflections-heading h2{font:500 29px/1.7 var(--serif);letter-spacing:.09em;color:#3e5345;margin:0}
+.reflections-heading>span{margin-left:auto;font-size:12px;color:var(--muted);letter-spacing:.1em}
+.reflections-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.reflection-card{padding:29px 34px 32px;background:#fcfbf6;border:1px solid #dedbce;min-width:0}
+.reflections-chapter:nth-of-type(even) .reflection-card{background:#f0f1e8}
+.reflection-card-label{display:flex;align-items:center;justify-content:space-between;padding-bottom:19px;margin-bottom:20px;border-bottom:1px solid #dfddd2;color:#887656}
+.reflection-card-kicker{display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.16em}
+.reflection-icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#eeede2;flex-shrink:0}
+.reflection-icon svg{width:30px;height:30px;fill:none;stroke:#294954;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.reflection-icon .icon-gold{stroke:#a67e36}
+.reflection-card-label>span:last-child{font:21px Georgia}
+.reflection-card blockquote{margin:0;font:400 18px/1.95 var(--serif);color:#3d4842;letter-spacing:.025em}
+.reflection-card blockquote p{margin:0}
+.reflection-card blockquote p+p{margin-top:18px}
+.reflections-closing{text-align:center;border-top:1px solid var(--line);padding-top:55px}
+.reflections-closing>p:not(.eyebrow){font:23px/1.9 var(--serif);letter-spacing:.07em;margin:0 0 26px}
+.volunteer-reflections-link{display:flex;align-items:center;justify-content:space-between;gap:30px;padding:38px 42px;margin:0 0 65px;background:#edeee4;border-left:2px solid #a79775}
+.volunteer-reflections-link .eyebrow{font-size:12px;margin-bottom:14px}
+.volunteer-reflections-link h2{font:500 30px/1.6 var(--serif);letter-spacing:.1em;margin:0 0 12px;color:var(--blue)}
+.volunteer-reflections-link p:last-child{margin:0;color:var(--muted)}
+.volunteer-reflections-link .pill{gap:20px;flex-shrink:0}
+@media(max-width:1000px){.reflections-cover{gap:40px}.reflections-cover-copy h1{font-size:35px}.reflections-cover-note{font-size:23px}.reflections-topics{grid-template-columns:repeat(2,minmax(0,1fr))}.reflection-card{padding:25px}.reflections-cover figure img{height:350px}}
+@media(max-width:700px){
+ .hero-sunrise{height:auto;display:flex;flex-direction:column}
+ .hero-sunrise .hero-copy{position:relative;inset:auto;order:-1;padding:35px 25px 26px}
+ .hero-sunrise .hero-copy .eyebrow{font-size:9px;letter-spacing:.13em;margin-bottom:20px;padding-left:57px;min-height:70px;display:flex;align-items:center}
+ .hero-sunrise h1{font-size:clamp(24px,6.2vw,29px);letter-spacing:.05em;margin-bottom:20px}
+ .hero-sunrise .hero-copy>p{font-size:12px;margin:0;padding:0;border:0;background:none}
+ .hero-sunrise>img:first-child{height:auto;aspect-ratio:1.35;object-fit:cover;object-position:right bottom}
+ .hero-sunrise .watermark{display:block;top:32px;left:25px;width:40px;height:75px;z-index:2}
+ .hero-sunrise .hero-bottom{left:25px;right:20px;bottom:20px;font-size:9px;gap:20px;letter-spacing:.05em}
+ .reflections-cover{grid-template-columns:1fr;gap:28px;padding:38px 26px 25px}
+ .reflections-cover-copy h1{font-size:32px;margin-bottom:16px}
+ .reflections-cover-note{font-size:23px;margin-bottom:20px}
+ .reflections-cover figure{margin-left:12px}
+ .reflections-cover figure img{height:auto;aspect-ratio:4/3}
+ .reflections-cover figure:before{inset:-12px 20px 35px -12px}
+ .reflections-reading{padding:20px 26px 60px}
+ .reflections-topics{gap:10px;margin-bottom:45px}
+ .reflections-topics a{padding:14px 3px;font-size:12px;gap:7px}
+ .reflections-topics a span:first-child{font-size:10px}
+ .reflections-chapter{margin-bottom:45px;scroll-margin-top:108px}
+ .reflections-heading{gap:8px 15px;margin-bottom:20px}
+ .reflections-heading .eyebrow{width:100%}
+ .reflections-heading h2{font-size:23px;letter-spacing:.05em}
+ .reflections-heading>span{font-size:10px}
+ .reflections-grid{grid-template-columns:1fr;gap:18px}
+ .reflection-card{padding:23px}
+ .reflection-card blockquote{font-size:17px;line-height:1.95}
+ .reflections-closing>p:not(.eyebrow){font-size:21px}
+ .volunteer-reflections-link{display:block;padding:28px 24px;margin-bottom:45px}
+ .volunteer-reflections-link h2{font-size:26px}
+ .volunteer-reflections-link .pill{margin-top:24px}
+}
+
+/* Review refinements: clear entry points and a larger home introduction. */
+.intro h2{font-size:28.75px}
+.nav>a,.nav-group>a{white-space:nowrap}
+.volunteer-stories-entry{background:var(--blue);border-color:var(--blue);color:#fff;gap:28px;padding:12px 29px;font-size:16px;margin:4px 0 8px}
+.volunteer-stories-entry:hover{background:#405866}
+.gallery-main-link{margin-top:8px}
+@media(max-width:650px){.intro h2{font-size:23px}.reflection-icon{width:42px;height:42px}.reflection-icon svg{width:28px;height:28px}.volunteer-stories-entry{font-size:15px;padding:11px 24px}}
