@@ -1,20 +1,120 @@
 [
-  {"key":"home","path":"/","title":"昊道文化文教發展協會 | 生命成長・心靈提升・聖賢智慧","description":"昊道文化文教發展協會以聖賢智慧與心智教育，透過課程、各地共學、修煉與志工服務，用生命陪伴生命，支持生命成長與心靈提升。","lastmod":"2026-10-06"},
-  {"key":"about","path":"/about/","title":"關於昊道｜生命成長與心智教育｜昊道文化","description":"認識昊道文化文教發展協會：以聖賢智慧與心智教育，共學、共修與生命陪伴，讓明白的道理成為生活中能實踐的力量。"},
-  {"key":"learning","path":"/learning/","title":"學習地圖｜共學、課程、修煉與志工服務｜昊道文化","description":"從各地共學、課程與活動、修煉營到志工服務，探索適合自己的生命成長途徑，在學習中明理，在生活中修煉。"},
-  {"key":"courses","path":"/courses/","title":"課程與活動｜生命成長與靜心修煉課程｜昊道文化","description":"認識昊道文化一階、二階、進階、靜心修煉與覺察覺知課程，查看近期課程活動與學習紀錄，從理解自己開始持續成長。"},
-  {"key":"courses","course":0,"path":"/courses/level-1/","title":"一階課程：生命再前進｜啟覺・探索・發現・行證｜昊道文化","description":"一階課程是一段認識自己與生命的探索，透過啟覺、探索、發現與行證，從生存、生活走向生命，開啟持續成長的新起點。"},
-  {"key":"courses","course":1,"path":"/courses/level-2/","title":"二階課程：乘法風揚升｜明白・做到・活出・成為｜昊道文化","description":"二階課程乘法風揚升，從明白、做到，走向活出與成為。以更寬廣的心理解生命，深化與自己、他人及世界的關係。"},
-  {"key":"courses","course":2,"path":"/courses/advanced/","title":"進階課程｜深化理法與實修轉化｜昊道文化","description":"昊道文化進階課程，透過體驗、驗證與內化，深化理法，走向實修與轉化，讓所學在生活中成為知行合一的力量。"},
-  {"key":"courses","course":3,"path":"/courses/meditation/","title":"靜心修煉課程｜觀呼吸、定靜與內在觀照｜昊道文化","description":"透過體驗活動與靜心修煉心法，練習觀呼吸、觀照覺明與靜心內觀，學習知止、收心、定靜、專注與內在觀照。"},
-  {"key":"courses","course":4,"path":"/courses/awareness/","title":"覺察覺知課程｜覺己・覺他・覺境｜昊道文化","description":"透過覺察覺知課程，練習看見、理解、選擇與回應，從覺己、覺他到覺境，把生命的學習帶回日常生活。"},
-  {"key":"community","path":"/community/","title":"各地共學與陪伴｜共修據點與活動｜昊道文化","description":"昊道文化於北區、中區、嘉南區與高屏區設有共學據點，提供持續學習、交流分享與共同修煉的環境，讓成長有同行的力量。"},
-  {"key":"retreat","path":"/retreat/","title":"修煉營｜讓明理落實於生命與生活｜昊道文化","description":"認識昊道文化各項修煉營，透過修煉與實踐，將明白的道理逐步落實、內化，從覺察走向覺知、覺悟與覺行。"},
-  {"key":"volunteer","path":"/volunteer/","title":"昊道志工｜用生命陪伴生命｜昊道文化","description":"昊道文化志工單純無求、樂愿同行，在服務與陪伴中持續學習、修煉與成長，讓愛流動，成為彼此的好環境。","lastmod":"2026-10-06"},
-  {"key":"volunteer-reflections","path":"/volunteer/reflections/","title":"志工成長心得｜在服務與陪伴中學習｜昊道文化","description":"閱讀昊道志工的成長心得原文節錄，從看見自己、日常修煉到生命陪伴，分享22位志工在學習、承擔與同行中的體會。","image":"昊道文化志工/DSC02338.JPG","lastmod":"2026-10-06"},
-  {"key":"gallery","path":"/gallery/","title":"昊道法舟數位館｜書法與生命智慧｜昊道文化","description":"走進昊道法舟數位館，在書法、觀看、閱讀、修習與聆聽之間，與生命智慧相遇，展開自己的心靈行旅。"},
-  {"key":"contact","path":"/contact/","title":"聯絡我們｜課程諮詢、共學與志工服務｜昊道文化","description":"聯絡昊道文化文教發展協會，詢問課程、各地共學與志工服務。透過官方 LINE 或 team@haodao.org，開始一次生命成長的相遇。"},
-  {"key":"privacy","path":"/privacy/","title":"隱私權政策｜昊道文化","description":"了解昊道文化共學報名聯絡資料的蒐集目的、保存與使用方式，以及申請更正或刪除資料的聯絡窗口。"},
-  {"key":"copyright","path":"/copyright/","title":"版權聲明｜昊道文化","description":"昊道文化網站文字、品牌與圖片的使用及授權說明。"},
-  {"key":"search","path":"/search/","title":"全站搜尋｜昊道文化","description":"搜尋昊道文化的課程、共學、修煉及志工服務。","noindex":true}
+  {
+    "key": "home",
+    "path": "/",
+    "title": "昊道文化文教發展協會 | 生命成長・心靈提升・聖賢智慧",
+    "description": "昊道文化文教發展協會以聖賢智慧與心智教育，透過課程、各地共學、修煉與志工服務，用生命陪伴生命，支持生命成長與心靈提升。",
+    "lastmod": "2026-10-06"
+  },
+  {
+    "key": "about",
+    "path": "/about/",
+    "title": "關於昊道｜生命成長與心智教育｜昊道文化",
+    "description": "認識昊道文化文教發展協會：以聖賢智慧與心智教育，共學、共修與生命陪伴，讓明白的道理成為生活中能實踐的力量。"
+  },
+  {
+    "key": "learning",
+    "path": "/learning/",
+    "title": "學習地圖｜共學、課程、修煉與志工服務｜昊道文化",
+    "description": "從各地共學、課程與活動、修煉營到志工服務，探索適合自己的生命成長途徑，在學習中明理，在生活中修煉。"
+  },
+  {
+    "key": "courses",
+    "path": "/courses/",
+    "title": "課程與活動｜生命成長與靜心修煉課程｜昊道文化",
+    "description": "認識昊道文化一階、二階、進階、靜心修煉與覺察覺知課程，查看近期課程活動與學習紀錄，從理解自己開始持續成長。"
+  },
+  {
+    "key": "courses",
+    "course": 0,
+    "path": "/courses/level-1/",
+    "title": "一階課程：生命再前進｜啟覺・探索・發現・行證｜昊道文化",
+    "description": "一階課程是一段認識自己與生命的探索，透過啟覺、探索、發現與行證，從生存、生活走向生命，開啟持續成長的新起點。"
+  },
+  {
+    "key": "courses",
+    "course": 1,
+    "path": "/courses/level-2/",
+    "title": "二階課程：乘法風揚升｜明白・做到・活出・成為｜昊道文化",
+    "description": "二階課程乘法風揚升，從明白、做到，走向活出與成為。以更寬廣的心理解生命，深化與自己、他人及世界的關係。"
+  },
+  {
+    "key": "courses",
+    "course": 2,
+    "path": "/courses/advanced/",
+    "title": "進階課程｜深化理法與實修轉化｜昊道文化",
+    "description": "昊道文化進階課程，透過體驗、驗證與內化，深化理法，走向實修與轉化，讓所學在生活中成為知行合一的力量。"
+  },
+  {
+    "key": "courses",
+    "course": 3,
+    "path": "/courses/meditation/",
+    "title": "靜心修煉課程｜觀呼吸、定靜與內在觀照｜昊道文化",
+    "description": "透過體驗活動與靜心修煉心法，練習觀呼吸、觀照覺明與靜心內觀，學習知止、收心、定靜、專注與內在觀照。"
+  },
+  {
+    "key": "courses",
+    "course": 4,
+    "path": "/courses/awareness/",
+    "title": "覺察覺知課程｜覺己・覺他・覺境｜昊道文化",
+    "description": "透過覺察覺知課程，練習看見、理解、選擇與回應，從覺己、覺他到覺境，把生命的學習帶回日常生活。"
+  },
+  {
+    "key": "community",
+    "path": "/community/",
+    "title": "各地共學與陪伴｜共修據點與活動｜昊道文化",
+    "description": "昊道文化於北區、中區、嘉南區與高屏區設有共學據點，提供持續學習、交流分享與共同修煉的環境，讓成長有同行的力量。"
+  },
+  {
+    "key": "retreat",
+    "path": "/retreat/",
+    "title": "修煉營｜讓明理落實於生命與生活｜昊道文化",
+    "description": "認識昊道文化各項修煉營，透過修煉與實踐，將明白的道理逐步落實、內化，從覺察走向覺知、覺悟與覺行。"
+  },
+  {
+    "key": "volunteer",
+    "path": "/volunteer/",
+    "title": "昊道志工｜用生命陪伴生命｜昊道文化",
+    "description": "昊道文化志工單純無求、樂愿同行，在服務與陪伴中持續學習、修煉與成長，讓愛流動，成為彼此的好環境。",
+    "lastmod": "2026-10-06"
+  },
+  {
+    "key": "volunteer-reflections",
+    "path": "/volunteer/reflections/",
+    "title": "志工成長心得｜在服務與陪伴中學習｜昊道文化",
+    "description": "閱讀昊道志工的成長心得原文節錄，從看見自己、日常修煉到生命陪伴，分享22位志工在學習、承擔與同行中的體會。",
+    "image": "昊道文化志工/DSC02338.JPG",
+    "lastmod": "2026-10-06"
+  },
+  {
+    "key": "gallery",
+    "path": "/gallery/",
+    "title": "昊道法舟數位館｜書法與生命智慧｜昊道文化",
+    "description": "走進昊道法舟數位館，在書法、觀看、閱讀、修習與聆聽之間，與生命智慧相遇，展開自己的心靈行旅。"
+  },
+  {
+    "key": "contact",
+    "path": "/contact/",
+    "title": "聯絡我們｜課程諮詢、共學與志工服務｜昊道文化",
+    "description": "聯絡昊道文化文教發展協會，詢問課程、各地共學與志工服務。透過官方 LINE 或 team@haodao.org，開始一次生命成長的相遇。"
+  },
+  {
+    "key": "privacy",
+    "path": "/privacy/",
+    "title": "隱私權政策｜昊道文化",
+    "description": "了解昊道文化共學報名聯絡資料的蒐集目的、保存與使用方式，以及申請更正或刪除資料的聯絡窗口。"
+  },
+  {
+    "key": "copyright",
+    "path": "/copyright/",
+    "title": "版權聲明｜昊道文化",
+    "description": "昊道文化網站文字、品牌與圖片的使用及授權說明。"
+  },
+  {
+    "key": "search",
+    "path": "/search/",
+    "title": "全站搜尋｜昊道文化",
+    "description": "搜尋昊道文化的課程、共學、修煉及志工服務。",
+    "noindex": true
+  }
 ]
