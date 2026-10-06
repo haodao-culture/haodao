@@ -1,0 +1,43 @@
+name: Website check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website-src
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: website-src/package-lock.json
+
+      - run: npm ci
+
+      - name: Tests
+        run: npm test
+
+      - name: Source formatting
+        run: |
+          if ! npm run --silent format:check; then
+            echo "::error::website-src 有檔案不符合 Prettier 格式。請執行 npm --prefix website-src run format 後再提交。"
+            exit 1
+          fi
+
+      - name: Generated files are up to date
+        run: |
+          npm run build
+          if [ -n "$(git status --porcelain --untracked-files=all)" ]; then
+            git status --short
+            git --no-pager diff --stat
+            echo "::error::產出檔與 website-src 不一致。請執行 npm --prefix website-src run build，並提交所有產出檔；不要直接手改產出的 HTML、assets/haodao 或 sitemap.xml。"
+            exit 1
+          fi
