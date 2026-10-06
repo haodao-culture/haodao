@@ -1,0 +1,15 @@
+# 尚未整理成 Prettier 格式的檔案。整理完一個就從這裡移除，之後由 CI 持續檢查。
+# build.mjs 會用字串比對讀取 app.js、editorial.js、events.js、index.html 的片段，
+# 格式化這幾個檔案時必須同步修改 build.mjs，並確認重新建置後產出不變。
+app.js
+editorial.js
+events.js
+index.html
+bootstrap.js
+style.css
+editorial.css
+events.css
+content.json
+routes.json
+image-dimensions.json
+tools/build.mjs

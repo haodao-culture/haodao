@@ -8,7 +8,10 @@ import { formatHtml } from './format-html.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const routes = JSON.parse(fs.readFileSync(path.join(root, 'website-src/routes.json'), 'utf8'));
-const pages = [...routes.map(route => path.posix.join(route.path, 'index.html').slice(1)), '404.html'];
+const pages = [
+  ...routes.map(route => path.posix.join(route.path, 'index.html').slice(1)),
+  '404.html',
+];
 
 function structure(node, parentTag, preserveWhitespace = false) {
   if (node.nodeName === '#text') {
@@ -21,8 +24,21 @@ function structure(node, parentTag, preserveWhitespace = false) {
     namespace: node.namespaceURI,
     attrs: node.attrs,
     children: (node.childNodes || [])
-      .filter(child => !(node.namespaceURI === 'http://www.w3.org/2000/svg' && child.nodeName === '#text' && !child.value.trim()))
-      .map(child => structure(child, node.tagName, preserveWhitespace || ['pre', 'textarea'].includes(node.tagName))),
+      .filter(
+        child =>
+          !(
+            node.namespaceURI === 'http://www.w3.org/2000/svg' &&
+            child.nodeName === '#text' &&
+            !child.value.trim()
+          ),
+      )
+      .map(child =>
+        structure(
+          child,
+          node.tagName,
+          preserveWhitespace || ['pre', 'textarea'].includes(node.tagName),
+        ),
+      ),
     ...(node.content ? { template: structure(node.content) } : {}),
   };
 }

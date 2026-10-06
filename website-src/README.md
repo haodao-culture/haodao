@@ -10,6 +10,14 @@
 
 執行 `npm --prefix website-src test` 驗證行內文字、預格式化內容、課程 template 與全部正式頁面的結構保留，以及格式化的可重複性。
 
+每個 PR 與推到 `main` 的提交都會由 GitHub Actions（`.github/workflows/website-check.yml`）檢查：
+
+- 測試通過。
+- `website-src` 的來源檔符合 Prettier 格式（設定在 `.prettierrc.json`）。提交前可執行 `npm --prefix website-src run format` 自動整理。
+- 重新建置後產出檔沒有任何變動，也就是來源改了一定要重新建置並一起提交，產出檔也不能手動修改。
+
+`.prettierignore` 列出尚未整理格式的舊檔案，整理完一個就從清單移除；新增的檔案一律需要符合格式。
+
 - `routes.json`：正式網址、搜尋標題與描述。
 - `app.js`、`editorial.js`：品牌頁面版型（供建置使用）。
 - `bootstrap.js`：正式版導覽、搜尋、篩選與表單初始化。
