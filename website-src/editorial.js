@@ -39,29 +39,55 @@ function prose(paragraphs, lead = true) {
       const text = rich(p);
       if (text.includes('<br>')) {
         const bits = text.split('<br>');
-        return `<div class="prose-group ${i === 0 && lead ? 'prose-lead' : ''}"><p>${bits[0]}</p><div class="reading-lines">${bits
+        return `<div class="prose-group ${i === 0 && lead ? 'prose-lead' : ''}"><p>${bits[0]}</p>
+        <div class="reading-lines">${bits
           .slice(1)
           .map(x => `<p>${x}</p>`)
-          .join('')}</div></div>`;
+          .join('')}</div>
+        </div>`;
       }
       return `<p class="${i === 0 && lead ? 'prose-lead' : i === paragraphs.length - 1 && paragraphs.length > 2 ? 'prose-closing' : ''}">${text}</p>`;
     })
     .join('');
 }
 function titleBanner(k, image) {
-  return `<section class="page-banner">${photo(image, titles[k] + ' — 昊道文化', '', true)}<div><p class="eyebrow">${english[k]}</p><h1>${titles[k]}</h1><p class="breadcrumb"><a href="#home">首頁</a><span>／</span>${titles[k]}</p></div></section>`;
+  return `<section class="page-banner">${photo(image, titles[k] + ' — 昊道文化', '', true)}<div>
+      <p class="eyebrow">${english[k]}</p>
+      <h1>${titles[k]}</h1>
+      <p class="breadcrumb"><a href="#home">首頁</a><span>／</span>${titles[k]}</p>
+    </div>
+  </section>`;
 }
 function inkBackdrop() {
   return `<span class="ink-backdrop" aria-hidden="true">${photo('昊道-黑.png', '')}</span>`;
 }
 function aboutCover() {
-  return `<section class="about-cover"><div class="about-cover-copy">${inkBackdrop()}<p class="eyebrow">ABOUT HAODAO</p><h1>關於昊道</h1><p class="about-cover-note">用生命陪伴生命，<br>用修煉陪伴成長。</p><p class="breadcrumb"><a href="#home">首頁</a><span>／</span>關於昊道</p></div><figure>${photo('昊道文化主頁2.jpg', '昊道文化建築與庭園全景', '', true).replace('<img', '<img width="1478" height="1063"')}<figcaption><span>HAODAO CULTURE</span><span>生命相遇的地方</span></figcaption></figure></section>`;
+  return `<section class="about-cover">
+    <div class="about-cover-copy">${inkBackdrop()}<p class="eyebrow">ABOUT HAODAO</p>
+      <h1>關於昊道</h1>
+      <p class="about-cover-note">用生命陪伴生命，<br>用修煉陪伴成長。</p>
+      <p class="breadcrumb"><a href="#home">首頁</a><span>／</span>關於昊道</p>
+    </div>
+    <figure>${photo('昊道文化主頁2.jpg', '昊道文化建築與庭園全景', '', true).replace('<img', '<img width="1478" height="1063"')}<figcaption><span>HAODAO CULTURE</span><span>生命相遇的地方</span></figcaption>
+    </figure>
+  </section>`;
 }
 function communityCover() {
-  return `<section class="about-cover community-cover"><figure>${photo('各地共學首頁.JPG', '共學空間裡的燭光、松果與書法', '', true).replace('<img', '<img width="2000" height="1500"')}</figure><div class="about-cover-copy">${inkBackdrop()}<p class="eyebrow">GROWING TOGETHER</p><h1>各地共學與陪伴</h1><p class="breadcrumb"><a href="#home">首頁</a><span>／</span>各地共學與陪伴</p></div></section>`;
+  return `<section class="about-cover community-cover">
+    <figure>${photo('各地共學首頁.JPG', '共學空間裡的燭光、松果與書法', '', true).replace('<img', '<img width="2000" height="1500"')}</figure>
+    <div class="about-cover-copy">${inkBackdrop()}<p class="eyebrow">GROWING TOGETHER</p>
+      <h1>各地共學與陪伴</h1>
+      <p class="breadcrumb"><a href="#home">首頁</a><span>／</span>各地共學與陪伴</p>
+    </div>
+  </section>`;
 }
 function contactCover() {
-  return `<section class="about-cover community-cover contact-cover"><figure>${photo('Codex 圖像 2026年10月5日 下午11_09_51.png', '陽光下，夥伴在昊道文化建築前開心相聚的插畫', '', true)}</figure><div class="about-cover-copy">${inkBackdrop()}<p class="eyebrow">GET IN TOUCH</p><h1>聯絡我們</h1></div></section>`;
+  return `<section class="about-cover community-cover contact-cover">
+    <figure>${photo('Codex 圖像 2026年10月5日 下午11_09_51.png', '陽光下，夥伴在昊道文化建築前開心相聚的插畫', '', true)}</figure>
+    <div class="about-cover-copy">${inkBackdrop()}<p class="eyebrow">GET IN TOUCH</p>
+      <h1>聯絡我們</h1>
+    </div>
+  </section>`;
 }
 function aboutEditorial() {
   const b = content.about;
@@ -79,19 +105,88 @@ function aboutEditorial() {
       '<strong class="coffee-emphasis">課程活動、共學交流、生命分享</strong>',
     );
   return `${aboutCover()}<div class="about-editorial">
- <section class="opening-story">${inkBackdrop()}<div class="opening-art">${photo(b[0].image, '木質空間中的昊道文化')}<span class="vertical-label">明理・修煉・愿行</span></div><div class="opening-copy"><p class="eyebrow">01 / OUR BEGINNING</p><h2>用生命，<br>陪伴生命。</h2>${prose(b[0].paragraphs)}</div></section>
- <section class="story-chapter reverse life-chapter"><div class="chapter-visual life-art">${photo('IMG_9134_書法文字去背.png', '生命成長書法作品')}<div class="life-art-title"><p class="eyebrow">LIFE STARTS HERE</p><h2>生命的成長，<br>從每天的生活開始。</h2></div><span class="chapter-number">02</span></div><div class="chapter-copy">${prose(b[1].paragraphs)}</div></section>
- <section class="wisdom-composition"><figure class="wisdom-art"><span class="wisdom-art-label">THE WISDOM WITHIN</span>${photo(b[2].image, '聖賢智慧：啟覺、探索、發現、做到')}<figcaption>啟覺・探索・發現・做到</figcaption></figure><div class="wisdom-content"><div class="wisdom-head"><p class="eyebrow">03 / WISDOM IN EVERYDAY LIFE</p><h2>從看見自己，<br>開始新的生命可能。</h2></div>${wisdomCopy}</div></section>
- <section class="photo-essay"><div class="essay-image">${photo('昊道文化志工/DSC02338.JPG', '夕陽下，昊道志工攜手同行')}<div class="essay-title"><p class="eyebrow">04 / TOGETHER, WE GROW</p><h2>成長的路上，<br>有彼此同行。</h2></div></div><div class="essay-paper">${companionCopy}</div></section>
- <section class="story-chapter practice-chapter"><div class="chapter-visual">${photo(b[4].image, '修煉，讓道理長進生命')}<span class="chapter-number">05</span></div><div class="chapter-copy"><p class="eyebrow">THE ART OF PRACTICE</p><h2>讓明白的道理，<br>成為活出的力量。</h2>${prose(b[4].paragraphs)}</div></section>
- <section class="volunteer-story"><div class="volunteer-story-visual">${photo(b[5].image, '昊道志工，讓愛流動')}<div class="volunteer-story-heading"><p class="eyebrow">06 / A LIFE OF GIVING</p><h2>在愿行中發光，<br>成為別人的好環境。</h2></div></div><div class="volunteer-prose">${prose(b[5].paragraphs)}</div><a class="pill" href="#volunteer">認識昊道志工</a></section></div>`;
+    <section class="opening-story">${inkBackdrop()}<div class="opening-art">${photo(b[0].image, '木質空間中的昊道文化')}<span class="vertical-label">明理・修煉・愿行</span></div>
+      <div class="opening-copy">
+        <p class="eyebrow">01 / OUR BEGINNING</p>
+        <h2>用生命，<br>陪伴生命。</h2>${prose(b[0].paragraphs)}</div>
+    </section>
+    <section class="story-chapter reverse life-chapter">
+      <div class="chapter-visual life-art">${photo('IMG_9134_書法文字去背.png', '生命成長書法作品')}<div class="life-art-title">
+          <p class="eyebrow">LIFE STARTS HERE</p>
+          <h2>生命的成長，<br>從每天的生活開始。</h2>
+        </div><span class="chapter-number">02</span></div>
+      <div class="chapter-copy">${prose(b[1].paragraphs)}</div>
+    </section>
+    <section class="wisdom-composition">
+      <figure class="wisdom-art"><span class="wisdom-art-label">THE WISDOM WITHIN</span>${photo(b[2].image, '聖賢智慧：啟覺、探索、發現、做到')}<figcaption>啟覺・探索・發現・做到</figcaption>
+      </figure>
+      <div class="wisdom-content">
+        <div class="wisdom-head">
+          <p class="eyebrow">03 / WISDOM IN EVERYDAY LIFE</p>
+          <h2>從看見自己，<br>開始新的生命可能。</h2>
+        </div>${wisdomCopy}</div>
+    </section>
+    <section class="photo-essay">
+      <div class="essay-image">${photo('昊道文化志工/DSC02338.JPG', '夕陽下，昊道志工攜手同行')}<div class="essay-title">
+          <p class="eyebrow">04 / TOGETHER, WE GROW</p>
+          <h2>成長的路上，<br>有彼此同行。</h2>
+        </div>
+      </div>
+      <div class="essay-paper">${companionCopy}</div>
+    </section>
+    <section class="story-chapter practice-chapter">
+      <div class="chapter-visual">${photo(b[4].image, '修煉，讓道理長進生命')}<span class="chapter-number">05</span></div>
+      <div class="chapter-copy">
+        <p class="eyebrow">THE ART OF PRACTICE</p>
+        <h2>讓明白的道理，<br>成為活出的力量。</h2>${prose(b[4].paragraphs)}</div>
+    </section>
+    <section class="volunteer-story">
+      <div class="volunteer-story-visual">${photo(b[5].image, '昊道志工，讓愛流動')}<div class="volunteer-story-heading">
+          <p class="eyebrow">06 / A LIFE OF GIVING</p>
+          <h2>在愿行中發光，<br>成為別人的好環境。</h2>
+        </div>
+      </div>
+      <div class="volunteer-prose">${prose(b[5].paragraphs)}</div><a class="pill" href="#volunteer">認識昊道志工</a></section>
+  </div>`;
 }
 function volunteerEditorial() {
   const images = content.volunteerGallery || [];
-  return `<div class="page-title"><p class="eyebrow">A LIFE OF GIVING</p><h1>昊道志工</h1><a class="pill volunteer-stories-entry" href="#volunteer-reflections">志工成長心得 <span aria-hidden="true">↗</span></a></div><div class="article volunteer-article"><section class="volunteer-intro"><div class="volunteer-intro-copy">${content.volunteer.map(b => prose(b.paragraphs)).join('')}</div><figure class="volunteer-intro-visual">${photo('昊道文化志工/DSC02342.JPG', '手持書冊，與志工夥伴在夕陽下同行', '', true)}</figure></section>
- <section class="volunteer-reflections-link" aria-labelledby="volunteer-reflections-link-title"><div><p class="eyebrow">VOICES OF GROWTH</p><h2 id="volunteer-reflections-link-title">志工成長心得</h2><p>在同行中，看見生命的成長。</p></div><a class="pill" href="#volunteer-reflections">閱讀心得 <span aria-hidden="true">↗</span></a></section>
- <section class="volunteer-gallery" aria-labelledby="volunteer-gallery-title"><div class="volunteer-gallery-heading"><p class="eyebrow">MOMENTS OF GIVING</p><h2 id="volunteer-gallery-title">把每一次同行，<br>留在心裡。</h2></div><div class="volunteer-gallery-grid">${images.map((p, i) => `<figure class="volunteer-gallery-item"><div class="volunteer-gallery-frame">${photo(p.image, p.alt)}</div><figcaption><span>HAODAO VOLUNTEERS</span><span>${String(i + 1).padStart(2, '0')}</span></figcaption></figure>`).join('')}</div></section>
- <section class="volunteer-vow">${inkBackdrop()}<p class="eyebrow">THE HEART OF GIVING</p><h2 aria-label="無相修行、無求愿行"><span>無相修行</span><span>無求愿行</span></h2><div class="vow-lines"><p>單純無求 <span>樂愿同行</span></p><p>協同修辦 <span>集體證量</span></p></div></section></div>`;
+  return `<div class="page-title">
+    <p class="eyebrow">A LIFE OF GIVING</p>
+    <h1>昊道志工</h1><a class="pill volunteer-stories-entry" href="#volunteer-reflections">志工成長心得 <span aria-hidden="true">↗</span></a></div>
+  <div class="article volunteer-article">
+    <section class="volunteer-intro">
+      <div class="volunteer-intro-copy">${content.volunteer.map(b => prose(b.paragraphs)).join('')}</div>
+      <figure class="volunteer-intro-visual">${photo('昊道文化志工/DSC02342.JPG', '手持書冊，與志工夥伴在夕陽下同行', '', true)}</figure>
+    </section>
+    <section class="volunteer-reflections-link" aria-labelledby="volunteer-reflections-link-title">
+      <div>
+        <p class="eyebrow">VOICES OF GROWTH</p>
+        <h2 id="volunteer-reflections-link-title">志工成長心得</h2>
+        <p>在同行中，看見生命的成長。</p>
+      </div><a class="pill" href="#volunteer-reflections">閱讀心得 <span aria-hidden="true">↗</span></a></section>
+    <section class="volunteer-gallery" aria-labelledby="volunteer-gallery-title">
+      <div class="volunteer-gallery-heading">
+        <p class="eyebrow">MOMENTS OF GIVING</p>
+        <h2 id="volunteer-gallery-title">把每一次同行，<br>留在心裡。</h2>
+      </div>
+      <div class="volunteer-gallery-grid">${images
+        .map(
+          (p, i) => `<figure class="volunteer-gallery-item">
+            <div class="volunteer-gallery-frame">${photo(p.image, p.alt)}</div>
+            <figcaption><span>HAODAO VOLUNTEERS</span><span>${String(i + 1).padStart(2, '0')}</span></figcaption>
+          </figure>`,
+        )
+        .join('')}</div>
+    </section>
+    <section class="volunteer-vow">${inkBackdrop()}<p class="eyebrow">THE HEART OF GIVING</p>
+      <h2 aria-label="無相修行、無求愿行"><span>無相修行</span><span>無求愿行</span></h2>
+      <div class="vow-lines">
+        <p>單純無求 <span>樂愿同行</span></p>
+        <p>協同修辦 <span>集體證量</span></p>
+      </div>
+    </section>
+  </div>`;
 }
 function reflectionIcon(topic) {
   const drawings = [
@@ -109,53 +204,149 @@ function volunteerReflections() {
       /[&<>"']/g,
       char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char],
     );
-  return `<section class="reflections-cover"><div class="reflections-cover-copy"><p class="eyebrow">VOICES OF GROWTH</p><h1>志工成長心得</h1><p class="reflections-cover-note">在同行中，<br>看見生命的成長。</p><p class="reflections-caption">22 份生命分享・原文節錄</p><p class="breadcrumb"><a href="#home">首頁</a><span>／</span><a href="#volunteer">昊道志工</a><span>／</span>成長心得</p></div><figure>${photo('昊道文化志工/DSC02338.JPG', '夕陽下，昊道志工攜手同行', '', true)}<figcaption>TOGETHER, WE GROW</figcaption></figure></section>
- <div class="reflections-reading"><nav class="reflections-topics" aria-label="心得閱讀主題">${groups.map((g, i) => `<a href="#volunteer-reflections/${g.id}"><span>0${i + 1}</span>${g.title}<span aria-hidden="true">↓</span></a>`).join('')}</nav>
- ${groups.map((g, i) => `<section class="reflections-chapter" id="${g.id}" aria-labelledby="reflection-title-${g.id}"><div class="reflections-heading"><p class="eyebrow">CHAPTER 0${i + 1}</p><h2 id="reflection-title-${g.id}">${g.title}</h2><span>${String(g.items.length).padStart(2, '0')} 份分享</span></div><div class="reflections-grid">${g.items.map(item => `<article class="reflection-card" aria-label="成長心得 ${item.number}"><div class="reflection-card-label"><span class="reflection-card-kicker">${reflectionIcon(i)}<span>成長片刻</span></span><span>${String(item.number).padStart(2, '0')}</span></div><blockquote>${item.paragraphs.map(p => `<p>${escapeQuote(p).replace(/\n/g, '<br>')}</p>`).join('')}</blockquote></article>`).join('')}</div></section>`).join('')}
- <div class="reflections-closing"><p class="eyebrow">A LIFE OF GIVING</p><p>用生命陪伴生命，用修煉陪伴成長。</p><a class="pill" href="#volunteer">認識昊道志工</a></div></div>`;
+  return `<section class="reflections-cover">
+    <div class="reflections-cover-copy">
+      <p class="eyebrow">VOICES OF GROWTH</p>
+      <h1>志工成長心得</h1>
+      <p class="reflections-cover-note">在同行中，<br>看見生命的成長。</p>
+      <p class="reflections-caption">22 份生命分享・原文節錄</p>
+      <p class="breadcrumb"><a href="#home">首頁</a><span>／</span><a href="#volunteer">昊道志工</a><span>／</span>成長心得</p>
+    </div>
+    <figure>${photo('昊道文化志工/DSC02338.JPG', '夕陽下，昊道志工攜手同行', '', true)}<figcaption>TOGETHER, WE GROW</figcaption>
+    </figure>
+  </section>
+  <div class="reflections-reading">
+    <nav class="reflections-topics" aria-label="心得閱讀主題">${groups.map((g, i) => `<a href="#volunteer-reflections/${g.id}"><span>0${i + 1}</span>${g.title}<span aria-hidden="true">↓</span></a>`).join('')}</nav>
+    ${groups
+      .map(
+        (
+          g,
+          i,
+        ) => `<section class="reflections-chapter" id="${g.id}" aria-labelledby="reflection-title-${g.id}"><div class="reflections-heading">
+          <p class="eyebrow">CHAPTER 0${i + 1}</p><h2 id="reflection-title-${g.id}">${g.title}</h2><span>${String(g.items.length).padStart(2, '0')} 份分享</span></div>
+        <div class="reflections-grid">${g.items
+          .map(
+            item => `<article class="reflection-card" aria-label="成長心得 ${item.number}"><div class="reflection-card-label"><span class="reflection-card-kicker">${reflectionIcon(i)}<span>成長片刻</span></span><span>${String(item.number).padStart(2, '0')}</span></div>
+            <blockquote>${item.paragraphs.map(p => `<p>${escapeQuote(p).replace(/\n/g, '<br>')}</p>`).join('')}</blockquote>
+            </article>`,
+          )
+          .join('')}</div>
+        </section>`,
+      )
+      .join('')}
+    <div class="reflections-closing">
+      <p class="eyebrow">A LIFE OF GIVING</p>
+      <p>用生命陪伴生命，用修煉陪伴成長。</p><a class="pill" href="#volunteer">認識昊道志工</a></div>
+  </div>`;
 }
 function galleryFeature() {
-  return `<section class="gallery-feature">${photo('書法.jpg', '書法與生命智慧的相遇')}<div><p class="eyebrow">HAODAO FAZHOU · DIGITAL GALLERY</p><h2>昊道法舟<br>數位館</h2><p>在觀看、閱讀與聆聽之間，<br>與生命的智慧相遇。</p><a class="pill" href="#gallery">走進數位館</a></div></section>`;
+  return `<section class="gallery-feature">${photo('書法.jpg', '書法與生命智慧的相遇')}<div>
+      <p class="eyebrow">HAODAO FAZHOU · DIGITAL GALLERY</p>
+      <h2>昊道法舟<br>數位館</h2>
+      <p>在觀看、閱讀與聆聽之間，<br>與生命的智慧相遇。</p><a class="pill" href="#gallery">走進數位館</a></div>
+  </section>`;
 }
 home = () =>
   homeV1().replace('<section class="letter">', galleryFeature() + '<section class="letter">');
 function courseIntroduction() {
   const pieces = source.courses.intro.flatMap(p => p.split('<br>')).filter(Boolean);
-  return `<section class="course-intro">${inkBackdrop()}<div class="course-intro-heading"><p class="eyebrow">LEARN · PRACTICE · BECOME</p><h2>不只聽懂道理，<br><em>更讓生命真正轉化。</em></h2><p class="course-intro-motto">明白 <span>—</span> 做到<br>活出 <span>—</span> 成為</p></div><div class="course-intro-reading"><p class="course-intro-lead">${rich(pieces[0]).replace('聖賢智慧與心智教育', '<strong>聖賢智慧與心智教育</strong>')}</p><div class="course-path"><article><span>01</span><div><h3>從理解自己開始</h3><p>${rich(pieces[1] || '').replace('一階、二階', '<strong>一階、二階</strong>')}</p></div></article><article><span>02</span><div><h3>把明白，帶回生活</h3><p>${rich(pieces[2] || '').replace('看見自己、調整自己、轉化自己', '<strong>看見自己、調整自己、轉化自己</strong>')}</p></div></article></div><p class="course-intro-closing">${rich(pieces.slice(3).join('<br>')).replace('親身體驗、實際修煉與生活實踐', '<strong>親身體驗、實際修煉與生活實踐</strong>')}</p></div></section>`;
+  return `<section class="course-intro">${inkBackdrop()}<div class="course-intro-heading">
+      <p class="eyebrow">LEARN · PRACTICE · BECOME</p>
+      <h2>不只聽懂道理，<br><em>更讓生命真正轉化。</em></h2>
+      <p class="course-intro-motto">明白 <span>—</span> 做到<br>活出 <span>—</span> 成為</p>
+    </div>
+    <div class="course-intro-reading">
+      <p class="course-intro-lead">${rich(pieces[0]).replace('聖賢智慧與心智教育', '<strong>聖賢智慧與心智教育</strong>')}</p>
+      <div class="course-path">
+        <article><span>01</span><div>
+            <h3>從理解自己開始</h3>
+            <p>${rich(pieces[1] || '').replace('一階、二階', '<strong>一階、二階</strong>')}</p>
+          </div>
+        </article>
+        <article><span>02</span><div>
+            <h3>把明白，帶回生活</h3>
+            <p>${rich(pieces[2] || '').replace('看見自己、調整自己、轉化自己', '<strong>看見自己、調整自己、轉化自己</strong>')}</p>
+          </div>
+        </article>
+      </div>
+      <p class="course-intro-closing">${rich(pieces.slice(3).join('<br>')).replace('親身體驗、實際修煉與生活實踐', '<strong>親身體驗、實際修煉與生活實踐</strong>')}</p>
+    </div>
+  </section>`;
 }
 function learningEditorial() {
-  return `<div class="page-title"><p class="eyebrow">LEARNING MAP</p><h1>學習地圖</h1></div><div class="article learning-article"><section class="learning-manifesto">${inkBackdrop()}<p class="eyebrow">A JOURNEY BACK TO YOURSELF</p><h2><span><span class="slogan-phrase">在學習中<strong>明理</strong>，</span><span class="slogan-phrase">在生活中<strong>修煉</strong>，</span></span><span><span class="slogan-phrase">在修煉中<strong>轉化</strong>，</span><span class="slogan-phrase">在愿行中<strong>發光</strong>。</span></span></h2><div class="manifesto-line" aria-hidden="true"></div></section>${cards()}</div>`;
+  return `<div class="page-title">
+    <p class="eyebrow">LEARNING MAP</p>
+    <h1>學習地圖</h1>
+  </div>
+  <div class="article learning-article">
+    <section class="learning-manifesto">${inkBackdrop()}<p class="eyebrow">A JOURNEY BACK TO YOURSELF</p>
+      <h2><span><span class="slogan-phrase">在學習中<strong>明理</strong>，</span><span class="slogan-phrase">在生活中<strong>修煉</strong>，</span></span><span><span class="slogan-phrase">在修煉中<strong>轉化</strong>，</span><span class="slogan-phrase">在愿行中<strong>發光</strong>。</span></span></h2>
+      <div class="manifesto-line" aria-hidden="true">
+      </div>
+    </section>${cards()}</div>`;
 }
 function galleryEditorial() {
-  return `<section class="gallery-welcome">${inkBackdrop()}<div class="gallery-welcome-copy"><p class="eyebrow">HAODAO FAZHOU · DIGITAL GALLERY</p><h1>昊道法舟數位館</h1><a class="gallery-main-link" href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/" target="_blank" rel="noopener noreferrer"><span><small>ENTER THE GALLERY</small>進入昊道法舟數位館</span><span class="gallery-main-arrow" aria-hidden="true">↗</span></a><p class="gallery-lead">一筆一畫，一字一句，<br>都是與生命智慧的相遇。</p><p class="gallery-caption">在觀看、閱讀、修習與聆聽之間，<br>開啟一段屬於自己的心靈行旅。</p></div>${photo('書法.jpg', '昊道書法作品', 'gallery-welcome-photo', true)}</section><div class="article gallery-description"><p>昊道文化數位策展～書法展廳、書法法舟、心靈慧談法舟、理法法舟、音樂法舟與書院法舟閱覽，共同展開觀看、閱讀、修習、聆聽與空間行旅。</p></div>`;
+  return `<section class="gallery-welcome">${inkBackdrop()}<div class="gallery-welcome-copy">
+      <p class="eyebrow">HAODAO FAZHOU · DIGITAL GALLERY</p>
+      <h1>昊道法舟數位館</h1><a class="gallery-main-link" href="https://calligraphy-gallery-curation.k1l2p3k1l2p3.chatgpt.site/" target="_blank" rel="noopener noreferrer"><span><small>ENTER THE GALLERY</small>進入昊道法舟數位館</span><span class="gallery-main-arrow" aria-hidden="true">↗</span></a><p class="gallery-lead">一筆一畫，一字一句，<br>都是與生命智慧的相遇。</p>
+      <p class="gallery-caption">在觀看、閱讀、修習與聆聽之間，<br>開啟一段屬於自己的心靈行旅。</p>
+    </div>${photo('書法.jpg', '昊道書法作品', 'gallery-welcome-photo', true)}</section>
+  <div class="article gallery-description">
+    <p>昊道文化數位策展～書法展廳、書法法舟、心靈慧談法舟、理法法舟、音樂法舟與書院法舟閱覽，共同展開觀看、閱讀、修習、聆聽與空間行旅。</p>
+  </div>`;
 }
 function courseProduct(selected) {
   const b = content.courses[selected];
-  return `<article class="course-product" data-course-index="${selected}"><div class="course-product-visual">${photo(b.image, courseNames[selected], 'course-product-image')}<div class="course-product-head"><p class="eyebrow">COURSE 0${selected + 1}</p><h2>${courseNames[selected]}<span>${courseThemes[selected]}</span></h2><p>${courseSteps[selected]}</p></div></div><div class="course-product-copy">${prose(b.paragraphs)}</div><a class="pill" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">詢問課程資訊</a></article>`;
+  return `<article class="course-product" data-course-index="${selected}"><div class="course-product-visual">${photo(b.image, courseNames[selected], 'course-product-image')}<div class="course-product-head">
+      <p class="eyebrow">COURSE 0${selected + 1}</p>
+      <h2>${courseNames[selected]}<span>${courseThemes[selected]}</span></h2>
+      <p>${courseSteps[selected]}</p>
+    </div>
+  </div>
+  <div class="course-product-copy">${prose(b.paragraphs)}</div><a class="pill" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">詢問課程資訊</a></article>`;
 }
 courses = () => {
   const match = location.hash.match(/course-(\d)/),
     selected = Math.min(4, Number(match?.[1] || 0)),
     b = content.courses[selected];
-  return `${courseIntroduction()}<section id="regular" class="course-catalog" aria-labelledby="course-catalog-title"><h2 id="course-catalog-title" class="course-catalog-title">常態課程介紹</h2><aside class="course-sidebar"><nav aria-label="常態課程分類">${courseNames.map((n, i) => `<a href="#courses/course-${i}" class="${i === selected ? 'selected' : ''}" ${i === selected ? 'aria-current="page"' : ''}><span>0${i + 1}</span>${n}</a>`).join('')}</nav><small>從認識自己開始，<br>走向更清明的生命。</small></aside>${courseProduct(selected)}${courseNames.map((_, i) => `<template data-course-template="${i}">${courseProduct(i)}</template>`).join('')}</section>${HaodaoEvents.section('courses')}${HaodaoEvents.section('courses', true)}`;
+  return `${courseIntroduction()}<section id="regular" class="course-catalog" aria-labelledby="course-catalog-title">
+    <h2 id="course-catalog-title" class="course-catalog-title">常態課程介紹</h2>
+    <aside class="course-sidebar">
+      <nav aria-label="常態課程分類">${courseNames.map((n, i) => `<a href="#courses/course-${i}" class="${i === selected ? 'selected' : ''}" ${i === selected ? 'aria-current="page"' : ''}><span>0${i + 1}</span>${n}</a>`).join('')}</nav><small>從認識自己開始，<br>走向更清明的生命。</small></aside>${courseProduct(selected)}${courseNames.map((_, i) => `<template data-course-template="${i}">${courseProduct(i)}</template>`).join('')}</section>${HaodaoEvents.section('courses')}${HaodaoEvents.section('courses', true)}`;
 };
 community = () =>
-  `<section class="community-opening"><div><p class="eyebrow">WE ARE HERE FOR YOU</p><h2>讓每一步成長，<br>都有同行的力量。</h2>${prose(source.community.intro.slice(0, 2))}</div>${photo('各地共學與陪伴首頁.JPG', '共學夥伴彼此陪伴與交流')}</section><div class="community-philosophy">${prose(source.community.intro.slice(2), false).replace('<p class="">因為生命的成長，需要時間；修煉的道路，需要同行。</p>', '<p class="community-patience"><strong>因為生命的成長，需要時間；修煉的道路，需要同行。</strong></p>')}</div><section class="community-locations"><div class="section-head"><div><p class="eyebrow">OUR COMMUNITIES</p><h2>各地共學點</h2></div><a class="textlink" href="#community/join">我想參與共學</a></div><div class="region-tabs" data-filter="regions">${['全部', '北區', '中區', '嘉南區', '高屏區'].map((t, i) => `<button class="${i ? '' : 'active'}">${t}</button>`).join('')}</div><div class="region-grid">${[
-    ['北區', '厚德共修點', 'LINE_ALBUM_20251122 一日共修_261005_1.jpg'],
-    ['中區', '妙智共修點', 'LINE_ALBUM_中區共修點美好_261002_4.jpg'],
-    ['嘉南區', '觀自在共修點', '觀自在共修點.jpg'],
-    ['嘉南區', '心燈長明共修點', '心燈長明.jpg'],
-    ['高屏區', '覺明共修點', '覺明共修點.jpg'],
-  ]
-    .map(
-      ([r, t, f]) =>
-        `<article data-region="${r}">${photo(f, t)}<div><p class="eyebrow">${r}</p><h3>${t}</h3></div></article>`,
-    )
-    .join(
-      '',
-    )}</div></section>${HaodaoEvents.section('community')}${HaodaoEvents.section('community', true)}${HaodaoEvents.registrationSection()}`;
+  `<section class="community-opening">
+    <div>
+      <p class="eyebrow">WE ARE HERE FOR YOU</p>
+      <h2>讓每一步成長，<br>都有同行的力量。</h2>${prose(source.community.intro.slice(0, 2))}</div>${photo('各地共學與陪伴首頁.JPG', '共學夥伴彼此陪伴與交流')}</section>
+  <div class="community-philosophy">${prose(source.community.intro.slice(2), false).replace('<p class="">因為生命的成長，需要時間；修煉的道路，需要同行。</p>', '<p class="community-patience"><strong>因為生命的成長，需要時間；修煉的道路，需要同行。</strong></p>')}</div>
+  <section class="community-locations">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">OUR COMMUNITIES</p>
+        <h2>各地共學點</h2>
+      </div><a class="textlink" href="#community/join">我想參與共學</a></div>
+    <div class="region-tabs" data-filter="regions">${['全部', '北區', '中區', '嘉南區', '高屏區'].map((t, i) => `<button class="${i ? '' : 'active'}">${t}</button>`).join('')}</div>
+    <div class="region-grid">${[
+      ['北區', '厚德共修點', 'LINE_ALBUM_20251122 一日共修_261005_1.jpg'],
+      ['中區', '妙智共修點', 'LINE_ALBUM_中區共修點美好_261002_4.jpg'],
+      ['嘉南區', '觀自在共修點', '觀自在共修點.jpg'],
+      ['嘉南區', '心燈長明共修點', '心燈長明.jpg'],
+      ['高屏區', '覺明共修點', '覺明共修點.jpg'],
+    ]
+      .map(
+        ([r, t, f]) =>
+          `<article data-region="${r}">${photo(f, t)}<div>
+            <p class="eyebrow">${r}</p>
+            <h3>${t}</h3>
+          </div>
+          </article>`,
+      )
+      .join('')}</div>
+  </section>${HaodaoEvents.section('community')}${HaodaoEvents.section('community', true)}${HaodaoEvents.registrationSection()}`;
 block = (b, i, title = '') =>
-  `<section class="article-block editorial-block">${b.image ? `<div class="editorial-block-photo">${photo(b.image, title || '昊道文化學習與生活')}</div>` : ''}<div class="editorial-block-copy">${title ? `<h2>${title}</h2>` : ''}${prose(b.paragraphs)}</div></section>`;
+  `<section class="article-block editorial-block">${b.image ? `<div class="editorial-block-photo">${photo(b.image, title || '昊道文化學習與生活')}</div>` : ''}<div class="editorial-block-copy">${title ? `<h2>${title}</h2>` : ''}${prose(b.paragraphs)}</div>
+  </section>`;
 page = k => {
   if (k === 'contact')
     return pageV1(k).replace(/<div class="page-title">[\s\S]*?<\/h1><\/div>/, contactCover());
