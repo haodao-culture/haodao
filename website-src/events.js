@@ -106,7 +106,16 @@ window.HaodaoEvents = (() => {
   const opts = (values, current = '') =>
     values.map(x => `<option ${x === current ? 'selected' : ''}>${esc(x)}</option>`).join('');
   function section(kind, archived = false) {
-    return `<section class="event-section" id="${archived ? 'archive' : 'upcoming'}" data-event-section="${kind}-${archived}"><div class="section-head"><div><p class="eyebrow">${archived ? 'MOMENTS WE SHARE' : 'GROW WITH US'}</p><h2>${archived ? (kind === 'courses' ? '近年課程與活動歷史回顧' : '近年共學活動歷史回顧') : kind === 'courses' ? '近期報名中課程與活動' : '近期共修活動'}</h2></div><button class="admin-entry" data-admin-kind="${kind}" data-archive="${archived}">管理者編輯</button></div><div class="event-filters" aria-label="活動篩選">${(kind === 'courses' ? ['全部', '線下', '線上'] : ['全部', '北區', '中區', '嘉南區', '高屏區']).map((t, i) => `<button class="${i ? '' : 'active'}" aria-pressed="${!i}" data-event-filter="${esc(t)}">${t}</button>`).join('')}</div><div class="event-grid" data-event-list><p class="note">正在讀取活動…</p></div></section>`;
+    return `<section class="event-section" id="${archived ? 'archive' : 'upcoming'}" data-event-section="${kind}-${archived}"><div class="section-head">
+      <div>
+        <p class="eyebrow">${archived ? 'MOMENTS WE SHARE' : 'GROW WITH US'}</p>
+        <h2>${archived ? (kind === 'courses' ? '近年課程與活動歷史回顧' : '近年共學活動歷史回顧') : kind === 'courses' ? '近期報名中課程與活動' : '近期共修活動'}</h2>
+      </div><button class="admin-entry" data-admin-kind="${kind}" data-archive="${archived}">管理者編輯</button></div>
+    <div class="event-filters" aria-label="活動篩選">${(kind === 'courses' ? ['全部', '線下', '線上'] : ['全部', '北區', '中區', '嘉南區', '高屏區']).map((t, i) => `<button class="${i ? '' : 'active'}" aria-pressed="${!i}" data-event-filter="${esc(t)}">${t}</button>`).join('')}</div>
+    <div class="event-grid" data-event-list>
+      <p class="note">正在讀取活動…</p>
+    </div>
+    </section>`;
   }
   function paint() {
     document.querySelectorAll('[data-event-section]').forEach(sec => {
@@ -126,15 +135,20 @@ window.HaodaoEvents = (() => {
             : a.start_date.localeCompare(b.start_date),
         );
       sec.querySelector('[data-event-list]').innerHTML = loadError
-        ? `<div class="empty"><p>${esc(loadError)}</p><button class="pill" data-retry>重新讀取</button></div>`
+        ? `<div class="empty">
+          <p>${esc(loadError)}</p><button class="pill" data-retry>重新讀取</button></div>`
         : events.length
           ? events
               .map(
                 e =>
-                  `<button class="event-card" data-event="${e.id}">${e.poster ? `<img src="${esc(media(e.poster))}" alt="${esc(e.title)}" loading="lazy">` : `<div class="event-cover"><span>${e.start_date.slice(5).replace('-', ' / ')}</span><small>${kind === 'courses' ? '學習 · 修煉' : '共學 · 陪伴'}</small></div>`}<div class="event-card-body"><div class="event-meta"><span>${esc(e.mode)}${e.region ? ' · ' + esc(e.region) : ''}</span><time>${e.start_date}${e.end_date !== e.start_date ? ' — ' + e.end_date : ''}</time></div><h3>${esc(e.title)}</h3><p>${esc(e.description.slice(0, 90))}${e.description.length > 90 ? '…' : ''}</p><span class="textlink">${archived ? '閱讀活動紀錄' : '了解活動'}</span></div></button>`,
+                  `<button class="event-card" data-event="${e.id}">${e.poster ? `<img src="${esc(media(e.poster))}" alt="${esc(e.title)}" loading="lazy">` : `<div class="event-cover"><span>${e.start_date.slice(5).replace('-', ' / ')}</span><small>${kind === 'courses' ? '學習 · 修煉' : '共學 · 陪伴'}</small></div>`}<div class="event-card-body">
+                    <div class="event-meta"><span>${esc(e.mode)}${e.region ? ' · ' + esc(e.region) : ''}</span><time>${e.start_date}${e.end_date !== e.start_date ? ' — ' + e.end_date : ''}</time></div>
+                    <h3>${esc(e.title)}</h3>
+                    <p>${esc(e.description.slice(0, 90))}${e.description.length > 90 ? '…' : ''}</p><span class="textlink">${archived ? '閱讀活動紀錄' : '了解活動'}</span></div></button>`,
               )
               .join('')
-          : `<div class="empty"><p>${archived ? '這段旅程的紀錄，將在這裡慢慢收藏。' : '目前尚未公布' + (f === '全部' ? '' : esc(f)) + '活動，歡迎透過官方 LINE 與我們聊聊。'}</p>${archived ? '' : '<a class="textlink" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">加入 LINE 官方帳號</a>'}</div>`;
+          : `<div class="empty">
+            <p>${archived ? '這段旅程的紀錄，將在這裡慢慢收藏。' : '目前尚未公布' + (f === '全部' ? '' : esc(f)) + '活動，歡迎透過官方 LINE 與我們聊聊。'}</p>${archived ? '' : '<a class="textlink" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">加入 LINE 官方帳號</a>'}</div>`;
       sec
         .querySelectorAll('[data-event]')
         .forEach(b => (b.onclick = () => detail(b.dataset.event)));
@@ -142,18 +156,33 @@ window.HaodaoEvents = (() => {
     });
   }
   function registration(eventId = '') {
-    return `<form class="registration-form" data-register><input type="hidden" name="request_id" value="${crypto.randomUUID()}"><div class="form-row"><label>姓名<input name="name" required maxlength="80" autocomplete="name" placeholder="請填寫姓名"></label><label>手機號碼<input name="phone" type="tel" required pattern="09[0-9]{8}" inputmode="numeric" maxlength="10" autocomplete="tel" placeholder="09xxxxxxxx"></label></div><div class="form-row"><label>LINE ID<input name="line_id" required maxlength="100" placeholder="方便志工與您聯繫"></label><label>所在地<select name="city" required><option value="">請選擇縣市</option>${opts(cities)}</select></label></div><label>想參與的共學<select name="event_id"><option value="">請志工協助安排適合的共學</option>${all
-      .filter(e => e.kind === 'community' && !e.archived)
-      .map(
-        e =>
-          `<option value="${e.id}" ${e.id === eventId ? 'selected' : ''}>${esc(e.title)} · ${e.start_date}</option>`,
-      )
-      .join(
-        '',
-      )}</select></label><label class="consent"><input type="checkbox" name="consent" required><span>我同意昊道文化使用上述資料聯繫及安排共學。<a href="#privacy" data-close-dialog>資料使用說明</a></span></label><p class="form-feedback" data-feedback role="status"></p><button class="pill filled" type="submit">我想報名參與共學</button><p class="preview-note">${sheetConnected ? '報名資料將保存於協會後台及 Google 試算表，供志工聯繫。' : '本機預覽：Google 試算表尚待授權，目前提交會先存入預覽後台。'}</p></form>`;
+    return `<form class="registration-form" data-register><input type="hidden" name="request_id" value="${crypto.randomUUID()}"><div class="form-row">
+        <label>姓名<input name="name" required maxlength="80" autocomplete="name" placeholder="請填寫姓名"></label>
+        <label>手機號碼<input name="phone" type="tel" required pattern="09[0-9]{8}" inputmode="numeric" maxlength="10" autocomplete="tel" placeholder="09xxxxxxxx"></label>
+      </div>
+      <div class="form-row">
+        <label>LINE ID<input name="line_id" required maxlength="100" placeholder="方便志工與您聯繫"></label>
+        <label>所在地<select name="city" required><option value="">請選擇縣市</option>${opts(cities)}</select></label>
+      </div>
+      <label>想參與的共學<select name="event_id"><option value="">請志工協助安排適合的共學</option>${all
+        .filter(e => e.kind === 'community' && !e.archived)
+        .map(
+          e =>
+            `<option value="${e.id}" ${e.id === eventId ? 'selected' : ''}>${esc(e.title)} · ${e.start_date}</option>`,
+        )
+        .join('')}</select></label>
+      <label class="consent"><input type="checkbox" name="consent" required><span>我同意昊道文化使用上述資料聯繫及安排共學。<a href="#privacy" data-close-dialog>資料使用說明</a></span></label>
+      <p class="form-feedback" data-feedback role="status"></p><button class="pill filled" type="submit">我想報名參與共學</button><p class="preview-note">${sheetConnected ? '報名資料將保存於協會後台及 Google 試算表，供志工聯繫。' : '本機預覽：Google 試算表尚待授權，目前提交會先存入預覽後台。'}</p>
+    </form>`;
   }
   function registrationSection() {
-    return `<section class="join-section" id="join"><div class="join-invitation"><span class="ink-backdrop" aria-hidden="true"><img data-image="昊道-黑.png" alt="" loading="lazy"></span><p class="eyebrow">A PLACE TO BELONG</p><h2>我想報名<br>參與共學。</h2><p>留下你的聯絡方式，<br>讓我們陪你找到適合的共學起點。</p><p>正式報名後，會有志工與您聯繫。<br>也歡迎加入 LINE 官方帳號，與我們聊聊。</p><a class="pill" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">加入 LINE 官方帳號</a></div><div data-registration-slot>${registration()}</div></section>`;
+    return `<section class="join-section" id="join">
+      <div class="join-invitation"><span class="ink-backdrop" aria-hidden="true"><img data-image="昊道-黑.png" alt="" loading="lazy"></span><p class="eyebrow">A PLACE TO BELONG</p>
+        <h2>我想報名<br>參與共學。</h2>
+        <p>留下你的聯絡方式，<br>讓我們陪你找到適合的共學起點。</p>
+        <p>正式報名後，會有志工與您聯繫。<br>也歡迎加入 LINE 官方帳號，與我們聊聊。</p><a class="pill" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">加入 LINE 官方帳號</a></div>
+      <div data-registration-slot>${registration()}</div>
+    </section>`;
   }
   function bindRegistration(root = document) {
     root.querySelectorAll('[data-register]').forEach(form => {
@@ -167,7 +196,8 @@ window.HaodaoEvents = (() => {
         data.consent = form.querySelector('[name=consent]').checked;
         try {
           const result = await api('registrations', data);
-          form.innerHTML = `<div class="registration-success" role="status"><span class="eyebrow">THANK YOU</span><h3>已收到你的共學意願。</h3><p>${result.sheetSynced ? '資料已送達報名試算表，後續將由志工與您聯繫。' : result.sheetConfigured ? '資料已安全保存在後台，試算表同步暫時等待中；系統會自動重試，無需重複報名。' : '資料已保存在本機預覽後台。Google 試算表尚待授權連接，目前尚未送達試算表或通知志工。'}</p><a class="pill" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">加入 LINE 官方帳號</a></div>`;
+          form.innerHTML = `<div class="registration-success" role="status"><span class="eyebrow">THANK YOU</span><h3>已收到你的共學意願。</h3>
+            <p>${result.sheetSynced ? '資料已送達報名試算表，後續將由志工與您聯繫。' : result.sheetConfigured ? '資料已安全保存在後台，試算表同步暫時等待中；系統會自動重試，無需重複報名。' : '資料已保存在本機預覽後台。Google 試算表尚待授權連接，目前尚未送達試算表或通知志工。'}</p><a class="pill" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">加入 LINE 官方帳號</a></div>`;
         } catch (err) {
           feedback(form, err.message);
           button.disabled = false;
@@ -185,12 +215,17 @@ window.HaodaoEvents = (() => {
     const e = all.find(e => e.id === id);
     if (!e) return;
     const d = open(
-      `<p class="eyebrow">${e.archived ? 'MEMORIES' : 'UPCOMING EVENT'} · ${esc(e.mode)}</p><h2 id="dialog-title">${esc(e.title)}</h2><p class="event-meta">${esc(eventSchedule(e))}<br>${esc(e.region)}　${esc(e.location)}</p>${e.poster ? `<img class="event-detail-image" src="${esc(media(e.poster))}" alt="${esc(e.title)}">` : ''}<div class="event-description">${e.description
+      `<p class="eyebrow">${e.archived ? 'MEMORIES' : 'UPCOMING EVENT'} · ${esc(e.mode)}</p>
+      <h2 id="dialog-title">${esc(e.title)}</h2>
+      <p class="event-meta">${esc(eventSchedule(e))}<br>${esc(e.region)}　${esc(e.location)}</p>${e.poster ? `<img class="event-detail-image" src="${esc(media(e.poster))}" alt="${esc(e.title)}">` : ''}<div class="event-description">${e.description
         .split('\n')
         .map(x => `<p>${esc(x)}</p>`)
-        .join(
-          '',
-        )}</div>${e.photos.length ? `<h3>活動紀錄</h3><div class="record-grid">${e.photos.map((p, i) => `<a href="${esc(media(p))}" target="_blank" rel="noopener noreferrer"><img src="${esc(media(p))}" alt="${esc(e.title)} 活動紀錄 ${i + 1}" loading="lazy"></a>`).join('')}</div>` : ''}${!e.archived ? (e.kind === 'community' ? '<button class="pill filled" data-join-event>我想報名參與共學</button>' : e.registration_url ? `<a class="pill filled" href="${esc(e.registration_url)}" target="_blank" rel="noopener noreferrer">前往報名</a>` : '<a class="pill" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">加入 LINE 官方帳號</a>') : '<p class="note">本活動已結束，謝謝每一份相遇與同行。</p>'}`,
+        .join('')}</div>${
+        e.photos.length
+          ? `<h3>活動紀錄</h3>
+          <div class="record-grid">${e.photos.map((p, i) => `<a href="${esc(media(p))}" target="_blank" rel="noopener noreferrer"><img src="${esc(media(p))}" alt="${esc(e.title)} 活動紀錄 ${i + 1}" loading="lazy"></a>`).join('')}</div>`
+          : ''
+      }${!e.archived ? (e.kind === 'community' ? '<button class="pill filled" data-join-event>我想報名參與共學</button>' : e.registration_url ? `<a class="pill filled" href="${esc(e.registration_url)}" target="_blank" rel="noopener noreferrer">前往報名</a>` : '<a class="pill" href="https://lin.ee/VJrd0i3" target="_blank" rel="noopener noreferrer">加入 LINE 官方帳號</a>') : '<p class="note">本活動已結束，謝謝每一份相遇與同行。</p>'}`,
     );
     d.querySelector('[data-join-event]')?.addEventListener('click', () => {
       open(`<h2 id="dialog-title">我想報名參與共學</h2>${registration(e.id)}`);
@@ -204,7 +239,12 @@ window.HaodaoEvents = (() => {
       csrf = s.csrf || '';
       if (!admin) {
         const d = open(
-          `<p class="eyebrow">FOR OUR TEAM</p><h2 id="dialog-title">管理者登入</h2><p>登入後可新增、編輯活動與整理紀錄。</p><form id="login-form"><label>管理者密碼<input name="password" type="password" required autocomplete="current-password"></label><p data-feedback role="alert" class="form-feedback"></p><button class="pill filled" type="submit">登入</button></form>`,
+          `<p class="eyebrow">FOR OUR TEAM</p>
+          <h2 id="dialog-title">管理者登入</h2>
+          <p>登入後可新增、編輯活動與整理紀錄。</p>
+          <form id="login-form">
+            <label>管理者密碼<input name="password" type="password" required autocomplete="current-password"></label>
+            <p data-feedback role="alert" class="form-feedback"></p><button class="pill filled" type="submit">登入</button></form>`,
         );
         const f = d.querySelector('form');
         f.onsubmit = async ev => {
@@ -225,7 +265,8 @@ window.HaodaoEvents = (() => {
       }
       dashboard(kind, archived);
     } catch (err) {
-      open(`<h2 id="dialog-title">暫時無法開啟管理功能</h2><p>${esc(err.message)}</p>`);
+      open(`<h2 id="dialog-title">暫時無法開啟管理功能</h2>
+      <p>${esc(err.message)}</p>`);
     }
   }
   async function dashboard(kind, archived = false) {
@@ -236,7 +277,22 @@ window.HaodaoEvents = (() => {
       paint();
       const items = all.filter(e => e.kind === kind && e.archived === archived);
       const d = open(
-        `<div class="admin-heading"><div><p class="eyebrow">HAODAO STUDIO</p><h2 id="dialog-title">${kind === 'courses' ? '課程與活動' : '共學活動'}管理</h2></div><button class="admin-entry" data-logout>登出</button></div><div class="admin-toolbar"><button class="pill ${!archived ? 'filled' : ''}" data-view="upcoming">近期活動</button><button class="pill ${archived ? 'filled' : ''}" data-view="archive">歷史回顧</button><button class="pill" data-registrations>共學報名</button></div><div class="admin-list">${items.length ? items.map(e => `<div class="admin-row"><div><small>${e.start_date} · ${esc(e.mode)}</small><h3>${esc(e.title)}</h3><span>${e.photos.length} 張活動紀錄照片</span></div><button class="pill" data-edit="${e.id}">編輯</button></div>`).join('') : '<p>此分類目前沒有活動。</p>'}</div><button class="pill filled" data-new>＋ 新增${archived ? '歷史活動紀錄' : '活動'}</button><p class="note">活動結束日期早於臺灣當日（${today}）時，會自動顯示於歷史回顧。</p>`,
+        `<div class="admin-heading">
+          <div>
+            <p class="eyebrow">HAODAO STUDIO</p>
+            <h2 id="dialog-title">${kind === 'courses' ? '課程與活動' : '共學活動'}管理</h2>
+          </div><button class="admin-entry" data-logout>登出</button></div>
+        <div class="admin-toolbar"><button class="pill ${!archived ? 'filled' : ''}" data-view="upcoming">近期活動</button><button class="pill ${archived ? 'filled' : ''}" data-view="archive">歷史回顧</button><button class="pill" data-registrations>共學報名</button></div>
+        <div class="admin-list">${
+          items.length
+            ? items
+                .map(
+                  e => `<div class="admin-row">
+                    <div><small>${e.start_date} · ${esc(e.mode)}</small><h3>${esc(e.title)}</h3><span>${e.photos.length} 張活動紀錄照片</span></div><button class="pill" data-edit="${e.id}">編輯</button></div>`,
+                )
+                .join('')
+            : '<p>此分類目前沒有活動。</p>'
+        }</div><button class="pill filled" data-new>＋ 新增${archived ? '歷史活動紀錄' : '活動'}</button><p class="note">活動結束日期早於臺灣當日（${today}）時，會自動顯示於歷史回顧。</p>`,
       );
       d.querySelector('[data-new]').onclick = () => editor(kind, archived);
       d.querySelectorAll('[data-edit]').forEach(
@@ -260,14 +316,29 @@ window.HaodaoEvents = (() => {
         d.close();
       };
     } catch (err) {
-      open(`<h2 id="dialog-title">讀取未完成</h2><p>${esc(err.message)}</p>`);
+      open(`<h2 id="dialog-title">讀取未完成</h2>
+      <p>${esc(err.message)}</p>`);
     }
   }
   async function registrationsDashboard(kind, archived) {
     try {
       const { registrations: rows } = await api('registrations');
       const d = open(
-        `<p class="eyebrow">GROWING TOGETHER</p><h2 id="dialog-title">共學報名</h2><div class="admin-toolbar"><button class="pill" data-back>返回活動管理</button><button class="pill" data-sheets-setup>試算表連接</button><button class="pill" data-sheets-retry>重試待同步資料</button></div><div class="registration-list">${rows.length ? rows.map(r => `<article class="registration-entry"><div><h3>${esc(r.name)}</h3><span class="tag">${esc(r.status)}</span></div><span class="sync-state ${r.sheet_state === 'synced' ? '' : 'sync-warning'}">${r.sheet_state === 'synced' ? '已同步 Google 試算表' : '等待同步 Google 試算表'}</span><p>${esc(r.event_title || '請志工協助安排共學')}<br>${esc(r.city)} · ${esc(r.phone)}<br>LINE ID：${esc(r.line_id)}<br><small>${esc(r.created_at.slice(0, 16).replace('T', ' '))}</small></p><button class="pill" data-status-id="${r.id}" data-status="${r.status === '待聯繫' ? '已聯繫' : '待聯繫'}">標記為${r.status === '待聯繫' ? '已聯繫' : '待聯繫'}</button></article>`).join('') : '<p>目前尚無報名資料。</p>'}</div><p class="form-feedback" data-feedback role="status"></p>`,
+        `<p class="eyebrow">GROWING TOGETHER</p>
+        <h2 id="dialog-title">共學報名</h2>
+        <div class="admin-toolbar"><button class="pill" data-back>返回活動管理</button><button class="pill" data-sheets-setup>試算表連接</button><button class="pill" data-sheets-retry>重試待同步資料</button></div>
+        <div class="registration-list">${
+          rows.length
+            ? rows
+                .map(
+                  r => `<article class="registration-entry">
+                    <div>
+                      <h3>${esc(r.name)}</h3><span class="tag">${esc(r.status)}</span></div><span class="sync-state ${r.sheet_state === 'synced' ? '' : 'sync-warning'}">${r.sheet_state === 'synced' ? '已同步 Google 試算表' : '等待同步 Google 試算表'}</span><p>${esc(r.event_title || '請志工協助安排共學')}<br>${esc(r.city)} · ${esc(r.phone)}<br>LINE ID：${esc(r.line_id)}<br><small>${esc(r.created_at.slice(0, 16).replace('T', ' '))}</small></p><button class="pill" data-status-id="${r.id}" data-status="${r.status === '待聯繫' ? '已聯繫' : '待聯繫'}">標記為${r.status === '待聯繫' ? '已聯繫' : '待聯繫'}</button></article>`,
+                )
+                .join('')
+            : '<p>目前尚無報名資料。</p>'
+        }</div>
+        <p class="form-feedback" data-feedback role="status"></p>`,
       );
       d.querySelector('[data-back]').onclick = () => dashboard(kind, archived);
       d.querySelector('[data-sheets-setup]').onclick = () => sheetsSetup(kind, archived);
@@ -294,14 +365,30 @@ window.HaodaoEvents = (() => {
           }),
       );
     } catch (err) {
-      open(`<h2 id="dialog-title">無法讀取報名</h2><p>${esc(err.message)}</p>`);
+      open(`<h2 id="dialog-title">無法讀取報名</h2>
+      <p>${esc(err.message)}</p>`);
     }
   }
   async function sheetsSetup(kind, archived) {
     try {
       const config = await api('sheets-setup');
       const d = open(
-        `<p class="eyebrow">GOOGLE SHEETS CONNECTION</p><h2 id="dialog-title">連接共學報名試算表</h2><p><a class="sheet-link" href="${esc(config.spreadsheet_url)}" target="_blank" rel="noopener noreferrer">開啟「官方網站後台」試算表 ↗</a></p><ol class="setup-steps"><li>在試算表選擇「擴充功能 → Apps Script」。</li><li>複製下方連接程式，取代 Apps Script 的預設程式並儲存。</li><li>選擇「部署 → 新增部署 → 網頁應用程式」，執行身分選自己，存取權選所有人；由你完成 Google 帳號授權。</li><li>將部署完成的 /exec 網址貼到下方，按「驗證並連接」。</li></ol><p class="note">連接程式只接受本站伺服器簽署的報名，不提供報名資料查詢。程式內含本機專用金鑰，請只貼入自己的 Apps Script，不要上傳 GitHub。</p><button type="button" class="pill" data-copy-script>複製連接程式</button><details><summary>檢視連接程式</summary><label>Google Apps Script 程式碼<textarea class="sheets-setup-code" readonly data-script spellcheck="false">${esc(config.code)}</textarea></label></details><form id="sheets-connect-form"><label>網頁應用程式網址<input name="url" type="url" required placeholder="https://script.google.com/macros/s/…/exec" value="${esc(config.url)}"></label><p class="form-feedback" data-feedback role="status">${config.connected ? '目前已連接指定試算表。' : '尚未連接，報名資料暫存在本機後台。'}</p><div class="form-actions"><button type="submit" class="pill filled">驗證並連接</button><button type="button" class="pill" data-setup-back>返回報名</button></div></form>`,
+        `<p class="eyebrow">GOOGLE SHEETS CONNECTION</p>
+        <h2 id="dialog-title">連接共學報名試算表</h2>
+        <p><a class="sheet-link" href="${esc(config.spreadsheet_url)}" target="_blank" rel="noopener noreferrer">開啟「官方網站後台」試算表 ↗</a></p>
+        <ol class="setup-steps">
+          <li>在試算表選擇「擴充功能 → Apps Script」。</li>
+          <li>複製下方連接程式，取代 Apps Script 的預設程式並儲存。</li>
+          <li>選擇「部署 → 新增部署 → 網頁應用程式」，執行身分選自己，存取權選所有人；由你完成 Google 帳號授權。</li>
+          <li>將部署完成的 /exec 網址貼到下方，按「驗證並連接」。</li>
+        </ol>
+        <p class="note">連接程式只接受本站伺服器簽署的報名，不提供報名資料查詢。程式內含本機專用金鑰，請只貼入自己的 Apps Script，不要上傳 GitHub。</p><button type="button" class="pill" data-copy-script>複製連接程式</button><details><summary>檢視連接程式</summary><label>Google Apps Script 程式碼<textarea class="sheets-setup-code" readonly data-script spellcheck="false">${esc(config.code)}</textarea></label>
+        </details>
+        <form id="sheets-connect-form">
+          <label>網頁應用程式網址<input name="url" type="url" required placeholder="https://script.google.com/macros/s/…/exec" value="${esc(config.url)}"></label>
+          <p class="form-feedback" data-feedback role="status">${config.connected ? '目前已連接指定試算表。' : '尚未連接，報名資料暫存在本機後台。'}</p>
+          <div class="form-actions"><button type="submit" class="pill filled">驗證並連接</button><button type="button" class="pill" data-setup-back>返回報名</button></div>
+        </form>`,
       );
       const f = d.querySelector('form');
       d.querySelector('[data-copy-script]').onclick = async () => {
@@ -331,7 +418,8 @@ window.HaodaoEvents = (() => {
         }
       };
     } catch (err) {
-      open(`<h2 id="dialog-title">無法開啟連接設定</h2><p>${esc(err.message)}</p>`);
+      open(`<h2 id="dialog-title">無法開啟連接設定</h2>
+      <p>${esc(err.message)}</p>`);
     }
   }
   function dropZone(id, multiple) {
@@ -347,7 +435,30 @@ window.HaodaoEvents = (() => {
     );
     const defaultDate = archived ? yesterday : today;
     const d = open(
-      `<p class="eyebrow">EDIT A MOMENT</p><h2 id="dialog-title">${e.id ? '編輯' : '新增'}${kind === 'courses' ? '課程與活動' : '共學活動'}</h2><form id="event-editor"><label>活動名稱<input name="title" required maxlength="120" value="${esc(e.title)}"></label><div class="form-row"><label>開始日期<input name="start_date" type="date" required value="${e.start_date || defaultDate}"></label><label>開始時間<input name="start_time" type="time" value="${esc(e.start_time)}"></label></div><div class="form-row"><label>結束日期<input name="end_date" type="date" required value="${e.end_date || defaultDate}"></label><label>結束時間<input name="end_time" type="time" value="${esc(e.end_time)}"></label></div>${e.time_text && !e.start_time && !e.end_time ? `<p class="note">原活動時間：${esc(e.time_text)}（填入新時間後取代）</p>` : ''}<div class="form-row"><label>活動形式<select name="mode">${opts(['線下', '線上'], e.mode)}</select></label><label>所在地區<select name="region" ${kind === 'community' ? 'required' : ''}><option value="">請選擇地區</option>${opts(['北區', '中區', '嘉南區', '高屏區'], e.region)}</select></label></div><label>地點／線上參與方式<input name="location" maxlength="300" value="${esc(e.location)}"></label><label>活動介紹／活動紀錄<textarea name="description" rows="7" required maxlength="15000">${esc(e.description)}</textarea></label>${kind === 'courses' ? `<label>報名連結（選填）<input name="registration_url" type="url" pattern="https://.*" placeholder="https://" value="${esc(e.registration_url)}"></label>` : ''}<fieldset><legend>活動封面</legend>${dropZone('poster', false)}<div id="poster-preview"></div></fieldset><fieldset><legend>活動紀錄照片（最多 20 張）</legend>${dropZone('record', true)}<p class="note">JPG、PNG 或 WebP，每張最多 8 MB。照片獨立保存，不會寫進 GitHub 程式碼。</p><div class="upload-previews" id="record-preview"></div></fieldset><p data-feedback class="form-feedback" role="status"></p><div class="form-actions"><button class="pill filled" type="submit">儲存活動</button><button class="pill" type="button" data-cancel>返回管理</button></div></form>`,
+      `<p class="eyebrow">EDIT A MOMENT</p>
+      <h2 id="dialog-title">${e.id ? '編輯' : '新增'}${kind === 'courses' ? '課程與活動' : '共學活動'}</h2>
+      <form id="event-editor">
+        <label>活動名稱<input name="title" required maxlength="120" value="${esc(e.title)}"></label>
+        <div class="form-row">
+          <label>開始日期<input name="start_date" type="date" required value="${e.start_date || defaultDate}"></label>
+          <label>開始時間<input name="start_time" type="time" value="${esc(e.start_time)}"></label>
+        </div>
+        <div class="form-row">
+          <label>結束日期<input name="end_date" type="date" required value="${e.end_date || defaultDate}"></label>
+          <label>結束時間<input name="end_time" type="time" value="${esc(e.end_time)}"></label>
+        </div>${e.time_text && !e.start_time && !e.end_time ? `<p class="note">原活動時間：${esc(e.time_text)}（填入新時間後取代）</p>` : ''}<div class="form-row">
+          <label>活動形式<select name="mode">${opts(['線下', '線上'], e.mode)}</select></label>
+          <label>所在地區<select name="region" ${kind === 'community' ? 'required' : ''}><option value="">請選擇地區</option>${opts(['北區', '中區', '嘉南區', '高屏區'], e.region)}</select></label>
+        </div>
+        <label>地點／線上參與方式<input name="location" maxlength="300" value="${esc(e.location)}"></label>
+        <label>活動介紹／活動紀錄<textarea name="description" rows="7" required maxlength="15000">${esc(e.description)}</textarea></label>${kind === 'courses' ? `<label>報名連結（選填）<input name="registration_url" type="url" pattern="https://.*" placeholder="https://" value="${esc(e.registration_url)}"></label>` : ''}<fieldset><legend>活動封面</legend>${dropZone('poster', false)}<div id="poster-preview"></div>
+        </fieldset>
+        <fieldset><legend>活動紀錄照片（最多 20 張）</legend>${dropZone('record', true)}<p class="note">JPG、PNG 或 WebP，每張最多 8 MB。照片獨立保存，不會寫進 GitHub 程式碼。</p>
+          <div class="upload-previews" id="record-preview"></div>
+        </fieldset>
+        <p data-feedback class="form-feedback" role="status"></p>
+        <div class="form-actions"><button class="pill filled" type="submit">儲存活動</button><button class="pill" type="button" data-cancel>返回管理</button></div>
+      </form>`,
     );
     const f = d.querySelector('form'),
       save = f.querySelector('[type=submit]');
