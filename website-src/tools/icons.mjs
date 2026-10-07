@@ -1,12 +1,17 @@
-// Generates the site icons from the brand logo's calligraphy mark.
-// Run manually after the logo changes: node website-src/tools/icons.mjs
+// Generates the site icons.
+// - Browser tabs: website-src/icons/favicon.svg, the 昊 outline from Noto Serif TC
+//   SemiBold (SIL Open Font License) on the brand navy, so it looks the same on
+//   every device instead of depending on installed fonts.
+// - iOS home screen: the calligraphy mark from the brand logo.
+// Run manually after either source changes: node website-src/tools/icons.mjs
 // Outputs are committed; the regular build does not regenerate them.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const src = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const root = path.resolve(src, '..');
 const LOGO = 'https://media.haodao.org/images/website-20261005/LOGO-v2.webp';
 const PAPER = '#f7f5ef';
 
@@ -46,13 +51,12 @@ const cropped = await cleaned
 const mark = await sharp(cropped).trim({ threshold: 8 }).png().toBuffer();
 const markInfo = await sharp(mark).metadata();
 
-async function icon(size, { rounded, scale }) {
+async function homeScreenIcon(size, scale) {
   const height = Math.round(size * scale);
   const width = Math.round((height * markInfo.width) / markInfo.height);
   const resized = await sharp(mark).resize({ width, height, kernel: 'lanczos3' }).png().toBuffer();
-  const radius = rounded ? size * 0.18 : 0;
   const background = Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><rect width="${size}" height="${size}" rx="${radius}" fill="${PAPER}"/></svg>`,
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><rect width="${size}" height="${size}" fill="${PAPER}"/></svg>`,
   );
   return sharp(background)
     .composite([
@@ -85,21 +89,18 @@ function ico(images) {
   return Buffer.concat([header, ...images.map(image => image.png)]);
 }
 
-// Browser tabs use a rounded tile; iOS applies its own mask to a full square.
-const tab = { rounded: true, scale: 0.9 };
+const tabSvg = fs.readFileSync(path.join(src, 'icons/favicon.svg'));
 const sizes = await Promise.all(
-  [16, 32, 48].map(async size => ({ size, png: await icon(size, tab) })),
+  [16, 32, 48].map(async size => ({
+    size,
+    png: await sharp(tabSvg, { density: 72 * (size / 48) * 4 })
+      .resize(size, size, { kernel: 'lanczos3' })
+      .png({ compressionLevel: 9 })
+      .toBuffer(),
+  })),
 );
 fs.writeFileSync(path.join(root, 'favicon.ico'), ico(sizes));
-const svgPng = (await icon(192, tab)).toString('base64');
-fs.writeFileSync(
-  path.join(root, 'favicon.svg'),
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><image width="192" height="192" href="data:image/png;base64,${svgPng}"/></svg>\n`,
-);
-fs.writeFileSync(
-  path.join(root, 'apple-touch-icon.png'),
-  await icon(180, { rounded: false, scale: 0.8 }),
-);
-console.log(
-  `Icons written from ${markInfo.width}×${markInfo.height} mark: favicon.ico, favicon.svg, apple-touch-icon.png`,
-);
+fs.copyFileSync(path.join(src, 'icons/favicon.svg'), path.join(root, 'favicon.svg'));
+// iOS applies its own rounded mask, so the home screen icon is a full square.
+fs.writeFileSync(path.join(root, 'apple-touch-icon.png'), await homeScreenIcon(180, 0.8));
+console.log('Icons written: favicon.ico, favicon.svg, apple-touch-icon.png');
