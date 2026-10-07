@@ -6,10 +6,10 @@ Cloudflare Worker `haodao-website-api` 提供 `https://api.haodao.org/api/`。Gi
 
 1. 在昊道的 Cloudflare 帳號建立 D1 `haodao-website`，將 ID 寫入 `wrangler.jsonc`。
 2. 執行 `wrangler d1 execute haodao-website --remote --file backend/schema.sql --config backend/wrangler.jsonc`。SQL 只建立尚未存在的表與索引。
-3. 使用 `wrangler secret put ADMIN_AUTH --config backend/wrangler.jsonc` 設定管理者驗證資料。格式為 PBKDF2-SHA256 的 JSON，包含 `salt`、`iterations` 與 `digest`；不在儲存庫保存任何實際值。
+3. 依下方「Google 管理後台」設定 `GOOGLE_CLIENT_ID`，並執行 `backend/migrations/` 的資料表遷移。
 4. 執行 `wrangler deploy --config backend/wrangler.jsonc`，並確認網域 `api.haodao.org` 的 HTTPS 已生效。
 
-管理者驗證資料必須保留在 Secret，不得改成瀏覽器 JavaScript 或公開 JSON。正式 Cookie 使用 Secure、HttpOnly、SameSite=Strict，且僅綁定 API 主機。寫入限定官網來源；管理操作另外驗證 CSRF。
+管理者以個人 Google 帳號登入，Worker 不保存任何管理密碼。正式 Cookie 使用 Secure、HttpOnly、SameSite=Strict，且僅綁定 API 主機。寫入限定官網來源；管理操作另外驗證 CSRF。
 
 ## 圖片與資料
 
@@ -40,7 +40,7 @@ Google 試算表連接需管理者另外部署官方網站後台的 Apps Script�
 2. 設定 Worker 公開變數 `GOOGLE_CLIENT_ID` 為該用戶端 ID；不可使用其他專案的猜測值。
 3. 安裝 backend dependencies（pnpm install --frozen-lockfile），以 D1 execute 執行 `backend/migrations/0001_google_admin.sql`。僅新增管理資料表；保留活動與報名。
 4. 部署 Worker，建置靜態頁後部署 GitHub Pages。先測試 owner 真實登入，再讓 owner 加入指定編輯者。
-5. 確認正常後，可刪除不再使用的 ADMIN_AUTH Worker secret。不要將秘密寫入 Git。
+5. 確認正常後，刪除不再使用的 `ADMIN_AUTH` Worker secret（`wrangler secret delete ADMIN_AUTH --config backend/wrangler.jsonc`）。舊的密碼登入已停用，這個 secret 不再被讀取。不要將秘密寫入 Git。
 
-測試：`node --test backend/auth.test.mjs website-src/tools/format-html.test.mjs`。
+測試：在 `backend` 執行 `pnpm install --frozen-lockfile` 後執行 `pnpm test`。GitHub Actions 的 `backend` 檢查會在每個 PR 自動執行。
 目前自動測試使用本地 SQLite 與簽署測試 JWT，並未代替實際 Google OAuth 端到端登入驗證。
