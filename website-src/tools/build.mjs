@@ -332,3 +332,8 @@ fs.writeFileSync(
 console.log(
   `Built ${routes.length} complete HTML pages; ${old.length} legacy sitemap entries preserved.`,
 );
+
+// Standalone admin stays out of the public navigation, search index and sitemap.
+fs.mkdirSync(path.join(root, 'admin'), { recursive: true });
+for (const file of ['index.html', 'admin.js', 'admin.css'])
+  fs.copyFileSync(path.join(src, 'admin', file), path.join(root, 'admin', file));

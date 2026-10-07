@@ -1,0 +1,105 @@
+.studio-header {
+  position: static;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 6%;
+  height: auto;
+}
+.studio {
+  max-width: 1080px;
+  margin: 64px auto;
+  padding: 0 28px 80px;
+}
+.studio h1 {
+  font-size: clamp(30px, 5vw, 44px);
+}
+.studio h2 {
+  font-size: 24px;
+  letter-spacing: 0.05em;
+}
+.studio [hidden] {
+  display: none !important;
+}
+.studio-account {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin: 28px 0;
+}
+.studio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 30px 0 56px;
+}
+.studio-card {
+  background: #fffaf2;
+  border: 1px solid #cfcabb;
+  text-align: left;
+  padding: 32px;
+  color: #293f4b;
+  cursor: pointer;
+}
+.studio-card:hover {
+  border-color: #8e7c54;
+}
+.studio-card span {
+  color: #8e7c54;
+}
+.studio-card p {
+  line-height: 1.8;
+}
+.add-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+.add-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #aaa;
+  background: white;
+  font: inherit;
+}
+#user-list {
+  padding: 0;
+  list-style: none;
+}
+#user-list li {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid #d5d1c6;
+  overflow-wrap: anywhere;
+}
+#status,
+#user-status {
+  min-height: 1.8em;
+}
+#login {
+  padding: 32px;
+  background: #fffaf2;
+  border: 1px solid #d5d1c6;
+}
+@media (max-width: 640px) {
+  .studio {
+    margin-top: 32px;
+  }
+  .studio-grid {
+    grid-template-columns: 1fr;
+  }
+  .add-row {
+    flex-direction: column;
+  }
+  .studio-account {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  #user-list li {
+    flex-wrap: wrap;
+  }
+}

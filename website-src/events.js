@@ -3,6 +3,7 @@ window.HaodaoEvents = (() => {
   let all = [],
     today = '',
     admin = false,
+    adminRole = '',
     csrf = '',
     requestVersion = 0,
     filters = {},
@@ -110,7 +111,7 @@ window.HaodaoEvents = (() => {
       <div>
         <p class="eyebrow">${archived ? 'MOMENTS WE SHARE' : 'GROW WITH US'}</p>
         <h2>${archived ? (kind === 'courses' ? '近年課程與活動歷史回顧' : '近年共學活動歷史回顧') : kind === 'courses' ? '近期報名中課程與活動' : '近期共修活動'}</h2>
-      </div><button class="admin-entry" data-admin-kind="${kind}" data-archive="${archived}">管理者編輯</button></div>
+      </div></div>
     <div class="event-filters" aria-label="活動篩選">${(kind === 'courses' ? ['全部', '線下', '線上'] : ['全部', '北區', '中區', '嘉南區', '高屏區']).map((t, i) => `<button class="${i ? '' : 'active'}" aria-pressed="${!i}" data-event-filter="${esc(t)}">${t}</button>`).join('')}</div>
     <div class="event-grid" data-event-list>
       <p class="note">正在讀取活動…</p>
@@ -233,40 +234,19 @@ window.HaodaoEvents = (() => {
     });
   }
   async function manage(kind, archived = false) {
+    if (!document.body.hasAttribute('data-admin-page')) return;
     try {
-      const s = await api('session');
-      admin = s.authenticated;
-      csrf = s.csrf || '';
-      if (!admin) {
-        const d = open(
-          `<p class="eyebrow">FOR OUR TEAM</p>
-          <h2 id="dialog-title">管理者登入</h2>
-          <p>登入後可新增、編輯活動與整理紀錄。</p>
-          <form id="login-form">
-            <label>管理者密碼<input name="password" type="password" required autocomplete="current-password"></label>
-            <p data-feedback role="alert" class="form-feedback"></p><button class="pill filled" type="submit">登入</button></form>`,
-        );
-        const f = d.querySelector('form');
-        f.onsubmit = async ev => {
-          ev.preventDefault();
-          const button = f.querySelector('button');
-          button.disabled = true;
-          try {
-            const r = await api('login', { password: f.password.value });
-            csrf = r.csrf;
-            admin = true;
-            dashboard(kind, archived);
-          } catch (err) {
-            feedback(f, err.message);
-            button.disabled = false;
-          }
-        };
+      const session = await api('session');
+      if (!session.authenticated || !session.user) {
+        location.reload();
         return;
       }
-      dashboard(kind, archived);
-    } catch (err) {
-      open(`<h2 id="dialog-title">暫時無法開啟管理功能</h2>
-      <p>${esc(err.message)}</p>`);
+      admin = true;
+      adminRole = session.user.role;
+      csrf = session.csrf;
+      await dashboard(kind, archived);
+    } catch (error) {
+      open(`<h2 id="dialog-title">無法開啟管理功能</h2><p>${esc(error.message)}</p>`);
     }
   }
   async function dashboard(kind, archived = false) {
@@ -314,6 +294,7 @@ window.HaodaoEvents = (() => {
         admin = false;
         csrf = '';
         d.close();
+        location.reload();
       };
     } catch (err) {
       open(`<h2 id="dialog-title">讀取未完成</h2>
@@ -326,7 +307,7 @@ window.HaodaoEvents = (() => {
       const d = open(
         `<p class="eyebrow">GROWING TOGETHER</p>
         <h2 id="dialog-title">共學報名</h2>
-        <div class="admin-toolbar"><button class="pill" data-back>返回活動管理</button><button class="pill" data-sheets-setup>試算表連接</button><button class="pill" data-sheets-retry>重試待同步資料</button></div>
+        <div class="admin-toolbar"><button class="pill" data-back>返回活動管理</button>${adminRole === 'owner' ? '<button class="pill" data-sheets-setup>試算表連接</button>' : ''}<button class="pill" data-sheets-retry>重試待同步資料</button></div>
         <div class="registration-list">${
           rows.length
             ? rows
@@ -341,7 +322,9 @@ window.HaodaoEvents = (() => {
         <p class="form-feedback" data-feedback role="status"></p>`,
       );
       d.querySelector('[data-back]').onclick = () => dashboard(kind, archived);
-      d.querySelector('[data-sheets-setup]').onclick = () => sheetsSetup(kind, archived);
+      d.querySelector('[data-sheets-setup]')?.addEventListener('click', () =>
+        sheetsSetup(kind, archived),
+      );
       d.querySelector('[data-sheets-retry]').onclick = async () => {
         try {
           await api('sheets-retry', {});
@@ -601,9 +584,7 @@ window.HaodaoEvents = (() => {
   async function mount(kind) {
     currentKind = kind;
     const version = ++requestVersion;
-    document
-      .querySelectorAll('[data-admin-kind]')
-      .forEach(b => (b.onclick = () => manage(b.dataset.adminKind, b.dataset.archive === 'true')));
+
     document.querySelectorAll('[data-event-filter]').forEach(b => {
       const selected =
         (filters[b.closest('[data-event-section]').dataset.eventSection] || '全部') ===
@@ -666,5 +647,5 @@ window.HaodaoEvents = (() => {
   window.addEventListener('hashchange', () => {
     if (shell().open) shell().close();
   });
-  return { section, registrationSection, mount };
+  return { section, registrationSection, mount, manage };
 })();
