@@ -41,3 +41,26 @@ jobs:
             echo "::error::產出檔與 website-src 不一致。請執行 npm --prefix website-src run build，並提交所有產出檔；不要直接手改產出的 HTML、assets/haodao 或 sitemap.xml。"
             exit 1
           fi
+
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: backend/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Tests
+        run: pnpm test
