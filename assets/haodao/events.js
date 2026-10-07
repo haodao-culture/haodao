@@ -143,7 +143,7 @@ window.HaodaoEvents = (() => {
               .map(
                 e =>
                   `<button class="event-card" data-event="${e.id}">${e.poster ? `<img src="${esc(media(e.poster))}" alt="${esc(e.title)}" loading="lazy">` : `<div class="event-cover"><span>${e.start_date.slice(5).replace('-', ' / ')}</span><small>${kind === 'courses' ? '學習 · 修煉' : '共學 · 陪伴'}</small></div>`}<div class="event-card-body">
-                    <div class="event-meta"><span>${esc(e.mode)}${e.region ? ' · ' + esc(e.region) : ''}</span><time>${e.start_date}${e.end_date !== e.start_date ? ' — ' + e.end_date : ''}</time></div>
+                    <div class="event-meta"><span>${esc(e.mode)}${kind === 'community' && e.region ? ' · ' + esc(e.region) : ''}</span><time>${e.start_date}${e.end_date !== e.start_date ? ' — ' + e.end_date : ''}</time></div>
                     <h3>${esc(e.title)}</h3>
                     <p>${esc(e.description.slice(0, 90))}${e.description.length > 90 ? '…' : ''}</p><span class="textlink">${archived ? '閱讀活動紀錄' : '了解活動'}</span></div></button>`,
               )
@@ -218,7 +218,7 @@ window.HaodaoEvents = (() => {
     const d = open(
       `<p class="eyebrow">${e.archived ? 'MEMORIES' : 'UPCOMING EVENT'} · ${esc(e.mode)}</p>
       <h2 id="dialog-title">${esc(e.title)}</h2>
-      <p class="event-meta">${esc(eventSchedule(e))}<br>${esc(e.region)}　${esc(e.location)}</p>${e.poster ? `<img class="event-detail-image" src="${esc(media(e.poster))}" alt="${esc(e.title)}">` : ''}<div class="event-description">${e.description
+      <p class="event-meta">${esc(eventSchedule(e))}<br>${e.kind === 'community' && e.region ? esc(e.region) + '　' : ''}${esc(e.location)}</p>${e.poster ? `<img class="event-detail-image" src="${esc(media(e.poster))}" alt="${esc(e.title)}">` : ''}<div class="event-description">${e.description
         .split('\n')
         .map(x => `<p>${esc(x)}</p>`)
         .join('')}</div>${
@@ -421,6 +421,16 @@ window.HaodaoEvents = (() => {
       `<p class="eyebrow">EDIT A MOMENT</p>
       <h2 id="dialog-title">${e.id ? '編輯' : '新增'}${kind === 'courses' ? '課程與活動' : '共學活動'}</h2>
       <form id="event-editor">
+        <fieldset class="announcement-import"><legend>貼上文字公告</legend>
+          <p class="note">貼上課程或共學公告，將可辨識的資料帶入下方欄位；公告原文保留在活動介紹。確認內容後，再按「儲存活動」。</p>
+          <label>公告內容<textarea rows="7" maxlength="15000" data-announcement placeholder="活動名稱：生命成長共學
+日期：2026/10/24
+時間：09:00–16:30
+地點：昊道文化
+報名連結：https://…"></textarea></label>
+          <div class="form-actions"><button class="pill" type="button" data-import-announcement>辨識並填入欄位</button><button class="pill" type="button" data-undo-import hidden>還原上次填入</button></div>
+          <p class="announcement-result" data-import-result role="status" aria-live="polite"></p>
+        </fieldset>
         <label>活動名稱<input name="title" required maxlength="120" value="${esc(e.title)}"></label>
         <div class="form-row">
           <label>開始日期<input name="start_date" type="date" required value="${e.start_date || defaultDate}"></label>
@@ -431,7 +441,7 @@ window.HaodaoEvents = (() => {
           <label>結束時間<input name="end_time" type="time" value="${esc(e.end_time)}"></label>
         </div>${e.time_text && !e.start_time && !e.end_time ? `<p class="note">原活動時間：${esc(e.time_text)}（填入新時間後取代）</p>` : ''}<div class="form-row">
           <label>活動形式<select name="mode">${opts(['線下', '線上'], e.mode)}</select></label>
-          <label>所在地區<select name="region" ${kind === 'community' ? 'required' : ''}><option value="">請選擇地區</option>${opts(['北區', '中區', '嘉南區', '高屏區'], e.region)}</select></label>
+          ${kind === 'community' ? `<label>所在地區<select name="region" required><option value="">請選擇地區</option>${opts(['北區', '中區', '嘉南區', '高屏區'], e.region)}</select></label>` : ''}
         </div>
         <label>地點／線上參與方式<input name="location" maxlength="300" value="${esc(e.location)}"></label>
         <label>活動介紹／活動紀錄<textarea name="description" rows="7" required maxlength="15000">${esc(e.description)}</textarea></label>${kind === 'courses' ? `<label>報名連結（選填）<input name="registration_url" type="url" pattern="https://.*" placeholder="https://" value="${esc(e.registration_url)}"></label>` : ''}<fieldset><legend>活動封面</legend>${dropZone('poster', false)}<div id="poster-preview"></div>
@@ -445,6 +455,40 @@ window.HaodaoEvents = (() => {
     );
     const f = d.querySelector('form'),
       save = f.querySelector('[type=submit]');
+    let beforeImport = null;
+    const importer = f.querySelector('[data-import-announcement]');
+    const undoImport = f.querySelector('[data-undo-import]');
+    const importResult = f.querySelector('[data-import-result]');
+    importer.onclick = () => {
+      const parser = window.HaodaoAnnouncement;
+      if (!parser) {
+        importResult.textContent = '公告辨識功能尚未載入，請重新開啟後台。';
+        return;
+      }
+      const result = parser.parse(f.querySelector('[data-announcement]').value, today, kind);
+      const entries = Object.entries(result.fields).filter(([key]) => f.elements.namedItem(key));
+      if (entries.length) {
+        beforeImport = Object.fromEntries(
+          entries.map(([key]) => [key, f.elements.namedItem(key).value]),
+        );
+        for (const [key, value] of entries) f.elements.namedItem(key).value = value;
+        undoImport.hidden = false;
+      }
+      importResult.textContent =
+        (entries.length
+          ? '已填入：' +
+            entries.map(([key]) => parser.names[key]).join('、') +
+            '。請檢查下方欄位後再儲存。\n'
+          : '') + result.warnings.join('\n');
+    };
+    undoImport.onclick = () => {
+      if (!beforeImport) return;
+      for (const [key, value] of Object.entries(beforeImport))
+        f.elements.namedItem(key).value = value;
+      beforeImport = null;
+      undoImport.hidden = true;
+      importResult.textContent = '已還原上次自動填入前的欄位內容。';
+    };
     function previews() {
       f.querySelector('#poster-preview').innerHTML = poster
         ? `<div class="upload-thumb"><img src="${esc(media(poster))}" alt="活動封面預覽"><button type="button" data-remove-poster>移除封面</button></div>`

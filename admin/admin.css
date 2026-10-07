@@ -103,3 +103,16 @@
     flex-wrap: wrap;
   }
 }
+
+.announcement-import {
+  background: #f5f2e8;
+  padding: 22px;
+}
+.announcement-result {
+  white-space: pre-line;
+  line-height: 1.8;
+  color: #645437;
+}
+.announcement-import [hidden] {
+  display: none;
+}
