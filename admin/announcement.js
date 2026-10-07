@@ -140,7 +140,8 @@ window.HaodaoAnnouncement = (() => {
         period = match[1]?.toLowerCase() || period;
         let hour = Number(match[2]),
           minute = match[3] ? Number(match[3]) : match[4] === '半' ? 30 : Number(match[4] || 0);
-        if (hour > 23 || minute > 59 || (period && hour > 12)) return '';
+        if (hour > 23 || minute > 59 || (match[1] && hour > 12)) return '';
+        if (!match[1] && hour > 12) period = '';
         if (['下午', '晚上', 'pm'].includes(period) && hour < 12) hour += 12;
         if (period === '中午' && hour < 11) hour += 12;
         if (['上午', '早上', '凌晨', 'am'].includes(period) && hour === 12) hour = 0;

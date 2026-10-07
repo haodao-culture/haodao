@@ -84,3 +84,9 @@ test('only community announcements fill a region', () => {
   assert.equal(parse(text, 'courses').fields.region, undefined);
   assert.equal(parse(text, 'community').fields.region, '北區');
 });
+
+test('accepts an unambiguous 24-hour end time after a morning label', () => {
+  const result = parse('活動名稱：共學\n日期：2026/10/24\n時間：上午9:00–16:30');
+  assert.equal(result.fields.start_time, '09:00');
+  assert.equal(result.fields.end_time, '16:30');
+});
