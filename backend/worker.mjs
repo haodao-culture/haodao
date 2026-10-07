@@ -103,7 +103,8 @@ async function saveEvent(env,body){
  const required=['title','kind','start_date','end_date','mode','description'];
  const fields=Object.fromEntries(Object.entries(limits).map(([key,max])=>[key,text(body,key,max,required.includes(key))]));
  if(!['courses','community'].includes(fields.kind)||!['線上','線下'].includes(fields.mode))fail(400,'請選擇活動類型與形式。');
- if(!['','北區','中區','嘉南區','高屏區'].includes(fields.region))fail(400,'請選擇地區。');
+ if(fields.kind==='courses')fields.region='';
+ if(fields.kind==='community'&&!['北區','中區','嘉南區','高屏區'].includes(fields.region))fail(400,'請選擇共學地區。');
  if(!validDate(fields.start_date)||!validDate(fields.end_date)||fields.end_date<fields.start_date)fail(400,'請確認活動日期。');
  for(const key of ['start_time','end_time'])if(fields[key]&&!/^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/.test(fields[key]))fail(400,'請使用有效的 24 小時制時間。');
  if(fields.start_date===fields.end_date&&fields.start_time&&fields.end_time&&fields.end_time<fields.start_time)fail(400,'結束時間不可早於開始時間。');

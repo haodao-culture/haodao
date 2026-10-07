@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node tools/build.mjs",
-    "test": "node --test tools/format-html.test.mjs",
+    "test": "node --test tools/*.test.mjs",
     "format": "prettier --write --ignore-unknown .",
     "format:check": "prettier --check --ignore-unknown ."
   },
