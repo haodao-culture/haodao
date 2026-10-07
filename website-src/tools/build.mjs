@@ -122,7 +122,7 @@ body = fill(
   `${socials}<button class="back-top" id="back-top" aria-label="回到頁首"><span>↑</span><small>TOP</small></button>`,
 );
 const privacy =
-  '<div class="article"><h1>隱私權政策</h1><p>昊道文化文教發展協會透過共學報名表蒐集姓名、手機號碼、LINE ID、所在地及希望參與的場次，僅用於聯繫、安排共學及管理報名。未提供必要資料時，將無法透過此表單完成共學意願登記；也可選擇透過官方 LINE 聯絡。</p><p>資料保存在協會管理的後台，僅供獲授權的管理者處理。Google 試算表連接完成後，會同步至協會指定試算表，供獲授權的志工安排聯繫。協會不會將上述資料用於與共學安排無關的目的。</p><p>資料依聯繫及活動安排需要保存；目的消失或您提出刪除要求後，將依適用規定處理。您可以申請查詢、閱覽、取得複本、補充、更正、停止處理或利用，以及刪除個人資料，請來信 <a href="mailto:team@haodao.org">team@haodao.org</a>。</p><p>管理者登入使用必要的工作階段 Cookie。點擊外部社群及服務連結後，適用該服務的隱私權政策。</p></div>';
+  '<div class="article"><h1>隱私權政策</h1><p>昊道文化文教發展協會透過共學報名表蒐集姓名、手機號碼、LINE ID、所在地及希望參與的場次，僅用於聯繫、安排共學及管理報名。未提供必要資料時，將無法透過此表單完成共學意願登記；也可選擇透過官方 LINE 聯絡。</p><p>資料保存在協會管理的後台，僅供獲授權的管理者處理。Google 試算表連接完成後，會同步至協會指定試算表，供獲授權的志工安排聯繫。協會不會將上述資料用於與共學安排無關的目的。</p><p>資料依聯繫及活動安排需要保存；目的消失或您提出刪除要求後，將依適用規定處理。您可以申請查詢、閱覽、取得複本、補充、更正、停止處理或利用，以及刪除個人資料，請來信 <a href="mailto:team@haodao.org">team@haodao.org</a>。</p><p>管理後台使用 Google 帳號登入。我們接收已驗證的電子郵件地址與 Google 帳號識別碼，僅用於確認管理者身分、管理編輯權限及維持登入狀態，不存取您的 Gmail 信件或 Google 雲端硬碟內容。登入使用必要的工作階段 Cookie；編輯者被移除後，其網站登入權限與帳號綁定資料一併移除。點擊外部社群及服務連結後，適用該服務的隱私權政策。</p></div>';
 const copyright =
   '<div class="article"><h1>版權聲明</h1><p>本站品牌文字與圖片由昊道文化提供。相關內容如需轉載或使用，請先聯絡 <a href="mailto:team@haodao.org">team@haodao.org</a>。</p></div>';
 const organization = {
@@ -332,3 +332,8 @@ fs.writeFileSync(
 console.log(
   `Built ${routes.length} complete HTML pages; ${old.length} legacy sitemap entries preserved.`,
 );
+
+// Standalone admin stays out of the public navigation, search index and sitemap.
+fs.mkdirSync(path.join(root, 'admin'), { recursive: true });
+for (const file of ['index.html', 'admin.js', 'admin.css'])
+  fs.copyFileSync(path.join(src, 'admin', file), path.join(root, 'admin', file));

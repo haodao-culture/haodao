@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-Hant"
+  ><head
+    ><meta charset="utf-8" /><meta
+      name="viewport"
+      content="width=device-width,initial-scale=1" /><meta
+      name="robots"
+      content="noindex,nofollow" /><meta
+      name="referrer"
+      content="strict-origin-when-cross-origin" /><title>網站管理後台｜昊道文化</title
+    ><link rel="stylesheet" href="/assets/haodao/style.css" /><link
+      rel="stylesheet"
+      href="/assets/haodao/events.css" /><link
+      rel="stylesheet"
+      href="/admin/admin.css" /><script src="/assets/haodao/config.js"></script
+    ><script defer src="/assets/haodao/events.js"></script
+    ><script defer src="https://accounts.google.com/gsi/client"></script
+    ><script defer src="/admin/admin.js"></script></head
+  ><body data-admin-page
+    ><header class="studio-header"><a href="/">昊道文化</a><a href="/">返回官網 ↗</a></header
+    ><main class="studio"
+      ><p class="eyebrow">HAODAO STUDIO</p><h1>網站管理後台</h1
+      ><p id="status" role="status">正在確認登入狀態…</p
+      ><section id="login" hidden
+        ><h2>以 Google 帳號登入</h2
+        ><p>僅限獲授權的編輯者。請使用 Gmail 或 Google Workspace 帳號。</p
+        ><div id="google-button"></div
+        ><button id="retry" class="pill" hidden>重新登入</button></section
+      ><section id="workspace" hidden
+        ><div class="studio-account"
+          ><span id="identity"></span><button class="pill" id="logout">登出</button></div
+        ><div class="studio-grid"
+          ><button class="studio-card" data-kind="courses"
+            ><span>01</span><h2>課程與活動</h2
+            ><p>新增活動、編輯介紹與照片、整理歷史紀錄。</p></button
+          ><button class="studio-card" data-kind="community"
+            ><span>02</span><h2>各地共學</h2><p>管理共學活動與報名、更新聯繫狀態。</p></button
+          ></div
+        ><section id="users" hidden
+          ><p class="eyebrow">ACCESS MANAGEMENT</p><h2>登入與編輯名單</h2
+          ><p
+            >最高權限管理者固定為
+            hd@haodao.org。新增的帳號可編輯活動與查看共學報名，不能更動管理名單。</p
+          ><form id="add-user"
+            ><label for="email">Google 帳號電子郵件</label
+            ><div class="add-row"
+              ><input
+                id="email"
+                name="email"
+                type="email"
+                required
+                maxlength="254"
+                placeholder="name@gmail.com"
+              /><button class="pill filled">新增編輯者</button></div
+            ></form
+          ><p id="user-status" role="status"></p
+          ><ul id="user-list"></ul></section></section></main></body
+></html>

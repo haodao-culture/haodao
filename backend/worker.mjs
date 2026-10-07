@@ -1,3 +1,4 @@
+import {AuthError,getSession,startLogin,googleLogin,listUsers,changeUser,requireOwner,sessionCookie} from './auth.mjs';
 import appsScript from './apps-script-template.mjs';
 
 const ORIGIN='https://www.haodao.org';
@@ -34,11 +35,7 @@ async function limited(request,env,key,max,seconds){
  const row=await env.DB.prepare('INSERT INTO rate_limits(bucket,count,expires) VALUES (?,1,?) ON CONFLICT(bucket) DO UPDATE SET count=CASE WHEN expires<=? THEN 1 ELSE count+1 END,expires=CASE WHEN expires<=? THEN ? ELSE expires END RETURNING count').bind(bucket,now+seconds,now,now,now+seconds).first();
  if(row.count>max)fail(429,'操作較頻繁，請稍後再試。');
 }
-async function session(request,env){
- const token=(request.headers.get('Cookie')||'').split(';').map(s=>s.trim()).find(s=>s.startsWith('__Host-haodao_session='))?.split('=')[1];
- if(!token||!/^[a-f0-9]{64}$/.test(token))return null;
- return env.DB.prepare('SELECT * FROM sessions WHERE token_hash=? AND expires>?').bind(await hash(token),unix()).first();
-}
+const session=getSession;
 async function admin(request,env,write=false){
  const current=await session(request,env);if(!current)fail(401,'請先登入管理者。');
  if(write&&!constantEqual(request.headers.get('X-CSRF-Token'),current.csrf))fail(403,'驗證已失效，請重新登入。');
@@ -149,11 +146,12 @@ export default {
    }
    if(request.method==='GET'){
     if(p==='/api/health')return reply(request,env,{ok:true,version:'2026-10-05'});
-    if(p==='/api/session'){const s=await session(request,env);return reply(request,env,{authenticated:!!s,csrf:s?.csrf||null,localPreview:false});}
+    if(p==='/api/session'){const s=await session(request,env);return reply(request,env,{authenticated:!!s,csrf:s?.csrf||null,user:s?{email:s.email,role:s.role}:null,localPreview:false});}
+    if(p==='/api/admin/users')return reply(request,env,{users:await listUsers(env,await admin(request,env))});
     if(p==='/api/events'){const {results}=await env.DB.prepare('SELECT * FROM events ORDER BY start_date,id').all();return reply(request,env,{events:results.map(eventObject),today:today(),timeZone:'Asia/Taipei',sheetsConnected:!!(await settings(env)).url});}
     if(p==='/api/registrations'){await admin(request,env);const {results}=await env.DB.prepare('SELECT r.*,e.title AS event_title FROM registrations r LEFT JOIN events e ON e.id=r.event_id ORDER BY r.created_at DESC').all();return reply(request,env,{registrations:results});}
     if(p==='/api/sheets-setup'){
-     await admin(request,env);let config=await settings(env);if(!config.secret){config.secret=random();await putSettings(env,config);}
+     requireOwner(await admin(request,env));let config=await settings(env);if(!config.secret){config.secret=random();await putSettings(env,config);}
      return reply(request,env,{url:config.url,connected:!!config.url,spreadsheet_url:`https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`,code:appsScript.replace('__HAODAO_SHARED_SECRET__',config.secret)});
     }
     fail(404,'找不到此功能。');
@@ -165,18 +163,16 @@ export default {
    const raw=await request.text();if(raw.length>12*1024*1024)fail(413,'資料大小超過限制。');
    let body;try{body=JSON.parse(raw);}catch{fail(400,'資料格式不正確。');}
    if(!body||Array.isArray(body)||typeof body!=='object')fail(400,'資料格式不正確。');
-   if(p==='/api/login'){
-    await limited(request,env,'login',10,900);if(!env.ADMIN_AUTH)fail(503,'管理功能尚未完成設定。');
-    const auth=JSON.parse(env.ADMIN_AUTH),password=text(body,'password',200,true);
-    const key=await crypto.subtle.importKey('raw',encoder.encode(password),'PBKDF2',false,['deriveBits']);
-    const digest=hex(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:fromHex(auth.salt),iterations:auth.iterations},key,256));
-    if(!constantEqual(digest,auth.digest))fail(401,'密碼不正確，請再試一次。');
-    const token=random(),csrf=random();await env.DB.prepare('INSERT INTO sessions VALUES(?,?,?)').bind(await hash(token),csrf,unix()+28800).run();
-    return reply(request,env,{authenticated:true,csrf},200,`__Host-haodao_session=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=28800`);
+   if(p==='/api/login')fail(410,'請改用 Google 帳號登入獨立管理後台。');
+   if(p==='/api/auth/start'||p==='/api/auth/google'){
+    await limited(request,env,'google-login',30,900);
+    const result=p.endsWith('/start')?await startLogin(request,env):await googleLogin(request,env,body);
+    return reply(request,env,result.data,200,result.cookie);
    }
    if(p==='/api/registrations')return reply(request,env,await register(request,env,body));
    const current=await admin(request,env,true);
-   if(p==='/api/logout'){await env.DB.prepare('DELETE FROM sessions WHERE token_hash=?').bind(current.token_hash).run();return reply(request,env,{ok:true},200,'__Host-haodao_session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0');}
+   if(p==='/api/admin/users')return reply(request,env,await changeUser(env,current,body));
+   if(p==='/api/logout'){await env.DB.prepare('DELETE FROM admin_sessions WHERE token_hash=?').bind(current.token_hash).run();return reply(request,env,{ok:true},200,'__Host-haodao_session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0');}
    if(p==='/api/events')return reply(request,env,{event:await saveEvent(env,body)});
    if(p==='/api/uploads'){
     await limited(request,env,'upload',100,3600);const b64=text(body,'data',11200000,true);
@@ -192,6 +188,7 @@ export default {
     const result=await env.DB.prepare('UPDATE registrations SET status=? WHERE id=?').bind(body.status,text(body,'id',64,true)).run();if(!result.meta.changes)fail(404,'找不到報名。');return reply(request,env,{ok:true});
    }
    if(p==='/api/sheets-connect'){
+    requireOwner(current);
     const newUrl=text(body,'url',500,true);if(!sheetUrl(newUrl))fail(400,'請貼上 Google Apps Script 網頁應用程式 /exec 網址。');
     const config=await settings(env);if(!config.secret)fail(400,'請先取得並部署連接程式。');
     const candidate={...config,url:newUrl};try{await sendSheet(candidate,'ping');}catch{fail(400,'尚未連接成功。請確認已部署最新程式並完成 Google 授權。');}
@@ -199,10 +196,10 @@ export default {
    }
    if(p==='/api/sheets-retry'){context.waitUntil(syncPending(env));return reply(request,env,{ok:true});}
    fail(404,'找不到此功能。');
-  }catch(error){return reply(request,env,{error:error instanceof HttpError?error.message:'暫時無法完成，請保留內容並稍後再試。'},error instanceof HttpError?error.status:500);}
+  }catch(error){return reply(request,env,{error:(error instanceof HttpError||error instanceof AuthError)?error.message:'暫時無法完成，請保留內容並稍後再試。'},(error instanceof HttpError||error instanceof AuthError)?error.status:500);}
  },
  async scheduled(_event,env,context){
-  context.waitUntil(Promise.all([syncPending(env),env.DB.prepare('DELETE FROM sessions WHERE expires<?').bind(unix()).run(),env.DB.prepare('DELETE FROM rate_limits WHERE expires<?').bind(unix()).run()]));
+  context.waitUntil(Promise.all([syncPending(env),env.DB.prepare('DELETE FROM admin_sessions WHERE expires<?').bind(unix()).run(),env.DB.prepare('DELETE FROM admin_challenges WHERE expires<?').bind(unix()).run(),env.DB.prepare('DELETE FROM sessions WHERE expires<?').bind(unix()).run(),env.DB.prepare('DELETE FROM rate_limits WHERE expires<?').bind(unix()).run()]));
  }
 };
 export {imageInfo,validDate,constantEqual};

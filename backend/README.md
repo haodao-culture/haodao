@@ -25,3 +25,22 @@ Google 試算表連接需管理者另外部署官方網站後台的 Apps Script�
 ## 回復
 
 前端可用 Git revert 回復這次發布。後端可用 Cloudflare Worker 版本回復；不要刪除 D1 或 R2，避免遺失已收到的報名與圖片。既有 GitHub Pages CNAME 與主網域 DNS 無須改動。
+
+## Google 管理後台（部署前必須設定）
+
+- 獨立入口 `/admin/`，不列入搜尋索引或 sitemap。
+- 固定最高權限管理者 `hd@haodao.org`，資料庫與 API 均禁止刪除或降權。
+- 編輯者可以管理活動、照片與共學報名；只有 owner 可以增刪名單及設定 Sheets 連接。
+- Google 帳號須為 Gmail 或 Google Workspace；Google `sub` 首次登入後綁定，不以可變更的郵件代替帳號身分。
+- 每次 API 請求查詢目前名單；移除編輯者立即撤銷登入。舊密碼登入及舊 sessions 不再接受。
+- Google ID token 經 jose 驗證簽章、audience、issuer、期限、已驗證 email 與一次性 nonce；權杖不保存於 localStorage。
+
+部署順序（不要在 Google 設定完成前發布，避免管理入口暫時無法登入）：
+1. Google Cloud 建立 Web OAuth client，JavaScript origins 加入 `https://www.haodao.org`（本地真實登入測試另加 `http://127.0.0.1:4180`）。使用 Google Identity Services popup callback，不需 OAuth client secret。
+2. 設定 Worker 公開變數 `GOOGLE_CLIENT_ID` 為該用戶端 ID；不可使用其他專案的猜測值。
+3. 安裝 backend dependencies（pnpm install --frozen-lockfile），以 D1 execute 執行 `backend/migrations/0001_google_admin.sql`。僅新增管理資料表；保留活動與報名。
+4. 部署 Worker，建置靜態頁後部署 GitHub Pages。先測試 owner 真實登入，再讓 owner 加入指定編輯者。
+5. 確認正常後，可刪除不再使用的 ADMIN_AUTH Worker secret。不要將秘密寫入 Git。
+
+測試：`node --test backend/auth.test.mjs website-src/tools/format-html.test.mjs`。
+目前自動測試使用本地 SQLite 與簽署測試 JWT，並未代替實際 Google OAuth 端到端登入驗證。
